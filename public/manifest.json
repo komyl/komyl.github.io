@@ -1,0 +1,16 @@
+{
+  "name": "Komeyl Kalhorinia Blog",
+  "short_name": "KomeylBlog",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#121212",
+  "theme_color": "#1a1a1a",
+  "description": "Personal website and blog of Komeyl Kalhorinia",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

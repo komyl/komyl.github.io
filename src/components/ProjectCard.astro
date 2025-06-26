@@ -1,0 +1,148 @@
+---
+// src/components/ProjectCard.astro
+
+import type { SimpleIcon } from 'simple-icons';
+// We are NOT importing siJava anymore
+import {
+    siReact,
+    siVuedotjs,
+    siDotnet,
+    siPython,
+    siAstro,
+    siSvelte,
+    siGo
+} from 'simple-icons/icons';
+
+export interface Props {
+    name: string;
+    status: 'active' | 'suspended' | 'finished';
+    technologies: readonly string[];
+    duration: string;
+    url: string;
+}
+
+const { name, status, technologies, duration, url } = Astro.props;
+
+const statusColors = {
+    active: 'green',
+    suspended: 'yellow',
+    finished: 'red'
+};
+
+// This is the raw SVG path data for the Java logo.
+const javaSvgPath = 'M14.056.027c-2.008.036-3.87.823-5.32 2.01L1.88 7.336a.428.428 0 0 0-.012.58l3.41 4.34-3.13 3.13c-.23.23-.23.614 0 .845l1.91 1.912c.23.23.614.23.845 0l3.13-3.132 4.34 3.41a.428.428 0 0 0 .58-.012l5.297-6.855c1.19-1.45 1.977-3.313 2.01-5.322.03-1.87-.58-3.71-1.74-5.18-1.14-1.45-2.88-2.45-4.7-2.67-.4-.05-1.2-.05-1.6 0Z';
+// The full SVG for the Java logo is constructed below.
+const javaIconSvg = `<svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Java</title><path d="${javaSvgPath}"/></svg>`;
+
+// The iconMap now stores the FINAL SVG STRING for each icon.
+const iconMap: Record<string, string> = {
+    react: siReact.svg,
+    // For Java, we use our own manually created SVG string.
+    java: javaIconSvg,
+    vue: siVuedotjs.svg,
+    '.net': siDotnet.svg,
+    python: siPython.svg,
+    astro: siAstro.svg,
+    svelte: siSvelte.svg,
+    go: siGo.svg,
+};
+
+---
+<a href={url} class="project-card" target="_blank" rel="noopener noreferrer">
+    <div class="card-header">
+        <h3 class="project-name">{name}</h3>
+        <div class={`status-dot ${statusColors[status]}`}></div>
+    </div>
+    <div class="card-footer">
+        <div class="tech-stack">
+            {technologies.map(tech => {
+                const iconSvg = iconMap[tech.toLowerCase()];
+                return iconSvg ? (
+                    // We now render the SVG string directly.
+                    <div class="tech-icon" title={tech} set:html={iconSvg}></div>
+                ) : (
+                    <span>{tech}</span>
+                );
+            })}
+        </div>
+        <span class="duration">{duration}</span>
+    </div>
+</a>
+
+<style>
+	/* Styles remain exactly the same */
+	.project-card {
+		background-color: var(--color-surface);
+		border-radius: 8px;
+		padding: 1.5rem;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		min-height: 150px;
+		border: 1px solid #333;
+		transition: transform 0.2s ease, box-shadow 0.2s ease;
+        text-decoration: none;
+        color: var(--color-text);
+	}
+	.project-card:hover {
+		transform: translateY(-5px);
+		box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+	}
+	.card-header {
+		display: flex;
+		justify-content: space-between;
+		align-items: flex-start;
+	}
+	.project-name {
+		margin: 0;
+        font-size: 1.25rem;
+	}
+	.status-dot {
+		width: 12px;
+		height: 12px;
+		border-radius: 50%;
+		flex-shrink: 0;
+		margin-left: 1rem;
+		animation: blink 1.5s infinite;
+	}
+	.status-dot.green { background-color: #4caf50; }
+	.status-dot.yellow { background-color: #ffc107; }
+	.status-dot.red { background-color: #f44336; }
+	@keyframes blink {
+		0% { opacity: 1; }
+		50% { opacity: 0.4; }
+		100% { opacity: 1; }
+	}
+	.card-footer {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-top: 1rem;
+		font-size: 0.85rem;
+		color: #a0a0a0;
+	}
+    .tech-stack {
+        display: flex;
+        gap: 0.75rem;
+        align-items: center;
+    }
+    .tech-icon {
+        width: 20px;
+        height: 20px;
+    }
+    .tech-icon :global(svg) {
+        width: 100%;
+        height: 100%;
+        fill: #a0a0a0;
+        transition: fill 0.2s ease;
+    }
+    .tech-icon:hover :global(svg) {
+        fill: var(--color-text);
+    }
+    .tech-stack span {
+        background-color: #333;
+        padding: 0.2rem 0.5rem;
+        border-radius: 4px;
+        font-size: 0.75rem;
+    }
+</style>
