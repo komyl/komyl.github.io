@@ -45,12 +45,24 @@ const currentYear = new Date().getFullYear();
 
 <style is:global>
 	:root {
+		/* Shared variables */
 		--font-family-body: 'Inter', sans-serif;
-		--color-background: #121212;
-		--color-text: #e0e0e0;
 		--color-primary: #bb86fc;
 		--color-secondary: #03dac6;
+
+		/* Default to Dark Theme variables */
+		--color-background: #121212;
+		--color-text: #e0e0e0;
 		--color-surface: #1e1e1e;
+		--color-border: #333;
+	}
+
+	/* Define Light Theme variables */
+	html.light-theme {
+		--color-background: #f0f0f0;
+		--color-text: #222222;
+		--color-surface: #ffffff;
+		--color-border: #dddddd;
 	}
 
 	html {
@@ -58,6 +70,7 @@ const currentYear = new Date().getFullYear();
 		background-color: var(--color-background);
 		color: var(--color-text);
 		scroll-behavior: smooth;
+		transition: color 0.2s, background-color 0.2s; /* Smooth transition */
 	}
 
 	body {

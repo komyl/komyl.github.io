@@ -1,5 +1,7 @@
 ---
 // src/components/Header.astro
+import ThemeToggleButton from './ThemeToggleButton.astro'; // Import the new component
+
 const navItems = [
     { text: "About Me", url: "/about" },
     { text: "Contact", url: "/contact" },
@@ -14,6 +16,7 @@ const navItems = [
         </div>
         <div class="nav-links-desktop">
             {navItems.map(item => <a href={item.url}>{item.text}</a>)}
+            <ThemeToggleButton />
         </div>
         <div class="hamburger-menu" id="hamburger-button">
             <svg width="30" height="30" viewBox="0 0 100 80" fill="white">
@@ -24,26 +27,21 @@ const navItems = [
         </div>
     </nav>
     <div class="mobile-menu" id="mobile-menu-panel">
+        <div class="mobile-menu-top-row">
+            <span>Navigation</span>
+            <ThemeToggleButton />
+        </div>
+        <hr class="mobile-menu-divider" />
         {navItems.map(item => <a href={item.url}>{item.text}</a>)}
     </div>
 </header>
 
 <script>
-    // JavaScript to toggle the mobile menu
-    const hamburgerButton = document.getElementById('hamburger-button');
-    const mobileMenuPanel = document.getElementById('mobile-menu-panel');
-
-    // We must check if the elements were actually found before using them.
-    if (hamburgerButton && mobileMenuPanel) {
-        hamburgerButton.addEventListener('click', () => {
-            mobileMenuPanel.classList.toggle('is-open');
-        });
-    }
+    // ...
 </script>
 
 <style>
-    /* Add position: relative to the main header tag */
-	header {
+    header {
         position: relative;
         z-index: 10;
     }
@@ -62,7 +60,8 @@ const navItems = [
         font-weight: 700;
     }
     .nav-links-desktop {
-        display: none; /* Hidden on mobile */
+        display: none;
+        align-items: center; /* Align items vertically */
         gap: 2rem;
     }
     .nav-links-desktop a {
@@ -76,7 +75,7 @@ const navItems = [
     }
     .hamburger-menu {
         cursor: pointer;
-        z-index: 20; /* Ensure hamburger is on top */
+        z-index: 20;
     }
     .mobile-menu {
         position: absolute;
@@ -84,33 +83,43 @@ const navItems = [
         left: 0;
         right: 0;
         width: 100%;
-        
         display: flex;
         flex-direction: column;
-        align-items: center;
         gap: 1.5rem;
         background-color: var(--color-surface);
-        
         max-height: 0;
         overflow: hidden;
-        
-        /* --- THE FIX IS HERE --- */
-        /* Set all padding (top, right, bottom, left) to 0 when closed */
         padding: 0;
-        
         transition: max-height 0.3s ease-out, padding 0.3s ease-out;
         border-bottom-left-radius: 8px;
         border-bottom-right-radius: 8px;
     }
     .mobile-menu.is-open {
-        max-height: 500px; /* An arbitrary large height */
-        /* Restore padding on all sides when open */
+        max-height: 500px;
         padding: 2rem;
+    }
+    /* New styles for mobile menu header */
+    .mobile-menu-top-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+    }
+    .mobile-menu-top-row span {
+        font-weight: 700;
+        color: #a0a0a0;
+    }
+    .mobile-menu-divider {
+        width: 100%;
+        border: none;
+        border-top: 1px solid var(--color-border);
     }
     .mobile-menu a {
         color: var(--color-text);
         text-decoration: none;
         font-size: 1.2rem;
+        width: 100%;
+        text-align: center;
     }
     
     @media (min-width: 768px) {
