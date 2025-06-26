@@ -34,6 +34,14 @@ const currentYear = new Date().getFullYear();
 </html>
 
 <style is:global>
+	*,
+	*::before,
+	*::after {
+		box-sizing: border-box;
+		margin: 0;
+		padding: 0;
+	}
+
 	:root {
 		--spacing-unit: 8px;
 		--border-radius-large: 24px;
@@ -46,6 +54,7 @@ const currentYear = new Date().getFullYear();
 		--glass-background: rgba(40, 40, 40, 0.5);
 		--glass-border: rgba(255, 255, 255, 0.1);
 	}
+
 	html.light-theme {
 		--color-background: #f2f2f7;
 		--color-text: rgba(0, 0, 0, 0.85);
@@ -53,6 +62,7 @@ const currentYear = new Date().getFullYear();
 		--glass-background: rgba(255, 255, 255, 0.6);
 		--glass-border: rgba(0, 0, 0, 0.1);
 	}
+
 	html {
 		font-family: var(--font-family-body);
 		background-color: var(--color-background);
@@ -60,14 +70,13 @@ const currentYear = new Date().getFullYear();
 		scroll-behavior: smooth;
 		transition: color 0.3s, background-color 0.3s;
 	}
+
 	body {
-		margin: 0;
-		padding: 0;
 		display: flex;
 		flex-direction: column;
 		min-height: 100vh;
 	}
-	/* THE FIX: main container is now centered and constrained again */
+	
 	main {
 		flex-grow: 1;
         width: 100%;
@@ -75,8 +84,8 @@ const currentYear = new Date().getFullYear();
         margin-left: auto;
 		margin-right: auto;
         padding: calc(var(--spacing-unit) * 4) calc(var(--spacing-unit) * 2);
-		box-sizing: border-box;
 	}
+
 	footer {
 		text-align: center;
 		padding: calc(var(--spacing-unit) * 4);
