@@ -1,7 +1,8 @@
 import { defineConfig } from 'astro/config';
 
-// https://astro.build/config
+// This is the main configuration file for your Astro project.
 export default defineConfig({
-  // This is the most important setting for deployment
+  // The `site` property specifies the final, public URL of your website.
   site: 'https://www.komyl.com',
+  base: '/',
 });
