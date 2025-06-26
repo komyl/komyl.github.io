@@ -1,6 +1,5 @@
 ---
-// src/components/Header.astro
-import ThemeToggleButton from './ThemeToggleButton.astro'; // Import the new component
+import ThemeToggleButton from './ThemeToggleButton.astro';
 
 const navItems = [
     { text: "About Me", url: "/about" },
@@ -18,32 +17,39 @@ const navItems = [
             {navItems.map(item => <a href={item.url}>{item.text}</a>)}
             <ThemeToggleButton />
         </div>
-        <div class="hamburger-menu" id="hamburger-button">
-            <svg width="30" height="30" viewBox="0 0 100 80" fill="white">
-                <rect width="100" height="15" rx="8"></rect>
-                <rect y="30" width="100" height="15" rx="8"></rect>
-                <rect y="60" width="100" height="15" rx="8"></rect>
-            </svg>
+        <div class="nav-controls-mobile">
+            <ThemeToggleButton />
+            <div class="hamburger-menu" id="hamburger-button">
+                <svg width="30" height="30" viewBox="0 0 100 80" fill="currentColor">
+                    <rect width="100" height="15" rx="8"></rect>
+                    <rect y="30" width="100" height="15" rx="8"></rect>
+                    <rect y="60" width="100" height="15" rx="8"></rect>
+                </svg>
+            </div>
         </div>
     </nav>
     <div class="mobile-menu" id="mobile-menu-panel">
-        <div class="mobile-menu-top-row">
-            <span>Navigation</span>
-            <ThemeToggleButton />
-        </div>
-        <hr class="mobile-menu-divider" />
         {navItems.map(item => <a href={item.url}>{item.text}</a>)}
     </div>
 </header>
 
-<script>
-    // ...
+<script is:inline>
+    const hamburgerButton = document.getElementById('hamburger-button');
+    const mobileMenuPanel = document.getElementById('mobile-menu-panel');
+
+    if (hamburgerButton && mobileMenuPanel) {
+        hamburgerButton.addEventListener('click', (e) => {
+            e.stopPropagation();
+            mobileMenuPanel.classList.toggle('is-open');
+        });
+    }
 </script>
 
 <style>
     header {
         position: relative;
         z-index: 10;
+        border-bottom: 1px solid var(--color-border);
     }
 	.navbar {
 		display: flex;
@@ -61,7 +67,7 @@ const navItems = [
     }
     .nav-links-desktop {
         display: none;
-        align-items: center; /* Align items vertically */
+        align-items: center;
         gap: 2rem;
     }
     .nav-links-desktop a {
@@ -73,9 +79,15 @@ const navItems = [
     .nav-links-desktop a:hover {
         color: var(--color-primary);
     }
+    .nav-controls-mobile {
+        display: flex; /* Changed from display: block */
+        align-items: center;
+        gap: 0.5rem;
+    }
     .hamburger-menu {
         cursor: pointer;
         z-index: 20;
+        color: var(--color-text);
     }
     .mobile-menu {
         position: absolute;
@@ -85,34 +97,18 @@ const navItems = [
         width: 100%;
         display: flex;
         flex-direction: column;
+        align-items: center;
         gap: 1.5rem;
         background-color: var(--color-surface);
         max-height: 0;
         overflow: hidden;
         padding: 0;
         transition: max-height 0.3s ease-out, padding 0.3s ease-out;
-        border-bottom-left-radius: 8px;
-        border-bottom-right-radius: 8px;
+        border-bottom: 1px solid var(--color-border);
     }
     .mobile-menu.is-open {
         max-height: 500px;
         padding: 2rem;
-    }
-    /* New styles for mobile menu header */
-    .mobile-menu-top-row {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        width: 100%;
-    }
-    .mobile-menu-top-row span {
-        font-weight: 700;
-        color: #a0a0a0;
-    }
-    .mobile-menu-divider {
-        width: 100%;
-        border: none;
-        border-top: 1px solid var(--color-border);
     }
     .mobile-menu a {
         color: var(--color-text);
@@ -126,8 +122,8 @@ const navItems = [
         .nav-links-desktop {
             display: flex;
         }
-        .hamburger-menu {
-            display: none;
+        .nav-controls-mobile {
+            display: none; /* Hide mobile controls on desktop */
         }
         .mobile-menu {
             display: none;

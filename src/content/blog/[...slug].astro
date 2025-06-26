@@ -30,14 +30,19 @@ const { Content } = await post.render();
 	.prose h1 {
 		font-size: 2.5rem;
 		margin-bottom: 1rem;
+        color: var(--color-text); /* Use variable */
 	}
     .publish-date {
         color: #a0a0a0;
         margin-bottom: 2rem;
     }
+	.prose hr {
+		border-top: 1px solid var(--color-border); /* Use variable */
+	}
 	.prose :global(p), .prose :global(li) {
 		line-height: 1.7;
 		font-size: 1.1rem;
+        color: var(--color-text); /* Use variable */
 	}
 	.prose :global(a) {
 		color: var(--color-secondary);
