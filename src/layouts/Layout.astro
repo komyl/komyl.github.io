@@ -1,17 +1,10 @@
 ---
-// src/layouts/Layout.astro
-
-// Import the new Header component
 import Header from '../components/Header.astro';
-
-// Props for page-specific title and description
 interface Props {
 	title: string;
 	description: string;
 }
 const { title, description } = Astro.props;
-
-// Auto-updating year for copyright
 const currentYear = new Date().getFullYear();
 ---
 <!doctype html>
@@ -19,24 +12,21 @@ const currentYear = new Date().getFullYear();
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="description" content={description} />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
-
         <link rel="manifest" href="/manifest.json">
         <meta name="theme-color" content="#1a1a1a">
-
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 	</head>
 	<body>
 		<Header />
-
 		<main>
-			<slot /> </main>
-
+			<slot />
+		</main>
 		<footer>
 			<p>&copy; {currentYear} Komeyl Kalhorinia. All rights reserved.</p>
 		</footer>
@@ -44,27 +34,56 @@ const currentYear = new Date().getFullYear();
 </html>
 
 <style is:global>
-	/* ... (root variables remain the same) ... */
-
-	html { /* ... */ }
-
+	:root {
+		--spacing-unit: 8px;
+		--border-radius-large: 24px;
+		--font-family-body: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+		--color-primary: #aE50f5;
+		--color-secondary: #0a84ff;
+		--color-background: #101010;
+		--color-text: rgba(255, 255, 255, 0.9);
+		--color-text-muted: rgba(235, 235, 245, 0.6);
+		--glass-background: rgba(40, 40, 40, 0.5);
+		--glass-border: rgba(255, 255, 255, 0.1);
+	}
+	html.light-theme {
+		--color-background: #f2f2f7;
+		--color-text: rgba(0, 0, 0, 0.85);
+		--color-text-muted: rgba(60, 60, 67, 0.65);
+		--glass-background: rgba(255, 255, 255, 0.6);
+		--glass-border: rgba(0, 0, 0, 0.1);
+	}
+	html {
+		font-family: var(--font-family-body);
+		background-color: var(--color-background);
+		color: var(--color-text);
+		scroll-behavior: smooth;
+		transition: color 0.3s, background-color 0.3s;
+	}
 	body {
 		margin: 0;
 		padding: 0;
 		display: flex;
 		flex-direction: column;
 		min-height: 100vh;
-		/* We no longer need overflow-x: hidden here */
 	}
-
-	/* THE FIX IS HERE: main is now just a simple container */
+	/* THE FIX: main container is now centered and constrained again */
 	main {
 		flex-grow: 1;
         width: 100%;
-		/* Remove max-width and margin from here */
+        max-width: 1200px;
+        margin-left: auto;
+		margin-right: auto;
+        padding: calc(var(--spacing-unit) * 4) calc(var(--spacing-unit) * 2);
+		box-sizing: border-box;
 	}
-
 	footer {
-		/* ... (unchanged) ... */
+		text-align: center;
+		padding: calc(var(--spacing-unit) * 4);
+		color: var(--color-text-muted);
+		font-size: 0.9rem;
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
 	}
 </style>
