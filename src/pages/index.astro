@@ -70,6 +70,7 @@ const posts = (await getCollection('blog')).sort(
 	.project-section, .blog-section {
 		margin-bottom: calc(var(--spacing-unit) * 8);
 	}
+
 	.project-section h2, .blog-section h2 {
 		font-size: 2rem;
 		font-weight: 700;
@@ -77,33 +78,67 @@ const posts = (await getCollection('blog')).sort(
 		padding-bottom: calc(var(--spacing-unit) * 1.5);
 		border-bottom: 1px solid var(--glass-border);
 		display: inline-block;
+		/* Remove the problematic padding */
+		padding-left: 0;
+		padding-right: 0;
 	}
+
+	/* --- THE DEFINITIVE FIX IS HERE --- */
 	.project-slider {
 		display: grid;
 		grid-auto-flow: column;
-		grid-auto-columns: 85%;
+		grid-auto-columns: 85%; /* On mobile, cards take up 85% of the viewport */
 		gap: calc(var(--spacing-unit) * 2);
+		
 		overflow-x: auto;
-		padding: 4px; 
-		margin: -4px;
-		padding-bottom: calc(var(--spacing-unit) * 2);
-		-ms-overflow-style: none;
-  		scrollbar-width: none;
+		scroll-snap-type: x mandatory;
+
+		/* This is the key: The slider itself has horizontal padding.
+		  This creates space on the left of the first card and on the right of the last card,
+		  preventing them from touching the edges of the screen.
+		*/
+		padding-left: calc(var(--spacing-unit) * 2);
+		padding-right: calc(var(--spacing-unit) * 2);
+		
+		/* This ensures the padding is inside the element and doesn't affect its width,
+		  preventing the horizontal scrollbar on the body.
+		*/
+		box-sizing: border-box;
+		
+		/* Remove negative margins that caused overflow */
+		margin-left: 0;
+		margin-right: 0;
+		
+		/* Hide scrollbar for a cleaner look */
+		scrollbar-width: none; /* Firefox */
 	}
 	.project-slider::-webkit-scrollbar {
-  		display: none;
+  		display: none; /* Chrome, Safari, Opera */
 	}
+
+	/* Each card will snap to the start of the container */
+	.project-slider > :global(.project-card) {
+		scroll-snap-align: start;
+	}
+
 	@media (min-width: 768px) {
 		.project-slider {
 			grid-auto-columns: 45%;
 		}
 	}
-    @media (min-width: 1024px) {
+    @media (min-width: 1200px) {
+		/* On large screens, remove the padding as the cards don't fill the whole width */
 		.project-slider {
 			grid-auto-columns: 32%;
+			padding-left: 0;
+			padding-right: 0;
 		}
 	}
 	
+	/* --- BLOG SECTION STYLES --- */
+	.blog-section {
+		
+	}
 	.post-list {
 		list-style: none;
 		padding: 0;
@@ -122,4 +157,27 @@ const posts = (await getCollection('blog')).sort(
 		color: var(--color-text);
 		transition: transform 0.3s ease, box-shadow 0.3s ease;
 	}
-	.post-item a:
+	.post-item a:hover {
+		transform: translateY(-5px);
+		box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+	}
+	.post-title {
+		font-size: 1.5rem;
+        font-weight: 600;
+		margin: 0 0 var(--spacing-unit) 0;
+		color: var(--color-text);
+		transition: color 0.2s ease;
+	}
+	.post-item a:hover .post-title {
+		color: var(--color-primary);
+	}
+	.post-description {
+		margin: 0 0 calc(var(--spacing-unit) * 2) 0;
+		color: var(--color-text-muted);
+		line-height: 1.6;
+	}
+	time {
+		font-size: 0.9rem;
+		color: var(--color-text-muted);
+	}
+</style>
