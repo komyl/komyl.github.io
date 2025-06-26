@@ -55,6 +55,7 @@ const currentYear = new Date().getFullYear();
 		--color-text: #e0e0e0;
 		--color-surface: #1e1e1e;
 		--color-border: #333;
+		--color-text-muted: #a0a0a0; /* For less important text */
 	}
 
 	/* Define Light Theme variables */
@@ -63,6 +64,7 @@ const currentYear = new Date().getFullYear();
 		--color-text: #222222;
 		--color-surface: #ffffff;
 		--color-border: #dddddd;
+		--color-text-muted: #555555; /* For less important text */
 	}
 
 	html {
@@ -70,7 +72,7 @@ const currentYear = new Date().getFullYear();
 		background-color: var(--color-background);
 		color: var(--color-text);
 		scroll-behavior: smooth;
-		transition: color 0.2s, background-color 0.2s; /* Smooth transition */
+		transition: color 0.2s, background-color 0.2s;
 	}
 
 	body {
@@ -92,7 +94,7 @@ const currentYear = new Date().getFullYear();
 	footer {
 		text-align: center;
 		padding: 2rem 1rem;
-		color: #a0a0a0;
+		color: var(--color-text-muted); 
 		font-size: 0.9rem;
         width: 100%;
         max-width: 1200px;
