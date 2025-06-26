@@ -47,7 +47,6 @@ const navItems = [
 
 <style>
     header {
-        /* Sticky glass header effect */
         position: sticky;
         top: 0;
         z-index: 10;
@@ -60,10 +59,11 @@ const navItems = [
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-        /* Using variables for consistent spacing */
+        width: 100%;
+        max-width: none;
+        margin: 0;
         padding: calc(var(--spacing-unit) * 1.5) calc(var(--spacing-unit) * 2);
-        max-width: 1200px;
-        margin: 0 auto;
+		box-sizing: border-box;
 	}
     .brand-name a {
         color: var(--color-text);
@@ -94,9 +94,8 @@ const navItems = [
         cursor: pointer;
         z-index: 20;
         color: var(--color-text);
-        /* Add padding to increase tap area for better usability */
         padding: var(--spacing-unit);
-        margin: calc(-1 * var(--spacing-unit)); /* Offset padding to maintain visual alignment */
+        margin: calc(-1 * var(--spacing-unit));
     }
     .mobile-menu {
         position: absolute;
@@ -108,11 +107,8 @@ const navItems = [
         flex-direction: column;
         align-items: center;
         gap: calc(var(--spacing-unit) * 2);
-        
-        /* The menu panel itself should be opaque for readability */
         background-color: var(--color-background);
         border-bottom: 1px solid var(--glass-border);
-
         max-height: 0;
         overflow: hidden;
         padding: 0;
