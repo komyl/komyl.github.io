@@ -1,20 +1,29 @@
 ---
-// src/pages/index.astro
 import Layout from '../layouts/Layout.astro';
 import ProjectCard from '../components/ProjectCard.astro';
+import { getCollection } from 'astro:content';
 
-// Add "as const" to the end of the array definitions
-const commercialProjects = [
-	{ name: 'Major Banking System', status: 'active', technologies: ['React', 'Java'], duration: '2 Years', url: '/projects/project-a' },
-	{ name: 'Customer Management Platform', status: 'finished', technologies: ['Vue', '.NET'], duration: '18 Months', url: '/projects/project-b' },
-] as const; // <--- ADD THIS
+// 1. Import the 'Props' type from the ProjectCard component
+import type { Props as ProjectProps } from '../components/ProjectCard.astro';
 
-const academicProjects = [
-	{ name: 'Medical Data Analysis', status: 'suspended', technologies: ['Python', 'Astro'], duration: '6 Months', url: '/projects/project-c' },
-	{ name: 'E-Learning Platform', status: 'active', technologies: ['Svelte', 'Go'], duration: 'Ongoing', url: '/projects/project-d' },
-] as const; // <--- AND ADD THIS
+// 2. Define the project data with an explicit type (ProjectProps[])
+//    and remove "as const"
+const commercialProjects: ProjectProps[] = [
+	{ name: 'Major Banking System', status: 'active', technologies: ['React', 'Java'], duration: '2 Years', url: 'https://github.com' },
+	{ name: 'Customer Management Platform', status: 'finished', technologies: ['Vue', '.NET'], duration: '18 Months', url: 'https://github.com' },
+];
 
+const academicProjects: ProjectProps[] = [
+	{ name: 'Medical Data Analysis', status: 'suspended', technologies: ['Python', 'Astro'], duration: '6 Months', url: 'https://github.com' },
+	{ name: 'E-Learning Platform', status: 'active', technologies: ['Svelte', 'Go'], duration: 'Ongoing', url: 'https://github.com' },
+];
+
+// Fetch all blog posts and sort them by date
+const posts = (await getCollection('blog')).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
 ---
+
 <Layout title="Komeyl Kalhorinia | Home" description="KomeylBlog - Portfolio and blog of Komeyl Kalhorinia.">
 	
 	<section class="project-section">
@@ -35,10 +44,29 @@ const academicProjects = [
 		</div>
 	</section>
 
+	<section class="blog-section">
+		<h2>Recent Posts</h2>
+		<ul class="post-list">
+			{posts.map((post) => (
+				<li class="post-item">
+					<a href={`/blog/${post.slug}/`}>
+						<h3 class="post-title">{post.data.title}</h3>
+						<p class="post-description">{post.data.description}</p>
+						<time datetime={post.data.pubDate.toISOString()}>
+							{new Date(post.data.pubDate).toLocaleDateString('en-us', {
+								year: 'numeric',
+								month: 'short',
+								day: 'numeric',
+							})}
+						</time>
+					</a>
+				</li>
+			))}
+		</ul>
+	</section>
 </Layout>
 
 <style>
-	/* Styles remain the same */
 	.project-section {
 		margin-bottom: 4rem;
 	}
@@ -71,5 +99,48 @@ const academicProjects = [
 		.project-slider {
 			grid-auto-columns: 32%;
 		}
+	}
+	.blog-section {
+		margin-top: 4rem;
+	}
+	.blog-section h2 {
+		font-size: 2rem;
+		margin-bottom: 1.5rem;
+		border-bottom: 2px solid var(--color-primary);
+		padding-bottom: 0.5rem;
+		display: inline-block;
+	}
+	.post-list {
+		list-style: none;
+		padding: 0;
+		display: grid;
+		gap: 1rem;
+	}
+	.post-item a {
+		display: block;
+		padding: 1.5rem;
+		background-color: var(--color-surface);
+		border-radius: 8px;
+		text-decoration: none;
+		color: var(--color-text);
+		border: 1px solid #333;
+		transition: transform 0.2s ease, box-shadow 0.2s ease;
+	}
+	.post-item a:hover {
+		transform: translateY(-5px);
+		box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+	}
+	.post-title {
+		font-size: 1.5rem;
+		margin: 0 0 0.5rem 0;
+		color: var(--color-primary);
+	}
+	.post-description {
+		margin: 0 0 1rem 0;
+		color: #a0a0a0;
+	}
+	time {
+		font-size: 0.9rem;
+		color: #888;
 	}
 </style>

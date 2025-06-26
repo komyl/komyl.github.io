@@ -1,0 +1,109 @@
+---
+// src/components/Header.astro
+const navItems = [
+    { text: "About Me", url: "/about" },
+    { text: "Contact", url: "/contact" },
+    { text: "Support Me", url: "/support" },
+    { text: "Social Media", url: "/social" },
+]
+---
+<header>
+    <nav class="navbar">
+        <div class="brand-name">
+            <a href="/">Komeyl Kalhorinia</a>
+        </div>
+        <div class="nav-links-desktop">
+            {navItems.map(item => <a href={item.url}>{item.text}</a>)}
+        </div>
+        <div class="hamburger-menu" id="hamburger-button">
+            <svg width="30" height="30" viewBox="0 0 100 80" fill="white">
+                <rect width="100" height="15" rx="8"></rect>
+                <rect y="30" width="100" height="15" rx="8"></rect>
+                <rect y="60" width="100" height="15" rx="8"></rect>
+            </svg>
+        </div>
+    </nav>
+    <div class="mobile-menu" id="mobile-menu-panel">
+        {navItems.map(item => <a href={item.url}>{item.text}</a>)}
+    </div>
+</header>
+
+<script>
+    // JavaScript to toggle the mobile menu
+    const hamburgerButton = document.getElementById('hamburger-button');
+    const mobileMenuPanel = document.getElementById('mobile-menu-panel');
+
+    // We must check if the elements were actually found before using them.
+    if (hamburgerButton && mobileMenuPanel) {
+        hamburgerButton.addEventListener('click', () => {
+            mobileMenuPanel.classList.toggle('is-open');
+        });
+    }
+</script>
+
+<style>
+	.navbar {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+        padding: 1rem;
+        max-width: 1200px;
+        margin: 0 auto;
+	}
+    .brand-name a {
+        color: var(--color-text);
+        text-decoration: none;
+        font-size: 1.5rem;
+        font-weight: 700;
+    }
+    .nav-links-desktop {
+        display: none; /* Hidden on mobile */
+        gap: 2rem;
+    }
+    .nav-links-desktop a {
+        color: var(--color-text);
+        text-decoration: none;
+        font-size: 1rem;
+        transition: color 0.2s ease;
+    }
+    .nav-links-desktop a:hover {
+        color: var(--color-primary);
+    }
+    .hamburger-menu {
+        cursor: pointer;
+    }
+    .mobile-menu {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.5rem;
+        background-color: var(--color-surface);
+        padding: 2rem;
+        /* Hidden by default */
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+    }
+    .mobile-menu.is-open {
+        max-height: 500px; /* An arbitrary large height */
+        padding: 2rem;
+    }
+    .mobile-menu a {
+        color: var(--color-text);
+        text-decoration: none;
+        font-size: 1.2rem;
+    }
+    
+    /* Show desktop links and hide hamburger on larger screens */
+    @media (min-width: 768px) {
+        .nav-links-desktop {
+            display: flex;
+        }
+        .hamburger-menu {
+            display: none;
+        }
+        .mobile-menu {
+            display: none;
+        }
+    }
+</style>
