@@ -42,6 +42,11 @@ const navItems = [
 </script>
 
 <style>
+    /* Add position: relative to the main header tag */
+	header {
+        position: relative;
+        z-index: 10;
+    }
 	.navbar {
 		display: flex;
 		justify-content: space-between;
@@ -71,21 +76,35 @@ const navItems = [
     }
     .hamburger-menu {
         cursor: pointer;
+        z-index: 20; /* Ensure hamburger is on top */
     }
     .mobile-menu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        width: 100%;
+        
         display: flex;
         flex-direction: column;
         align-items: center;
         gap: 1.5rem;
         background-color: var(--color-surface);
-        padding: 2rem;
-        /* Hidden by default */
+        
         max-height: 0;
         overflow: hidden;
+        
+        /* --- THE FIX IS HERE --- */
+        /* Set all padding (top, right, bottom, left) to 0 when closed */
+        padding: 0;
+        
         transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+        border-bottom-left-radius: 8px;
+        border-bottom-right-radius: 8px;
     }
     .mobile-menu.is-open {
         max-height: 500px; /* An arbitrary large height */
+        /* Restore padding on all sides when open */
         padding: 2rem;
     }
     .mobile-menu a {
@@ -94,7 +113,6 @@ const navItems = [
         font-size: 1.2rem;
     }
     
-    /* Show desktop links and hide hamburger on larger screens */
     @media (min-width: 768px) {
         .nav-links-desktop {
             display: flex;
