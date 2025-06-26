@@ -44,24 +44,24 @@ const currentYear = new Date().getFullYear();
 </html>
 
 <style is:global>
-	:root {
-		/* --- New Design Tokens based on HIG --- */
-		--spacing-unit: 8px;
-		--border-radius-medium: 16px;
-		--border-radius-large: 24px;
-		
-		/* --- Refined Color Palette --- */
-		--font-family-body: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-		--color-primary: #bf5af2; /* Apple-like Purple */
-		--color-secondary: #0a84ff; /* Apple-like Blue */
+:root {
+    /* --- Design Tokens based on HIG --- */
+    --spacing-unit: 8px;
+    --border-radius-medium: 16px;
+    --border-radius-large: 24px;
+    
+    /* --- Refined Color Palette for better Accessibility --- */
+    --font-family-body: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --color-primary: #aE50f5; /* A slightly deeper, more accessible purple */
+    --color-secondary: #0a84ff; 
 
-		/* Default to Dark Theme */
-		--color-background: #101010;
-		--color-text: rgba(255, 255, 255, 0.9);
-		--color-text-muted: rgba(235, 235, 245, 0.6);
-		--glass-background: rgba(40, 40, 40, 0.5);
-		--glass-border: rgba(255, 255, 255, 0.1);
-	}
+    /* Default to Dark Theme */
+    --color-background: #101010;
+    --color-text: rgba(255, 255, 255, 0.9);
+    --color-text-muted: rgba(235, 235, 245, 0.6);
+    --glass-background: rgba(40, 40, 40, 0.5);
+    --glass-border: rgba(255, 255, 255, 0.1);
+}
 
 	html.light-theme {
 		/* Light Theme variables */
@@ -86,6 +86,7 @@ const currentYear = new Date().getFullYear();
 		display: flex;
 		flex-direction: column;
 		min-height: 100vh;
+		overflow-x: hidden; 
 	}
 
 	main {
