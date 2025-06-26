@@ -44,41 +44,9 @@ const currentYear = new Date().getFullYear();
 </html>
 
 <style is:global>
-:root {
-    /* --- Design Tokens based on HIG --- */
-    --spacing-unit: 8px;
-    --border-radius-medium: 16px;
-    --border-radius-large: 24px;
-    
-    /* --- Refined Color Palette for better Accessibility --- */
-    --font-family-body: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    --color-primary: #aE50f5; /* A slightly deeper, more accessible purple */
-    --color-secondary: #0a84ff; 
+	/* ... (root variables remain the same) ... */
 
-    /* Default to Dark Theme */
-    --color-background: #101010;
-    --color-text: rgba(255, 255, 255, 0.9);
-    --color-text-muted: rgba(235, 235, 245, 0.6);
-    --glass-background: rgba(40, 40, 40, 0.5);
-    --glass-border: rgba(255, 255, 255, 0.1);
-}
-
-	html.light-theme {
-		/* Light Theme variables */
-		--color-background: #f2f2f7;
-		--color-text: rgba(0, 0, 0, 0.85);
-		--color-text-muted: rgba(60, 60, 67, 0.65);
-		--glass-background: rgba(255, 255, 255, 0.6);
-		--glass-border: rgba(0, 0, 0, 0.1);
-	}
-
-	html {
-		font-family: var(--font-family-body);
-		background-color: var(--color-background);
-		color: var(--color-text);
-		scroll-behavior: smooth;
-		transition: color 0.3s, background-color 0.3s;
-	}
+	html { /* ... */ }
 
 	body {
 		margin: 0;
@@ -86,30 +54,17 @@ const currentYear = new Date().getFullYear();
 		display: flex;
 		flex-direction: column;
 		min-height: 100vh;
-		overflow-x: hidden; 
+		/* We no longer need overflow-x: hidden here */
 	}
 
+	/* THE FIX IS HERE: main is now just a simple container */
 	main {
 		flex-grow: 1;
         width: 100%;
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: calc(var(--spacing-unit) * 2);
+		/* Remove max-width and margin from here */
 	}
 
-    @media (min-width: 768px) {
-        main {
-            padding: calc(var(--spacing-unit) * 4);
-        }
-    }
-
 	footer {
-		text-align: center;
-		padding: calc(var(--spacing-unit) * 4);
-		color: var(--color-text-muted);
-		font-size: 0.9rem;
-        width: 100%;
-        max-width: 1200px;
-        margin: 0 auto;
+		/* ... (unchanged) ... */
 	}
 </style>

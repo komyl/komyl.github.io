@@ -2,121 +2,129 @@
 import Layout from '../layouts/Layout.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import { getCollection } from 'astro:content';
-
-// 1. Import the 'Props' type from the ProjectCard component
 import type { Props as ProjectProps } from '../components/ProjectCard.astro';
 
-// 2. Define the project data with an explicit type (ProjectProps[])
-//    and remove "as const"
+// Dummy data for projects
 const commercialProjects: ProjectProps[] = [
 	{ name: 'Major Banking System', status: 'active', technologies: ['React', 'Java'], duration: '2 Years', url: 'https://github.com' },
 	{ name: 'Customer Management Platform', status: 'finished', technologies: ['Vue', '.NET'], duration: '18 Months', url: 'https://github.com' },
 ];
-
 const academicProjects: ProjectProps[] = [
 	{ name: 'Medical Data Analysis', status: 'suspended', technologies: ['Python', 'Astro'], duration: '6 Months', url: 'https://github.com' },
 	{ name: 'E-Learning Platform', status: 'active', technologies: ['Svelte', 'Go'], duration: 'Ongoing', url: 'https://github.com' },
 ];
 
-// Fetch all blog posts and sort them by date
 const posts = (await getCollection('blog')).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 );
 ---
-
 <Layout title="Komeyl Kalhorinia | Home" description="KomeylBlog - Portfolio and blog of Komeyl Kalhorinia.">
+
+	<div class="content-wrapper">
+		<section class="project-section">
+			<h2>Commercial Projects</h2>
+		</section>
+	</div>
+
+	<div class="project-slider">
+		{commercialProjects.map(project => (
+			<ProjectCard {...project} />
+		))}
+	</div>
+
+	<div class="content-wrapper">
+		<section class="project-section">
+			<h2>Personal & Academic Projects</h2>
+		</section>
+	</div>
 	
-	<section class="project-section">
-		<h2>Commercial Projects</h2>
-		<div class="project-slider">
-			{commercialProjects.map(project => (
-				<ProjectCard {...project} />
-			))}
-		</div>
-	</section>
+	<div class="project-slider">
+		{academicProjects.map(project => (
+			<ProjectCard {...project} />
+		))}
+	</div>
 
-	<section class="project-section">
-		<h2>Personal & Academic Projects</h2>
-		<div class="project-slider">
-			{academicProjects.map(project => (
-				<ProjectCard {...project} />
-			))}
-		</div>
-	</section>
-
-	<section class="blog-section">
-		<h2>Recent Posts</h2>
-		<ul class="post-list">
-			{posts.map((post) => (
-				<li class="post-item">
-					<a href={`/blog/${post.slug}/`}>
-						<h3 class="post-title">{post.data.title}</h3>
-						<p class="post-description">{post.data.description}</p>
-						<time datetime={post.data.pubDate.toISOString()}>
-							{new Date(post.data.pubDate).toLocaleDateString('en-us', {
-								year: 'numeric',
-								month: 'short',
-								day: 'numeric',
-							})}
-						</time>
-					</a>
-				</li>
-			))}
-		</ul>
-	</section>
+	<div class="content-wrapper">
+		<section class="blog-section">
+			<h2>Recent Posts</h2>
+			<ul class="post-list">
+				{posts.map((post) => (
+					<li class="post-item">
+						<a href={`/blog/${post.slug}/`}>
+							<h3 class="post-title">{post.data.title}</h3>
+							<p class="post-description">{post.data.description}</p>
+							<time datetime={post.data.pubDate.toISOString()}>
+								{new Date(post.data.pubDate).toLocaleDateString('en-us', {
+									year: 'numeric',
+									month: 'short',
+									day: 'numeric',
+								})}
+							</time>
+						</a>
+					</li>
+				))}
+			</ul>
+		</section>
+	</div>
 </Layout>
 
 <style>
-	.project-section, .blog-section {
-		margin-bottom: calc(var(--spacing-unit) * 8);
+	/* This wrapper constrains the width of standard content */
+	.content-wrapper {
+		width: 100%;
+		max-width: 1200px;
+		margin: 0 auto;
+		padding: 0 calc(var(--spacing-unit) * 2);
+		box-sizing: border-box;
 	}
 
+	.project-section, .blog-section {
+		margin-bottom: calc(var(--spacing-unit) * 3);
+	}
+	/* Remove bottom margin from sections that are followed by a slider */
+	.project-section {
+		margin-bottom: calc(var(--spacing-unit) * 3);
+	}
+	.blog-section {
+		margin-top: calc(var(--spacing-unit) * 8);
+	}
+	
 	.project-section h2, .blog-section h2 {
 		font-size: 2rem;
 		font-weight: 700;
-		margin-bottom: calc(var(--spacing-unit) * 3);
 		padding-bottom: calc(var(--spacing-unit) * 1.5);
 		border-bottom: 1px solid var(--glass-border);
 		display: inline-block;
-		/* Remove the problematic padding */
-		padding-left: 0;
-		padding-right: 0;
+		margin-top: calc(var(--spacing-unit) * 5);
 	}
-
-	/* --- THE DEFINITIVE FIX IS HERE --- */
+	.project-section:first-of-type h2 {
+		margin-top: 0;
+	}
+	
 	.project-slider {
+		width: 100%;
 		display: grid;
 		grid-auto-flow: column;
-		grid-auto-columns: 85%; /* On mobile, cards take up 85% of the viewport */
+		grid-auto-columns: 85%;
 		gap: calc(var(--spacing-unit) * 2);
-		
 		overflow-x: auto;
 		scroll-snap-type: x mandatory;
 
-		/* This is the key: The slider itself has horizontal padding.
-		  This creates space on the left of the first card and on the right of the last card,
-		  preventing them from touching the edges of the screen.
-		*/
-		padding-left: calc(var(--spacing-unit) * 2);
-		padding-right: calc(var(--spacing-unit) * 2);
+		/* Padding on the sides creates the necessary space */
+		padding: calc(var(--spacing-unit) * 2) calc(var(--spacing-unit) * 2);
 		
-		/* This ensures the padding is inside the element and doesn't affect its width,
-		  preventing the horizontal scrollbar on the body.
-		*/
+		/* Remove the main padding from the left of the slider on desktop */
+		@media (min-width: 1200px) {
+			padding-left: calc((100% - 1200px) / 2 + var(--spacing-unit) * 2);
+			padding-right: calc((100% - 1200px) / 2 + var(--spacing-unit) * 2);
+		}
+
 		box-sizing: border-box;
-		
-		/* Remove negative margins that caused overflow */
-		margin-left: 0;
-		margin-right: 0;
-		
-		/* Hide scrollbar for a cleaner look */
-		scrollbar-width: none; /* Firefox */
+		scrollbar-width: none;
 	}
 	.project-slider::-webkit-scrollbar {
-  		display: none; /* Chrome, Safari, Opera */
+  		display: none;
 	}
-
-	/* Each card will snap to the start of the container */
 	.project-slider > :global(.project-card) {
 		scroll-snap-align: start;
 	}
@@ -126,19 +134,12 @@ const posts = (await getCollection('blog')).sort(
 			grid-auto-columns: 45%;
 		}
 	}
-    @media (min-width: 1200px) {
-		/* On large screens, remove the padding as the cards don't fill the whole width */
+    @media (min-width: 1024px) {
 		.project-slider {
 			grid-auto-columns: 32%;
-			padding-left: 0;
-			padding-right: 0;
 		}
 	}
-	
-	/* --- BLOG SECTION STYLES --- */
-	.blog-section {
-		
-	}
+
 	.post-list {
 		list-style: none;
 		padding: 0;
