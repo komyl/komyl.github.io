@@ -71,22 +71,26 @@ const iconMap: Record<string, string> = {
 
 <style>
 	.project-card {
-		background-color: var(--color-surface);
-		border-radius: 8px;
-		padding: 1.5rem;
+		/* Glass Effect */
+		background-color: var(--glass-background);
+		backdrop-filter: blur(20px);
+		-webkit-backdrop-filter: blur(20px); /* For Safari browser compatibility */
+		border: 1px solid var(--glass-border);
+		border-radius: var(--border-radius-large); /* Using global variable */
+
+		padding: calc(var(--spacing-unit) * 3); /* Using global variable */
 		display: flex;
 		flex-direction: column;
 		justify-content: space-between;
 		min-height: 150px;
-		border: 1px solid var(--color-border);
-		transition: transform 0.2s ease, box-shadow 0.2s ease;
-        text-decoration: none;
         color: var(--color-text);
+		text-decoration: none;
+		transition: transform 0.3s ease, box-shadow 0.3s ease;
 	}
 
 	.project-card:hover {
 		transform: translateY(-5px);
-		box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+		box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 	}
 
 	.card-header {
@@ -98,20 +102,22 @@ const iconMap: Record<string, string> = {
 	.project-name {
 		margin: 0;
         font-size: 1.25rem;
+		font-weight: 600; /* Bolder for clarity */
 	}
 
 	.status-dot {
-		width: 12px;
-		height: 12px;
+		width: 10px;
+		height: 10px;
 		border-radius: 50%;
 		flex-shrink: 0;
 		margin-left: 1rem;
 		animation: blink 1.5s infinite;
 	}
 
-	.status-dot.green { background-color: #4caf50; }
-	.status-dot.yellow { background-color: #ffc107; }
-	.status-dot.red { background-color: #f44336; }
+	/* Using Apple HIG colors for status */
+	.status-dot.green { background-color: #34c759; }
+	.status-dot.yellow { background-color: #ffcc00; }
+	.status-dot.red { background-color: #ff3b30; }
 
 	@keyframes blink {
 		0% { opacity: 1; }
@@ -123,22 +129,20 @@ const iconMap: Record<string, string> = {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		margin-top: 1rem;
+		margin-top: calc(var(--spacing-unit) * 2);
 		font-size: 0.85rem;
 		color: var(--color-text-muted);
 	}
     .tech-stack {
         display: flex;
-        gap: 0.75rem;
+        gap: var(--spacing-unit);
         align-items: center;
     }
     .tech-icon {
-        width: 20px;
-        height: 20px;
+        width: 18px;
+        height: 18px;
     }
     .tech-icon :global(svg) {
-        width: 100%;
-        height: 100%;
         fill: var(--color-text-muted);
         transition: fill 0.2s ease;
     }
@@ -146,9 +150,9 @@ const iconMap: Record<string, string> = {
         fill: var(--color-text);
     }
     .tech-stack span {
-        background-color: var(--color-border);
-        padding: 0.2rem 0.5rem;
-        border-radius: 4px;
+        background-color: var(--glass-border); /* More subtle background */
+        padding: calc(var(--spacing-unit) * 0.5) var(--spacing-unit);
+        border-radius: var(--spacing-unit);
         font-size: 0.75rem;
     }
 </style>

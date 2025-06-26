@@ -47,15 +47,21 @@ const navItems = [
 
 <style>
     header {
-        position: relative;
+        /* Sticky glass header effect */
+        position: sticky;
+        top: 0;
         z-index: 10;
-        border-bottom: 1px solid var(--color-border);
+        background-color: var(--glass-background);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-bottom: 1px solid var(--glass-border);
     }
 	.navbar {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-        padding: 1rem;
+        /* Using variables for consistent spacing */
+        padding: calc(var(--spacing-unit) * 1.5) calc(var(--spacing-unit) * 2);
         max-width: 1200px;
         margin: 0 auto;
 	}
@@ -68,7 +74,7 @@ const navItems = [
     .nav-links-desktop {
         display: none;
         align-items: center;
-        gap: 2rem;
+        gap: calc(var(--spacing-unit) * 4);
     }
     .nav-links-desktop a {
         color: var(--color-text);
@@ -80,14 +86,17 @@ const navItems = [
         color: var(--color-primary);
     }
     .nav-controls-mobile {
-        display: flex; /* Changed from display: block */
+        display: flex;
         align-items: center;
-        gap: 0.5rem;
+        gap: var(--spacing-unit);
     }
     .hamburger-menu {
         cursor: pointer;
         z-index: 20;
         color: var(--color-text);
+        /* Add padding to increase tap area for better usability */
+        padding: var(--spacing-unit);
+        margin: calc(-1 * var(--spacing-unit)); /* Offset padding to maintain visual alignment */
     }
     .mobile-menu {
         position: absolute;
@@ -98,17 +107,20 @@ const navItems = [
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 1.5rem;
-        background-color: var(--color-surface);
+        gap: calc(var(--spacing-unit) * 2);
+        
+        /* The menu panel itself should be opaque for readability */
+        background-color: var(--color-background);
+        border-bottom: 1px solid var(--glass-border);
+
         max-height: 0;
         overflow: hidden;
         padding: 0;
         transition: max-height 0.3s ease-out, padding 0.3s ease-out;
-        border-bottom: 1px solid var(--color-border);
     }
     .mobile-menu.is-open {
         max-height: 500px;
-        padding: 2rem;
+        padding: calc(var(--spacing-unit) * 3) 0;
     }
     .mobile-menu a {
         color: var(--color-text);
@@ -116,6 +128,7 @@ const navItems = [
         font-size: 1.2rem;
         width: 100%;
         text-align: center;
+        padding: var(--spacing-unit) 0;
     }
     
     @media (min-width: 768px) {
@@ -123,7 +136,7 @@ const navItems = [
             display: flex;
         }
         .nav-controls-mobile {
-            display: none; /* Hide mobile controls on desktop */
+            display: none;
         }
         .mobile-menu {
             display: none;

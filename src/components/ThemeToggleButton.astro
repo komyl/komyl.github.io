@@ -27,21 +27,34 @@
         background: none;
         border: none;
         cursor: pointer;
-        padding: 0.5rem;
-        border-radius: 50%;
+        padding: var(--spacing-unit); /* Use spacing unit for consistent tap area */
+        border-radius: 50%; /* Make it circular */
         display: flex;
         align-items: center;
         justify-content: center;
-        color: var(--color-text);
-        transition: background-color 0.2s ease;
+        color: var(--color-text-muted); /* Use muted color for a more subtle appearance */
+        transition: background-color 0.2s ease, color 0.2s ease;
     }
+
     .theme-toggle-button:hover {
-        background-color: rgba(128, 128, 128, 0.1);
+        /* On hover, make it slightly brighter and use the main text color */
+        color: var(--color-text);
+        background-color: var(--glass-border); 
     }
+
     .sun, .moon {
-        width: 1.25rem;
-        height: 1.25rem;
+        width: 22px; /* Consistent icon size as per HIG principles */
+        height: 22px;
     }
-    :global(html.light-theme) .moon { display: none; }
-    :global(html:not(.light-theme)) .sun { display: none; }
+
+    /* This logic correctly toggles the icon based on the theme */
+    /* Hide moon icon in light theme */
+    :global(html.light-theme) .moon {
+        display: none;
+    }
+    
+    /* Hide sun icon in dark theme */
+    :global(html:not(.light-theme)) .sun {
+        display: none;
+    }
 </style>

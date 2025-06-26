@@ -45,26 +45,31 @@ const currentYear = new Date().getFullYear();
 
 <style is:global>
 	:root {
-		/* Shared variables */
-		--font-family-body: 'Inter', sans-serif;
-		--color-primary: #bb86fc;
-		--color-secondary: #03dac6;
+		/* --- New Design Tokens based on HIG --- */
+		--spacing-unit: 8px;
+		--border-radius-medium: 16px;
+		--border-radius-large: 24px;
+		
+		/* --- Refined Color Palette --- */
+		--font-family-body: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+		--color-primary: #bf5af2; /* Apple-like Purple */
+		--color-secondary: #0a84ff; /* Apple-like Blue */
 
-		/* Default to Dark Theme variables */
-		--color-background: #121212;
-		--color-text: #e0e0e0;
-		--color-surface: #1e1e1e;
-		--color-border: #333;
-		--color-text-muted: #a0a0a0; /* For less important text */
+		/* Default to Dark Theme */
+		--color-background: #101010;
+		--color-text: rgba(255, 255, 255, 0.9);
+		--color-text-muted: rgba(235, 235, 245, 0.6);
+		--glass-background: rgba(40, 40, 40, 0.5);
+		--glass-border: rgba(255, 255, 255, 0.1);
 	}
 
-	/* Define Light Theme variables */
 	html.light-theme {
-		--color-background: #f0f0f0;
-		--color-text: #222222;
-		--color-surface: #ffffff;
-		--color-border: #dddddd;
-		--color-text-muted: #555555; /* For less important text */
+		/* Light Theme variables */
+		--color-background: #f2f2f7;
+		--color-text: rgba(0, 0, 0, 0.85);
+		--color-text-muted: rgba(60, 60, 67, 0.65);
+		--glass-background: rgba(255, 255, 255, 0.6);
+		--glass-border: rgba(0, 0, 0, 0.1);
 	}
 
 	html {
@@ -72,7 +77,7 @@ const currentYear = new Date().getFullYear();
 		background-color: var(--color-background);
 		color: var(--color-text);
 		scroll-behavior: smooth;
-		transition: color 0.2s, background-color 0.2s;
+		transition: color 0.3s, background-color 0.3s;
 	}
 
 	body {
@@ -88,13 +93,19 @@ const currentYear = new Date().getFullYear();
         width: 100%;
         max-width: 1200px;
         margin: 0 auto;
-        padding: 2rem 1rem;
+        padding: calc(var(--spacing-unit) * 2);
 	}
+
+    @media (min-width: 768px) {
+        main {
+            padding: calc(var(--spacing-unit) * 4);
+        }
+    }
 
 	footer {
 		text-align: center;
-		padding: 2rem 1rem;
-		color: var(--color-text-muted); 
+		padding: calc(var(--spacing-unit) * 4);
+		color: var(--color-text-muted);
 		font-size: 0.9rem;
         width: 100%;
         max-width: 1200px;

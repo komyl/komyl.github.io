@@ -67,32 +67,39 @@ const posts = (await getCollection('blog')).sort(
 </Layout>
 
 <style>
-	.project-section {
-		margin-bottom: 4rem;
+	.project-section, .blog-section {
+		margin-bottom: calc(var(--spacing-unit) * 8);
 	}
-	.project-section h2 {
+	.project-section h2, .blog-section h2 {
 		font-size: 2rem;
-		margin-bottom: 1.5rem;
-		border-bottom: 2px solid var(--color-primary);
-		padding-bottom: 0.5rem;
+		font-weight: 700;
+		margin-bottom: calc(var(--spacing-unit) * 3);
+		padding-bottom: calc(var(--spacing-unit) * 1.5);
+		border-bottom: 1px solid var(--glass-border);
 		display: inline-block;
 	}
 	.project-slider {
 		display: grid;
 		grid-auto-flow: column;
-		grid-auto-columns: 80%;
-		gap: 1rem;
+		grid-auto-columns: 85%;
+		gap: calc(var(--spacing-unit) * 2);
 		overflow-x: auto;
-		padding-bottom: 1rem;
+		/* Add some padding to the sides so cards don't touch the edge */
+		padding: 4px; 
+		margin: -4px;
+		padding-bottom: calc(var(--spacing-unit) * 2);
+
+		/* Hide scrollbar for a cleaner look */
 		-ms-overflow-style: none;
   		scrollbar-width: none;
 	}
 	.project-slider::-webkit-scrollbar {
   		display: none;
 	}
+
 	@media (min-width: 768px) {
 		.project-slider {
-			grid-auto-columns: 40%;
+			grid-auto-columns: 45%;
 		}
 	}
     @media (min-width: 1024px) {
@@ -100,44 +107,41 @@ const posts = (await getCollection('blog')).sort(
 			grid-auto-columns: 32%;
 		}
 	}
-	.blog-section {
-		margin-top: 4rem;
-	}
-	.blog-section h2 {
-		font-size: 2rem;
-		margin-bottom: 1.5rem;
-		border-bottom: 2px solid var(--color-primary);
-		padding-bottom: 0.5rem;
-		display: inline-block;
-	}
+	
 	.post-list {
 		list-style: none;
 		padding: 0;
 		display: grid;
-		gap: 1rem;
+		gap: calc(var(--spacing-unit) * 2);
 	}
 	.post-item a {
+		/* Applying the Glass Effect */
+		background-color: var(--glass-background);
+		backdrop-filter: blur(20px);
+		-webkit-backdrop-filter: blur(20px);
+		border: 1px solid var(--glass-border);
+		border-radius: var(--border-radius-large);
+
 		display: block;
-		padding: 1.5rem;
-		background-color: var(--color-surface);
-		border-radius: 8px;
+		padding: calc(var(--spacing-unit) * 3);
 		text-decoration: none;
 		color: var(--color-text);
-		border: 1px solid var(--color-border);
-		transition: transform 0.2s ease, box-shadow 0.2s ease;
+		transition: transform 0.3s ease, box-shadow 0.3s ease;
 	}
 	.post-item a:hover {
 		transform: translateY(-5px);
-		box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+		box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 	}
 	.post-title {
 		font-size: 1.5rem;
-		margin: 0 0 0.5rem 0;
+        font-weight: 600;
+		margin: 0 0 var(--spacing-unit) 0;
 		color: var(--color-primary);
 	}
 	.post-description {
-		margin: 0 0 1rem 0;
+		margin: 0 0 calc(var(--spacing-unit) * 2) 0;
 		color: var(--color-text-muted);
+		line-height: 1.6;
 	}
 	time {
 		font-size: 0.9rem;
