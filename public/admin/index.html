@@ -4,28 +4,9 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Content Manager</title>
+  
+  <script src="https://unpkg.com/netlify-cms-app@^2.10.192/dist/netlify-cms-app.js"></script>
 </head>
 <body>
-  <script src="https://cdn.jsdelivr.net/npm/decap-cms-app@3/dist/decap-cms-app.js"></script>
-
-  <script>
-    window.CMS_CONFIG = {
-      backend: {
-        name: "test-repo"
-      },
-      media_folder: "src/assets",
-      collections: [
-        {
-          name: "test",
-          label: "Test Collection",
-          folder: "src/content/test",
-          create: true,
-          fields: [
-            { label: "Title", name: "title", widget: "string" }
-          ]
-        }
-      ]
-    };
-  </script>
-</body>
+  </body>
 </html>
