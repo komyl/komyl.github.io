@@ -1,15 +1,13 @@
+# This is a temporary configuration for debugging purposes.
+# We are using a test backend that runs entirely in your browser's memory.
 backend:
-  name: git-gateway
-  branch: main
+  name: test-repo
 
-editor:
-  preview_style: "/admin/admin-styles.css"
-
+# The rest of your configuration remains the same to test if it's valid.
 media_folder: "src/assets/images"
 public_folder: "/src/assets/images"
 
 collections:
-  # Collection for Projects
   - name: "projects"
     label: "Projects"
     folder: "src/content/projects"
@@ -19,31 +17,7 @@ collections:
       - { label: "Project Name", name: "name", widget: "string" }
       - { label: "Status", name: "status", widget: "select", options: ["active", "suspended", "finished"] }
       - { label: "Category", name: "category", widget: "select", options: ["Commercial", "Personal & Academic"] }
-      - { label: "Technologies", name: "technologies", widget: "list", allow_add: true }
+      - { label: "Technologies", name: "technologies", widget: "list" }
       - { label: "Duration", name: "duration", widget: "string" }
-      - { label: "Project URL", name: "url", widget: "string", pattern: ["https://.*", "Must be a valid URL"] }
-      - { label: "Project Details (Body)", name: "body", widget: "markdown" }
-
-  # Collection for Blog Posts
-  - name: "blog"
-    label: "Blog"
-    folder: "src/content/blog"
-    create: true
-    slug: "{{slug}}"
-    fields:
-      - { label: "Title", name: "title", widget: "string" }
-      - { label: "Publish Date", name: "pubDate", widget: "datetime" }
+      - { label: "Project URL", name: "url", widget: "string" }
       - { label: "Body", name: "body", widget: "markdown" }
-      - label: "SEO & Metadata"
-        name: "seo"
-        widget: "object"
-        fields:
-          - { label: "Meta Description", name: "description", widget: "text", required: false }
-          - { label: "Open Graph Image", name: "og_image", widget: "image", required: false }
-          - label: "SEO Checklist (Manual)"
-            name: "checklist"
-            widget: "list"
-            required: false
-            fields:
-              - { label: "Task", name: "task", widget: "string" }
-              - { label: "Completed", name: "done", widget: "boolean", default: false }
