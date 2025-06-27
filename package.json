@@ -6,8 +6,7 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro",
-    "postinstall": "copyfiles -f node_modules/decap-cms-app/dist/decap-cms-app.js"
+    "astro": "astro"
   },
   "dependencies": {
     "astro": "^5.10.1",
