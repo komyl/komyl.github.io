@@ -1,37 +1,49 @@
-# The backend specifies how to connect to your GitHub repository.
 backend:
   name: git-gateway
-  branch: main # The branch to update
+  branch: main
 
-# This specifies where to store media files (like images) if you upload them.
-media_folder: "src/assets/images" # Where media files will be stored
-public_folder: "/src/assets/images" # The src attribute for uploaded media
+editor:
+  preview_style: "/admin/admin-styles.css"
 
-# This is the heart of the CMS. It defines your content types (collections).
+media_folder: "src/assets/images"
+public_folder: "/src/assets/images"
+
 collections:
   # Collection for Projects
-  - name: "projects" # Used in routes, e.g., /admin/collections/projects
-    label: "Projects" # Used in the UI
-    folder: "src/content/projects" # The folder to store project files
-    create: true # Allow users to create new documents in this collection
-    slug: "{{slug}}" # Filename template, e.g., "new-project.md"
-    fields: # The fields for each document, usually in frontmatter
+  - name: "projects"
+    label: "Projects"
+    folder: "src/content/projects"
+    create: true
+    slug: "{{slug}}"
+    fields:
       - { label: "Project Name", name: "name", widget: "string" }
       - { label: "Status", name: "status", widget: "select", options: ["active", "suspended", "finished"] }
       - { label: "Category", name: "category", widget: "select", options: ["Commercial", "Personal & Academic"] }
       - { label: "Technologies", name: "technologies", widget: "list", allow_add: true }
       - { label: "Duration", name: "duration", widget: "string" }
-      - { label: "Project URL", name: "url", widget: "string" }
-      - { label: "Body", name: "body", widget: "markdown" } # Optional for more details
+      - { label: "Project URL", name: "url", widget: "string", pattern: ["https://.*", "Must be a valid URL"] }
+      - { label: "Project Details (Body)", name: "body", widget: "markdown" }
 
   # Collection for Blog Posts
   - name: "blog"
     label: "Blog"
     folder: "src/content/blog"
     create: true
-    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    slug: "{{slug}}"
     fields:
       - { label: "Title", name: "title", widget: "string" }
       - { label: "Publish Date", name: "pubDate", widget: "datetime" }
-      - { label: "Description", name: "description", widget: "string" }
       - { label: "Body", name: "body", widget: "markdown" }
+      - label: "SEO & Metadata"
+        name: "seo"
+        widget: "object"
+        fields:
+          - { label: "Meta Description", name: "description", widget: "text", required: false }
+          - { label: "Open Graph Image", name: "og_image", widget: "image", required: false }
+          - label: "SEO Checklist (Manual)"
+            name: "checklist"
+            widget: "list"
+            required: false
+            fields:
+              - { label: "Task", name: "task", widget: "string" }
+              - { label: "Completed", name: "done", widget: "boolean", default: false }
