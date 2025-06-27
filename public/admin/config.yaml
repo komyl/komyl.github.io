@@ -1,23 +1,12 @@
-# This is a temporary configuration for debugging purposes.
-# We are using a test backend that runs entirely in your browser's memory.
+# Bare-bones config for debugging
 backend:
   name: test-repo
 
-# The rest of your configuration remains the same to test if it's valid.
-media_folder: "src/assets/images"
-public_folder: "/src/assets/images"
-
+# We need at least one collection for the CMS to load
 collections:
-  - name: "projects"
-    label: "Projects"
-    folder: "src/content/projects"
+  - name: "blog"
+    label: "Blog"
+    folder: "src/content/blog"
     create: true
-    slug: "{{slug}}"
     fields:
-      - { label: "Project Name", name: "name", widget: "string" }
-      - { label: "Status", name: "status", widget: "select", options: ["active", "suspended", "finished"] }
-      - { label: "Category", name: "category", widget: "select", options: ["Commercial", "Personal & Academic"] }
-      - { label: "Technologies", name: "technologies", widget: "list" }
-      - { label: "Duration", name: "duration", widget: "string" }
-      - { label: "Project URL", name: "url", widget: "string" }
-      - { label: "Body", name: "body", widget: "markdown" }
+      - { label: "Title", name: "title", widget: "string" }
