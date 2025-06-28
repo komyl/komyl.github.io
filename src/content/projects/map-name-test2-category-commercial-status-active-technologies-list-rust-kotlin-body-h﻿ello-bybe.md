@@ -3,7 +3,7 @@ name: test2
 category: Personal & Academic
 status: active
 technologies:
-  - rust
+  - python
 duration: 6m
 url: https://github.com/komyl/markovian-sierpinski
 ---
