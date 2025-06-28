@@ -4,6 +4,9 @@ category: Personal & Academic
 status: finished
 technologies:
   - python
+  - go
+  - java
+  - rust
 duration: 6 month
 url: https://github.com/komyl/markovian-sierpinski
 ---
