@@ -21,7 +21,7 @@ const posts = (await getCollection('blog')).sort(
 ---
 <Layout title="Komeyl Kalhorinia | Home" description="KomeylBlog - Portfolio and blog.">
 	
-	<section class="project-section">
+	 <section class="project-section">
 		<h2>Commercial Projects</h2>
 		<div class="project-slider">
 			{commercialProjects.map(project => (
@@ -30,7 +30,6 @@ const posts = (await getCollection('blog')).sort(
 					status={project.data.status}
 					technologies={project.data.technologies}
 					duration={project.data.duration}
-					url={project.data.url}
 				/>
 			))}
 		</div>
@@ -45,14 +44,10 @@ const posts = (await getCollection('blog')).sort(
 					status={project.data.status}
 					technologies={project.data.technologies}
 					duration={project.data.duration}
-					url={project.data.url}
 				/>
 			))}
 		</div>
 	</section>
-
-	<section class="blog-section">
-		</section>
 
 </Layout>
 
