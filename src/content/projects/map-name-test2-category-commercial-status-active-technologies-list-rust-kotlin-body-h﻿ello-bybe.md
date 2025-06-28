@@ -7,4 +7,4 @@ technologies:
 duration: 6m
 url: https://github.com/komyl/markovian-sierpinski
 ---
-h﻿ello bybe
+h﻿ello bybee
