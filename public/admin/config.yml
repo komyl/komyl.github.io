@@ -1,0 +1,19 @@
+backend:
+  name: git-gateway
+  branch: main
+
+# This is the path to your media folder relative to the project root
+media_folder: "public/uploads"
+# The public path for uploaded media in the CMS UI
+public_folder: "/uploads"
+
+# The collection for your blog posts
+collections:
+  - name: "blog"
+    label: "Blog Posts"
+    folder: "src/content/blog"
+    create: true
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Publish Date", name: "date", widget: "datetime" }
+      - { label: "Body", name: "body", widget: "markdown" }
