@@ -3,8 +3,8 @@ name: Sierpinski Triangle Generator with Markov Chain
 category: Personal & Academic
 status: finished
 technologies:
-  - python
-  - go
+  - Kotlin
+  - Rust
 duration: 6 month
 url: https://github.com/komyl/markovian-sierpinski
 ---
