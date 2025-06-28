@@ -5,6 +5,6 @@ status: active
 technologies:
   - rust
 duration: 6m
-url: https://github.com/komyl/markovian-sierpinski
+url: https://github.com/rust-lang/rust
 ---
 h﻿ello
