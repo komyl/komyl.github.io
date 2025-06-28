@@ -36,6 +36,7 @@ const currentYear = new Date().getFullYear();
 </html>
 
 <style is:global>
+	/* Universal Reset & Box Sizing for layout consistency */
 	*,
 	*::before,
 	*::after {
@@ -45,11 +46,14 @@ const currentYear = new Date().getFullYear();
 	}
 
 	:root {
+		/* Design Tokens based on HIG */
 		--spacing-unit: 8px;
 		--border-radius-large: 24px;
 		--font-family-body: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-		--color-primary: #aE50f5;
-		--color-secondary: #0a84ff;
+		--color-primary: #aE50f5; /* Accessible Purple */
+		--color-secondary: #0a84ff; /* Apple-like Blue */
+
+		/* Dark Theme (Default) */
 		--color-background: #101010;
 		--color-text: rgba(255, 255, 255, 0.9);
 		--color-text-muted: rgba(235, 235, 245, 0.6);
@@ -58,10 +62,11 @@ const currentYear = new Date().getFullYear();
 	}
 
 	html.light-theme {
-		--color-background: #f2f2f7;
+		/* Light Theme */
+		--color-background: #f6f6f7; /* Calmer off-white */
 		--color-text: rgba(0, 0, 0, 0.85);
 		--color-text-muted: rgba(60, 60, 67, 0.65);
-		--glass-background: rgba(255, 255, 255, 0.6);
+		--glass-background: rgba(255, 255, 255, 0.75);
 		--glass-border: rgba(0, 0, 0, 0.1);
 	}
 
