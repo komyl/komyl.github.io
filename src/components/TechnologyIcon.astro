@@ -1,0 +1,60 @@
+---
+import * as simpleIcons from 'simple-icons/icons';
+
+interface Props {
+  name: string;
+}
+
+const { name } = Astro.props;
+
+const iconKey = 'si' + name.toLowerCase().replace(/\s|\./g, '');
+
+
+const icon = (simpleIcons as any)[iconKey];
+---
+
+{icon ? (
+  <div class="tech-icon-wrapper" title={icon.title}>
+    <Fragment set:html={icon.svg} />
+    <span class="tech-icon-name">{icon.title}</span>
+  </div>
+) : (
+  <div class="tech-icon-wrapper not-found" title={`Icon for ${name} not found`}>
+    <span class="tech-icon-name">{name}</span>
+  </div>
+)}
+
+<style>
+  .tech-icon-wrapper {
+    display: flex;
+    align-items: center;
+    gap: calc(var(--spacing-unit) * 0.75);
+    padding: calc(var(--spacing-unit) * 0.5) var(--spacing-unit);
+    background-color: var(--glass-border);
+    border-radius: var(--spacing-unit);
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    fill: currentColor;
+    transition: all 0.2s ease-in-out;
+  }
+  .tech-icon-wrapper:hover {
+    color: var(--color-text);
+  }
+  /* Style for when the icon is not found */
+  .tech-icon-wrapper.not-found {
+    background-color: transparent;
+    border: 1px dashed var(--glass-border);
+  }
+  .tech-icon-wrapper svg {
+    width: 16px;
+    height: 16px;
+  }
+  .tech-icon-name {
+    display: none;
+  }
+  @media (min-width: 768px) {
+    .tech-icon-name {
+      display: inline;
+    }
+  }
+</style>

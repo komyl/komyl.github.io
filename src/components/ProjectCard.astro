@@ -1,158 +1,113 @@
 ---
-// src/components/ProjectCard.astro
-
-import type { SimpleIcon } from 'simple-icons';
-// We are NOT importing siJava anymore
-import {
-    siReact,
-    siVuedotjs,
-    siDotnet,
-    siPython,
-    siAstro,
-    siSvelte,
-    siGo
-} from 'simple-icons/icons';
+import TechnologyIcon from './TechnologyIcon.astro';
 
 export interface Props {
     name: string;
     status: 'active' | 'suspended' | 'finished';
-    technologies: readonly string[];
-    duration: string;
-    url: string;
+    technologies?: string[];
+    duration?: string;
+    url?: string;
 }
 
 const { name, status, technologies, duration, url } = Astro.props;
 
-const statusColors = {
-    active: 'green',
-    suspended: 'yellow',
-    finished: 'red'
+const statusClasses = {
+    active: 'bg-green-500',
+    suspended: 'bg-yellow-500',
+    finished: 'bg-gray-500',
 };
-
-// This is the raw SVG path data for the Java logo.
-const javaSvgPath = 'M14.056.027c-2.008.036-3.87.823-5.32 2.01L1.88 7.336a.428.428 0 0 0-.012.58l3.41 4.34-3.13 3.13c-.23.23-.23.614 0 .845l1.91 1.912c.23.23.614.23.845 0l3.13-3.132 4.34 3.41a.428.428 0 0 0 .58-.012l5.297-6.855c1.19-1.45 1.977-3.313 2.01-5.322.03-1.87-.58-3.71-1.74-5.18-1.14-1.45-2.88-2.45-4.7-2.67-.4-.05-1.2-.05-1.6 0Z';
-// The full SVG for the Java logo is constructed below.
-const javaIconSvg = `<svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Java</title><path d="${javaSvgPath}"/></svg>`;
-
-// The iconMap now stores the FINAL SVG STRING for each icon.
-const iconMap: Record<string, string> = {
-    react: siReact.svg,
-    // For Java, we use our own manually created SVG string.
-    java: javaIconSvg,
-    vue: siVuedotjs.svg,
-    '.net': siDotnet.svg,
-    python: siPython.svg,
-    astro: siAstro.svg,
-    svelte: siSvelte.svg,
-    go: siGo.svg,
-};
-
 ---
-<a href={url} class="project-card" target="_blank" rel="noopener noreferrer">
+<div class="project-card">
     <div class="card-header">
         <h3 class="project-name">{name}</h3>
-        <div class={`status-dot ${statusColors[status]}`}></div>
-    </div>
-    <div class="card-footer">
-        <div class="tech-stack">
-            {technologies.map(tech => {
-                const iconSvg = iconMap[tech.toLowerCase()];
-                return iconSvg ? (
-                    // We now render the SVG string directly.
-                    <div class="tech-icon" title={tech} set:html={iconSvg}></div>
-                ) : (
-                    <span>{tech}</span>
-                );
-            })}
+        <div class="status-indicator-wrapper">
+            <span class:list={['status-dot', statusClasses[status]]}></span>
+            <span class="status-text">{status}</span>
         </div>
-        <span class="duration">{duration}</span>
     </div>
-</a>
+    <div class="card-body">
+        </div>
+    <div class="card-footer">
+        <div class="technologies">
+            {technologies && technologies.map(tech => (
+                <TechnologyIcon name={tech} />
+            ))}
+        </div>
+        {duration && (
+            <div class="duration">
+                <span>{duration}</span>
+            </div>
+        )}
+    </div>
+</div>
 
 <style>
-	.project-card {
-		/* Glass Effect */
-		background-color: var(--glass-background);
-		backdrop-filter: blur(20px);
-		-webkit-backdrop-filter: blur(20px); /* For Safari browser compatibility */
-		border: 1px solid var(--glass-border);
-		border-radius: var(--border-radius-large); /* Using global variable */
-
-		padding: calc(var(--spacing-unit) * 3); /* Using global variable */
-		display: flex;
-		flex-direction: column;
-		justify-content: space-between;
-		min-height: 150px;
-        color: var(--color-text);
-		text-decoration: none;
-		transition: transform 0.3s ease, box-shadow 0.3s ease;
-	}
-
-	.project-card:hover {
-		transform: translateY(-5px);
-		box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-	}
-
-	.card-header {
-		display: flex;
-		justify-content: space-between;
-		align-items: flex-start;
-	}
-
-	.project-name {
-		margin: 0;
-        font-size: 1.25rem;
-		font-weight: 600; /* Bolder for clarity */
-	}
-
-	.status-dot {
-		width: 10px;
-		height: 10px;
-		border-radius: 50%;
-		flex-shrink: 0;
-		margin-left: 1rem;
-		animation: blink 1.5s infinite;
-	}
-
-	/* Using Apple HIG colors for status */
-	.status-dot.green { background-color: #34c759; }
-	.status-dot.yellow { background-color: #ffcc00; }
-	.status-dot.red { background-color: #ff3b30; }
-
-	@keyframes blink {
-		0% { opacity: 1; }
-		50% { opacity: 0.4; }
-		100% { opacity: 1; }
-	}
-
-	.card-footer {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		margin-top: calc(var(--spacing-unit) * 2);
-		font-size: 0.85rem;
-		color: var(--color-text-muted);
-	}
-    .tech-stack {
-        display: flex;
-        gap: var(--spacing-unit);
-        align-items: center;
-    }
-    .tech-icon {
-        width: 18px;
-        height: 18px;
-    }
-    .tech-icon :global(svg) {
-        fill: var(--color-text-muted);
-        transition: fill 0.2s ease;
-    }
-    .tech-icon:hover :global(svg) {
-        fill: var(--color-text);
-    }
-    .tech-stack span {
-        background-color: var(--glass-border); /* More subtle background */
-        padding: calc(var(--spacing-unit) * 0.5) var(--spacing-unit);
-        border-radius: var(--spacing-unit);
-        font-size: 0.75rem;
-    }
+/* Styles remain largely the same, but we update the technologies section */
+.project-card {
+    background-color: var(--glass-background);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--border-radius-large);
+    padding: calc(var(--spacing-unit) * 3);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.project-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: var(--spacing-unit);
+}
+.project-name {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0;
+    color: var(--color-text);
+}
+.status-indicator-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    background: var(--glass-border);
+    padding: 4px 8px;
+    border-radius: 99px;
+}
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+.bg-green-500 { background-color: #22c55e; }
+.bg-yellow-500 { background-color: #eab308; }
+.bg-gray-500 { background-color: #6b7280; }
+.card-body {
+    flex-grow: 1;
+}
+.card-footer {
+    border-top: 1px solid var(--glass-border);
+    padding-top: calc(var(--spacing-unit) * 2);
+    margin-top: calc(var(--spacing-unit) * 2);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+.technologies {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+.duration {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    white-space: nowrap;
+}
 </style>
