@@ -1,6 +1,6 @@
 ---
 name: test2
-category: Commercial
+category: Personal & Academic
 status: active
 technologies:
   - rust
