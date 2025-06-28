@@ -1,28 +1,41 @@
 ---
+import TechnologyIcon from './TechnologyIcon.astro';
+
 export interface Props {
     name: string;
     status: 'active' | 'suspended' | 'finished';
     technologies?: string[];
     duration?: string;
 }
+
 const { name, status, technologies, duration } = Astro.props;
 ---
 <div class="project-card">
-    <div class="card-header">
-        <h3 class="project-name">{name}</h3>
-        <span class="status-text">{status}</span>
+    <div>
+        <div class="card-header">
+            <h3 class="project-name">{name}</h3>
+            <div class="status-indicator" title={`Status: ${status}`}>
+                <div class:list={['status-dot', `dot-${status}`]}></div>
+            </div>
+        </div>
+        <div class="card-body">
+            </div>
     </div>
     <div class="card-footer">
         <div class="technologies">
-            {technologies && technologies.join(', ')}
+            {technologies && technologies.slice(0, 5).map(tech => (
+                <TechnologyIcon name={tech} />
+            ))}
         </div>
         {duration && <span class="duration">{duration}</span>}
     </div>
 </div>
+
 <style>
 .project-card {
     background-color: var(--glass-background);
     backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     border: 1px solid var(--glass-border);
     border-radius: var(--border-radius-large);
     padding: calc(var(--spacing-unit) * 3);
@@ -30,6 +43,11 @@ const { name, status, technologies, duration } = Astro.props;
     flex-direction: column;
     justify-content: space-between;
     height: 100%;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.project-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 .card-header {
     display: flex;
@@ -43,30 +61,42 @@ const { name, status, technologies, duration } = Astro.props;
     color: var(--color-text);
     margin-right: 1rem;
 }
-.status-text {
-    font-size: 0.8rem;
-    color: var(--color-text-muted);
-    background: var(--glass-border);
-    padding: 4px 8px;
-    border-radius: 99px;
-    text-transform: capitalize;
+.status-indicator {
     flex-shrink: 0;
+    padding-top: 0.5rem;
+}
+.status-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    animation: blink 1.8s infinite ease-in-out;
+}
+.dot-active { background-color: #34c759; } /* Apple Green */
+.dot-suspended { background-color: #ffcc00; } /* Apple Yellow */
+.dot-finished { background-color: #8e8e93; } /* Apple Gray */
+
+@keyframes blink {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.85); }
+}
+.card-body {
+    flex-grow: 1; /* Pushes footer to the bottom */
+    min-height: calc(var(--spacing-unit) * 4);
 }
 .card-footer {
-    border-top: 1px solid var(--glass-border);
-    padding-top: calc(var(--spacing-unit) * 2);
-    margin-top: auto;
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    font-size: 0.9rem;
-    color: var(--color-text-muted);
+    align-items: flex-end;
+    gap: var(--spacing-unit);
 }
 .technologies {
-    flex-grow: 1;
-    margin-right: 1rem;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-unit);
+}
+.duration {
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
     white-space: nowrap;
 }
 </style>

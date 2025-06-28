@@ -1,0 +1,49 @@
+---
+import * as simpleIcons from 'simple-icons/icons';
+
+interface Props {
+  name: string;
+}
+
+const { name } = Astro.props;
+
+const iconKey = 'si' + name.toLowerCase().replace(/\s|\./g, '');
+const icon = (simpleIcons as any)[iconKey];
+---
+
+{icon ? (
+  <div class="tech-icon-wrapper" title={icon.title}>
+    <Fragment set:html={icon.svg} />
+  </div>
+) : (
+  <div class="tech-icon-wrapper not-found" title={`Icon for ${name} not found`}>
+    <span>{name.slice(0, 3)}</span>
+  </div>
+)}
+
+<style>
+  .tech-icon-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: calc(var(--spacing-unit) * 0.75);
+    background-color: var(--glass-border);
+    border-radius: var(--spacing-unit);
+    color: var(--color-text-muted);
+    fill: currentColor;
+    transition: all 0.2s ease-in-out;
+  }
+  .tech-icon-wrapper:hover {
+    color: var(--color-text);
+  }
+  .tech-icon-wrapper.not-found {
+    font-size: 0.7rem;
+    font-weight: 600;
+    width: 18px;
+    height: 18px;
+  }
+  .tech-icon-wrapper svg {
+    width: 18px;
+    height: 18px;
+  }
+</style>
