@@ -3,34 +3,30 @@ import Layout from '../layouts/Layout.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import { getCollection } from 'astro:content';
 
-// Fetch ALL projects from the "src/content/projects" folder.
+// We revert to the simple and reliable way of fetching local content
 const allProjects = await getCollection('projects');
 
-// Filter the projects into their respective categories.
-const commercialProjects = allProjects.filter(
-    (project) => project.data.category === 'Commercial'
-);
-const academicProjects = allProjects.filter(
-    (project) => project.data.category === 'Personal & Academic'
-);
+const commercialProjects = allProjects.filter(p => p.data.category === 'Commercial');
+const academicProjects = allProjects.filter(p => p.data.category === 'Personal & Academic');
 
-// Fetch and sort blog posts using the correct field name: "pubDate"
+// Blog posts logic remains the same
 const posts = (await getCollection('blog')).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 );
 ---
 <Layout title="Komeyl Kalhorinia | Home" description="KomeylBlog - Portfolio and blog.">
-	
-	 <section class="project-section">
+	<section class="project-section">
 		<h2>Commercial Projects</h2>
 		<div class="project-slider">
 			{commercialProjects.map(project => (
-				<ProjectCard 
-					name={project.data.name}
-					status={project.data.status}
-					technologies={project.data.technologies}
-					duration={project.data.duration}
-				/>
+				<a href={`/projects/${project.slug}/`} class="card-link">
+					<ProjectCard 
+						name={project.data.name}
+						status={project.data.status}
+						technologies={project.data.technologies}
+						duration={project.data.duration}
+					/>
+				</a>
 			))}
 		</div>
 	</section>
@@ -39,17 +35,18 @@ const posts = (await getCollection('blog')).sort(
 		<h2>Personal & Academic Projects</h2>
 		<div class="project-slider">
 			{academicProjects.map(project => (
-				<ProjectCard 
-					name={project.data.name}
-					status={project.data.status}
-					technologies={project.data.technologies}
-					duration={project.data.duration}
-				/>
+				<a href={`/projects/${project.slug}/`} class="card-link">
+					<ProjectCard 
+						name={project.data.name}
+						status={project.data.status}
+						technologies={project.data.technologies}
+						duration={project.data.duration}
+					/>
+				</a>
 			))}
 		</div>
 	</section>
-
-</Layout>
+    </Layout>
 
 <style>
 	.project-section, .blog-section {

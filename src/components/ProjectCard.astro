@@ -43,35 +43,42 @@ const { name, status, technologies, duration } = Astro.props;
     flex-direction: column;
     justify-content: space-between;
     height: 100%;
-    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
-                box-shadow 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    /* --- Improved Transition --- */
+    transition: transform 0.25s ease-out, box-shadow 0.25s ease-out;
 }
+
 .project-card:hover {
-    transform: scale(1.03);
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+    /* --- More Subtle Hover Effect --- */
+    transform: scale(1.015); /* A very slight scale up */
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15); /* A softer, wider shadow */
 }
+
 .card-header {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
     margin-bottom: calc(var(--spacing-unit) * 2);
 }
+
 .project-name {
     font-size: 1.5rem;
     font-weight: 600;
     color: var(--color-text);
     margin-right: 1rem;
 }
+
 .status-indicator {
     flex-shrink: 0;
     padding-top: 0.5rem;
 }
+
 .status-dot {
     width: 10px;
     height: 10px;
     border-radius: 50%;
     animation: blink 1.8s infinite ease-in-out;
 }
+
 .dot-active { background-color: #34c759; } /* Apple Green */
 .dot-suspended { background-color: #ffcc00; } /* Apple Yellow */
 .dot-finished { background-color: #8e8e93; } /* Apple Gray */
@@ -80,21 +87,25 @@ const { name, status, technologies, duration } = Astro.props;
     0%, 100% { opacity: 1; transform: scale(1); }
     50% { opacity: 0.4; transform: scale(0.85); }
 }
+
 .card-body {
     flex-grow: 1; /* Pushes footer to the bottom */
     min-height: calc(var(--spacing-unit) * 4);
 }
+
 .card-footer {
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
     gap: var(--spacing-unit);
 }
+
 .technologies {
     display: flex;
     flex-wrap: wrap;
     gap: var(--spacing-unit);
 }
+
 .duration {
     font-size: 0.9rem;
     color: var(--color-text-muted);

@@ -1,14 +1,31 @@
 ---
 import * as simpleIcons from 'simple-icons/icons';
+import type { SimpleIcon } from 'simple-icons';
 
 interface Props {
   name: string;
 }
-
 const { name } = Astro.props;
 
-const iconKey = 'si' + name.toLowerCase().replace(/\s|\./g, '');
-const icon = (simpleIcons as any)[iconKey];
+// A reliable mapping from user-friendly names to the exact icon key
+const ICONS: Record<string, string> = {
+    'typescript': 'siTypescript',
+    'javascript': 'siJavascript',
+    'python': 'siPython',
+    'astro': 'siAstro',
+    'react': 'siReact',
+    'rust': 'siRust',
+    'kotlin': 'siKotlin',
+    'c++': 'siCplusplus',
+    '.net': 'siDotnet',
+    'nodejs': 'siNodedotjs',
+    'vue': 'siVuedotjs',
+};
+
+const iconKey = ICONS[name.toLowerCase()];
+// THE FIX IS HERE: We cast simpleIcons to `any` to bypass the strict index signature check.
+// We also explicitly cast the result back to `SimpleIcon | undefined` for type safety afterwards.
+const icon: SimpleIcon | undefined = (simpleIcons as any)[iconKey];
 ---
 
 {icon ? (
@@ -16,8 +33,8 @@ const icon = (simpleIcons as any)[iconKey];
     <Fragment set:html={icon.svg} />
   </div>
 ) : (
-  <div class="tech-icon-wrapper not-found" title={`Icon for ${name} not found`}>
-    <span>{name.slice(0, 3)}</span>
+  <div class="tech-icon-wrapper text-fallback" title={name}>
+    {name}
   </div>
 )}
 
@@ -26,7 +43,7 @@ const icon = (simpleIcons as any)[iconKey];
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: calc(var(--spacing-unit) * 0.75);
+    padding: var(--spacing-unit);
     background-color: var(--glass-border);
     border-radius: var(--spacing-unit);
     color: var(--color-text-muted);
@@ -36,11 +53,10 @@ const icon = (simpleIcons as any)[iconKey];
   .tech-icon-wrapper:hover {
     color: var(--color-text);
   }
-  .tech-icon-wrapper.not-found {
-    font-size: 0.7rem;
-    font-weight: 600;
-    width: 18px;
-    height: 18px;
+  .tech-icon-wrapper.text-fallback {
+    font-size: 0.8rem;
+    font-weight: 500;
+    padding: calc(var(--spacing-unit) * 0.75) calc(var(--spacing-unit) * 1.5);
   }
   .tech-icon-wrapper svg {
     width: 18px;
