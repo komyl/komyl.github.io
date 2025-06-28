@@ -2,18 +2,35 @@ backend:
   name: git-gateway
   branch: main
 
-# This is the path to your media folder relative to the project root
+# This is the path to media folder
 media_folder: "public/uploads"
-# The public path for uploaded media in the CMS UI
 public_folder: "/uploads"
 
-# The collection for your blog posts
+# All of our content collections will be defined here
 collections:
-  - name: "blog"
+  # Blog Collection 
+   - name: "blog"
     label: "Blog Posts"
     folder: "src/content/blog"
     create: true
     fields:
       - { label: "Title", name: "title", widget: "string" }
-      - { label: "Publish Date", name: "date", widget: "datetime" }
+      # THE FIX IS HERE: Change name from "date" to "pubDate"
+      - { label: "Publish Date", name: "pubDate", widget: "datetime" }
       - { label: "Body", name: "body", widget: "markdown" }
+
+  # Project Collection 
+  - name: "projects"
+    label: "Projects"
+    folder: "src/content/projects"
+    create: true
+    # The slug will be generated from the project name
+    slug: "{{slug}}"
+    fields:
+      - { label: "Project Name", name: "name", widget: "string" }
+      - { label: "Category", name: "category", widget: "select", options: ["Commercial", "Personal & Academic"] }
+      - { label: "Status", name: "status", widget: "select", options: ["active", "suspended", "finished"] }
+      - { label: "Technologies (manual entry)", name: "technologies", widget: "list" }
+      - { label: "Duration", name: "duration", widget: "string", required: false }
+      - { label: "GitHub Repository URL", name: "url", widget: "string", required: false }
+      - { label: "README Content", name: "body", widget: "markdown" }

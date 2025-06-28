@@ -2,59 +2,57 @@
 import Layout from '../layouts/Layout.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import { getCollection } from 'astro:content';
-import type { Props as ProjectProps } from '../components/ProjectCard.astro';
 
-// Dummy data for projects
-const commercialProjects: ProjectProps[] = [
-	{ name: 'Major Banking System', status: 'active', technologies: ['React', 'Java'], duration: '2 Years', url: 'https://github.com' },
-	{ name: 'Customer Management Platform', status: 'finished', technologies: ['Vue', '.NET'], duration: '18 Months', url: 'https://github.com' },
-];
-const academicProjects: ProjectProps[] = [
-	{ name: 'Medical Data Analysis', status: 'suspended', technologies: ['Python', 'Astro'], duration: '6 Months', url: 'https://github.com' },
-	{ name: 'E-Learning Platform', status: 'active', technologies: ['Svelte', 'Go'], duration: 'Ongoing', url: 'https://github.com' },
-];
+// Fetch ALL projects from the "src/content/projects" folder.
+const allProjects = await getCollection('projects');
 
-// Fetch blog posts from the content collection
+// Filter the projects into their respective categories.
+const commercialProjects = allProjects.filter(
+    (project) => project.data.category === 'Commercial'
+);
+const academicProjects = allProjects.filter(
+    (project) => project.data.category === 'Personal & Academic'
+);
+
+// Fetch and sort blog posts using the correct field name: "pubDate"
 const posts = (await getCollection('blog')).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 );
 ---
-<Layout title="Komeyl Kalhorinia | Home" description="KomeylBlog - Portfolio and blog of Komeyl Kalhorinia.">
+<Layout title="Komeyl Kalhorinia | Home" description="KomeylBlog - Portfolio and blog.">
 	
 	<section class="project-section">
 		<h2>Commercial Projects</h2>
 		<div class="project-slider">
-			{commercialProjects.map(project => <ProjectCard {...project} />)}
+			{commercialProjects.map(project => (
+				<ProjectCard 
+					name={project.data.name}
+					status={project.data.status}
+					technologies={project.data.technologies}
+					duration={project.data.duration}
+					url={project.data.url}
+				/>
+			))}
 		</div>
 	</section>
 
 	<section class="project-section">
 		<h2>Personal & Academic Projects</h2>
 		<div class="project-slider">
-			{academicProjects.map(project => <ProjectCard {...project} />)}
+			{academicProjects.map(project => (
+				<ProjectCard 
+					name={project.data.name}
+					status={project.data.status}
+					technologies={project.data.technologies}
+					duration={project.data.duration}
+					url={project.data.url}
+				/>
+			))}
 		</div>
 	</section>
 
 	<section class="blog-section">
-		<h2>Recent Posts</h2>
-		<ul class="post-list">
-			{posts.map((post) => (
-				<li class="post-item">
-					<a href={`/blog/${post.slug}/`}>
-						<h3 class="post-title">{post.data.title}</h3>
-						<p class="post-description">{post.data.description}</p>
-						<time datetime={post.data.pubDate.toISOString()}>
-							{new Date(post.data.pubDate).toLocaleDateString('en-us', {
-								year: 'numeric',
-								month: 'short',
-								day: 'numeric',
-							})}
-						</time>
-					</a>
-				</li>
-			))}
-		</ul>
-	</section>
+		</section>
 
 </Layout>
 
