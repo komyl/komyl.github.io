@@ -1,4 +1,5 @@
 ---
+// We import the main library and the specific type for safety
 import * as simpleIcons from 'simple-icons/icons';
 import type { SimpleIcon } from 'simple-icons';
 
@@ -7,25 +8,28 @@ interface Props {
 }
 const { name } = Astro.props;
 
-// A reliable mapping from user-friendly names to the exact icon key
-const ICONS: Record<string, string> = {
-    'typescript': 'siTypescript',
-    'javascript': 'siJavascript',
-    'python': 'siPython',
-    'astro': 'siAstro',
-    'react': 'siReact',
-    'rust': 'siRust',
-    'kotlin': 'siKotlin',
-    'c++': 'siCplusplus',
-    '.net': 'siDotnet',
-    'nodejs': 'siNodedotjs',
-    'vue': 'siVuedotjs',
+// --- Icon Mapping ---
+// This is our reliable, hand-picked list.
+// It maps the name you type in the CMS to the *exact* icon object from the library.
+const ICONS: Record<string, SimpleIcon> = {
+    'typescript': simpleIcons.siTypescript,
+    'javascript': simpleIcons.siJavascript,
+    'python': simpleIcons.siPython,
+    'astro': simpleIcons.siAstro,
+    'react': simpleIcons.siReact,
+    'rust': simpleIcons.siRust,
+    'kotlin': simpleIcons.siKotlin,
+    'c++': simpleIcons.siCplusplus,
+    '.net': simpleIcons.siDotnet,
+    'nodejs': simpleIcons.siNodedotjs,
+    'vue': simpleIcons.siVuedotjs,
+    'netlify': simpleIcons.siNetlify,
+    'github': simpleIcons.siGithub,
+    // We can easily add more icons here by following the same pattern.
 };
 
-const iconKey = ICONS[name.toLowerCase()];
-// THE FIX IS HERE: We cast simpleIcons to `any` to bypass the strict index signature check.
-// We also explicitly cast the result back to `SimpleIcon | undefined` for type safety afterwards.
-const icon: SimpleIcon | undefined = (simpleIcons as any)[iconKey];
+// We directly look up the name in our map.
+const icon = ICONS[name.toLowerCase()];
 ---
 
 {icon ? (
@@ -33,7 +37,7 @@ const icon: SimpleIcon | undefined = (simpleIcons as any)[iconKey];
     <Fragment set:html={icon.svg} />
   </div>
 ) : (
-  <div class="tech-icon-wrapper text-fallback" title={name}>
+  <div class="tech-icon-wrapper text-fallback" title={`Icon for ${name} not found`}>
     {name}
   </div>
 )}
@@ -53,6 +57,7 @@ const icon: SimpleIcon | undefined = (simpleIcons as any)[iconKey];
   .tech-icon-wrapper:hover {
     color: var(--color-text);
   }
+  /* Style for when the icon is not found, shows the full name */
   .tech-icon-wrapper.text-fallback {
     font-size: 0.8rem;
     font-weight: 500;
