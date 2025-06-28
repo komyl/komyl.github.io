@@ -1,58 +1,50 @@
 ---
-import Layout from '../../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
 
+// This function is required for Astro to know which pages to generate at build time.
 export async function getStaticPaths() {
-  const projects = await getCollection('projects');
-  return projects.map(project => ({
-    params: { slug: project.slug },
-    props: { project },
+  const posts = await getCollection('blog');
+  return posts.map(post => ({
+    params: { slug: post.slug },
+    props: post,
   }));
 }
 
-const { project } = Astro.props;
-const { Content } = await project.render();
+const post = Astro.props;
+const { Content } = await post.render();
 ---
-<Layout title={project.data.name} description={`Details for ${project.data.name}`}>
-	<div class="page-header">
-		<a href="/" class="back-button">&larr; Back to Home</a>
-		{project.data.url && (
-			<a href={project.data.url} class="github-button" target="_blank" rel="noopener noreferrer">
-				View on GitHub
-			</a>
-		)}
-	</div>
-	<article class="prose">
-		<h1>{project.data.name}</h1>
-		<hr>
-		<Content />
-	</article>
+<Layout title={post.data.title} description={post.data.description}>
+  <article class="prose">
+	<h1>{post.data.title}</h1>
+    <p class="publish-date">Published on: {new Date(post.data.pubDate).toLocaleDateString('en-us', { year: 'numeric', month: 'short', day: 'numeric' })}</p>
+	<hr/>
+    <Content />
+  </article>
 </Layout>
 <style>
-/* Add the necessary styles for the detail page */
-.page-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: calc(var(--spacing-unit) * 4);
-}
-.back-button, .github-button {
-    color: var(--color-text-muted);
-    text-decoration: none;
-    padding: var(--spacing-unit) calc(var(--spacing-unit) * 2);
-    border-radius: var(--spacing-unit);
-    transition: background-color 0.2s ease;
-}
-.back-button:hover, .github-button:hover {
-    background-color: var(--glass-border);
-    color: var(--color-text);
-}
-.github-button {
-    background-color: var(--glass-background);
-    border: 1px solid var(--glass-border);
-}
-.prose {
-    max-width: 75ch;
-    margin: 0 auto;
-}
+	.prose {
+		max-width: 75ch;
+		margin: 0 auto;
+	}
+	.prose h1 {
+		font-size: 2.5rem;
+		margin-bottom: 1rem;
+        color: var(--color-text); /* Use variable */
+	}
+    .publish-date {
+        color: #a0a0a0;
+        margin-bottom: 2rem;
+    }
+	.prose hr {
+		border-top: 1px solid var(--color-border); /* Use variable */
+	}
+	.prose :global(p), .prose :global(li) {
+		line-height: 1.7;
+		font-size: 1.1rem;
+        color: var(--color-text); /* Use variable */
+	}
+	.prose :global(a) {
+		color: var(--color-secondary);
+	}
 </style>

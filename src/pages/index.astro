@@ -3,30 +3,35 @@ import Layout from '../layouts/Layout.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import { getCollection } from 'astro:content';
 
-// We revert to the simple and reliable way of fetching local content
+// Fetch ALL projects from the "src/content/projects" folder.
 const allProjects = await getCollection('projects');
 
-const commercialProjects = allProjects.filter(p => p.data.category === 'Commercial');
-const academicProjects = allProjects.filter(p => p.data.category === 'Personal & Academic');
+// Filter the projects into their respective categories.
+const commercialProjects = allProjects.filter(
+    (project) => project.data.category === 'Commercial'
+);
+const academicProjects = allProjects.filter(
+    (project) => project.data.category === 'Personal & Academic'
+);
 
-// Blog posts logic remains the same
+// Fetch and sort blog posts using the correct field name: "pubDate"
 const posts = (await getCollection('blog')).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 );
 ---
 <Layout title="Komeyl Kalhorinia | Home" description="KomeylBlog - Portfolio and blog.">
+	
 	<section class="project-section">
 		<h2>Commercial Projects</h2>
 		<div class="project-slider">
 			{commercialProjects.map(project => (
-				<a href={`/projects/${project.slug}/`} class="card-link">
-					<ProjectCard 
-						name={project.data.name}
-						status={project.data.status}
-						technologies={project.data.technologies}
-						duration={project.data.duration}
-					/>
-				</a>
+				<ProjectCard 
+					name={project.data.name}
+					status={project.data.status}
+					technologies={project.data.technologies}
+					duration={project.data.duration}
+					url={project.data.url}
+				/>
 			))}
 		</div>
 	</section>
@@ -35,24 +40,26 @@ const posts = (await getCollection('blog')).sort(
 		<h2>Personal & Academic Projects</h2>
 		<div class="project-slider">
 			{academicProjects.map(project => (
-				<a href={`/projects/${project.slug}/`} class="card-link">
-					<ProjectCard 
-						name={project.data.name}
-						status={project.data.status}
-						technologies={project.data.technologies}
-						duration={project.data.duration}
-					/>
-				</a>
+				<ProjectCard 
+					name={project.data.name}
+					status={project.data.status}
+					technologies={project.data.technologies}
+					duration={project.data.duration}
+					url={project.data.url}
+				/>
 			))}
 		</div>
 	</section>
-    </Layout>
+
+	<section class="blog-section">
+		</section>
+
+</Layout>
 
 <style>
 	.project-section, .blog-section {
 		margin-bottom: calc(var(--spacing-unit) * 8);
 	}
-
 	.project-section h2, .blog-section h2 {
 		font-size: 2rem;
 		font-weight: 700;
@@ -65,29 +72,21 @@ const posts = (await getCollection('blog')).sort(
 	.project-slider {
 		display: grid;
 		grid-auto-flow: column;
+		/* Each card has a minimum width but can grow */
 		grid-auto-columns: minmax(280px, 1fr);
 		gap: calc(var(--spacing-unit) * 2);
 		overflow-x: auto;
 		margin: 0;
-		padding: 4px; /* A little padding for card shadows to not get clipped */
+		padding: 4px; /* A little padding for card shadows */
 		padding-bottom: calc(var(--spacing-unit) * 2);
 		scroll-snap-type: x mandatory;
 		scrollbar-width: none; /* For Firefox */
 	}
-
 	.project-slider::-webkit-scrollbar {
   		display: none; /* For Chrome, Safari, etc. */
 	}
-
-	/* Each link wrapping a card will snap to the start of the container */
-	.project-slider > .card-link {
+	.project-slider > :global(.project-card) {
 		scroll-snap-align: start;
-	}
-
-	.card-link {
-		text-decoration: none;
-		display: block;
-		height: 100%;
 	}
 
 	.post-list {
@@ -96,7 +95,6 @@ const posts = (await getCollection('blog')).sort(
 		display: grid;
 		gap: calc(var(--spacing-unit) * 2);
 	}
-    
 	.post-item a {
 		background-color: var(--glass-background);
 		backdrop-filter: blur(20px);
@@ -107,16 +105,12 @@ const posts = (await getCollection('blog')).sort(
 		padding: calc(var(--spacing-unit) * 3);
 		text-decoration: none;
 		color: var(--color-text);
-		height: 100%;
-		transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
-                    box-shadow 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+		transition: transform 0.3s ease, box-shadow 0.3s ease;
 	}
-
 	.post-item a:hover {
-		transform: scale(1.02);
-		box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+		transform: translateY(-5px);
+		box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 	}
-
 	.post-title {
 		font-size: 1.5rem;
         font-weight: 600;
@@ -124,17 +118,14 @@ const posts = (await getCollection('blog')).sort(
 		color: var(--color-text);
 		transition: color 0.2s ease;
 	}
-
 	.post-item a:hover .post-title {
 		color: var(--color-primary);
 	}
-
 	.post-description {
 		margin: 0 0 calc(var(--spacing-unit) * 2) 0;
 		color: var(--color-text-muted);
 		line-height: 1.6;
 	}
-    
 	time {
 		font-size: 0.9rem;
 		color: var(--color-text-muted);
