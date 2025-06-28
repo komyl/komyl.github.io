@@ -2,29 +2,23 @@ backend:
   name: git-gateway
   branch: main
 
-# This is the path to media folder
 media_folder: "public/uploads"
 public_folder: "/uploads"
 
-# All of our content collections will be defined here
 collections:
-  # Blog Collection 
-   - name: "blog"
+  - name: "blog"
     label: "Blog Posts"
     folder: "src/content/blog"
     create: true
     fields:
       - { label: "Title", name: "title", widget: "string" }
-      # THE FIX IS HERE: Change name from "date" to "pubDate"
       - { label: "Publish Date", name: "pubDate", widget: "datetime" }
       - { label: "Body", name: "body", widget: "markdown" }
 
-  # Project Collection 
   - name: "projects"
     label: "Projects"
     folder: "src/content/projects"
     create: true
-    # The slug will be generated from the project name
     slug: "{{slug}}"
     fields:
       - { label: "Project Name", name: "name", widget: "string" }
