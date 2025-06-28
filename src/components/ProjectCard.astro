@@ -6,52 +6,42 @@ export interface Props {
     status: 'active' | 'suspended' | 'finished';
     technologies?: string[];
     duration?: string;
-    url?: string;
+    url?: string; 
 }
 
 const { name, status, technologies, duration, url } = Astro.props;
-
-const statusClasses = {
-    active: 'bg-green-500',
-    suspended: 'bg-yellow-500',
-    finished: 'bg-gray-500',
-};
 ---
 <div class="project-card">
-    <div class="card-header">
-        <h3 class="project-name">{name}</h3>
-        <div class="status-indicator-wrapper">
-            <span class:list={['status-dot', statusClasses[status]]}></span>
-            <span class="status-text">{status}</span>
+    <div>
+        <div class="card-header">
+            <h3 class="project-name">{name}</h3>
+            <div class="status-indicator" title={`Status: ${status}`}>
+                <div class:list={['status-dot', `dot-${status}`]}></div>
+            </div>
         </div>
+        <div class="card-body">
+            </div>
     </div>
-    <div class="card-body">
-        </div>
     <div class="card-footer">
         <div class="technologies">
-            {technologies && technologies.map(tech => (
+            {technologies && technologies.slice(0, 5).map(tech => (
                 <TechnologyIcon name={tech} />
             ))}
         </div>
-        {duration && (
-            <div class="duration">
-                <span>{duration}</span>
-            </div>
-        )}
+        {duration && <span class="duration">{duration}</span>}
     </div>
 </div>
 
 <style>
-/* Styles remain largely the same, but we update the technologies section */
 .project-card {
     background-color: var(--glass-background);
     backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
     border: 1px solid var(--glass-border);
     border-radius: var(--border-radius-large);
     padding: calc(var(--spacing-unit) * 3);
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     height: 100%;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
@@ -63,51 +53,50 @@ const statusClasses = {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    margin-bottom: var(--spacing-unit);
+    margin-bottom: calc(var(--spacing-unit) * 2);
 }
 .project-name {
     font-size: 1.5rem;
     font-weight: 600;
-    margin: 0;
     color: var(--color-text);
+    margin-right: 1rem;
 }
-.status-indicator-wrapper {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 0.8rem;
-    color: var(--color-text-muted);
-    background: var(--glass-border);
-    padding: 4px 8px;
-    border-radius: 99px;
+.status-indicator {
+    flex-shrink: 0;
 }
 .status-dot {
-    width: 8px;
-    height: 8px;
+    width: 12px;
+    height: 12px;
     border-radius: 50%;
+    animation: blink 1.8s infinite ease-in-out;
 }
-.bg-green-500 { background-color: #22c55e; }
-.bg-yellow-500 { background-color: #eab308; }
-.bg-gray-500 { background-color: #6b7280; }
+.dot-active { background-color: #34c759; }
+.dot-suspended { background-color: #ffcc00; }
+.dot-finished { background-color: #6b7280; }
+
+@keyframes blink {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.85); }
+}
 .card-body {
     flex-grow: 1;
+    min-height: calc(var(--spacing-unit) * 4);
 }
 .card-footer {
-    border-top: 1px solid var(--glass-border);
-    padding-top: calc(var(--spacing-unit) * 2);
-    margin-top: calc(var(--spacing-unit) * 2);
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
+    gap: var(--spacing-unit);
 }
 .technologies {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.5rem;
+    gap: var(--spacing-unit);
 }
 .duration {
-    font-size: 0.8rem;
+    font-size: 0.9rem;
     color: var(--color-text-muted);
     white-space: nowrap;
+    align-self: flex-end;
 }
 </style>
