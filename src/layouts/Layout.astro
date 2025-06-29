@@ -21,50 +21,39 @@ const currentYear = new Date().getFullYear();
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-
 		<script defer src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 
 		<script is:inline>
-            const THEME_KEY = 'theme';
-            const THEME_LIGHT = 'light';
-            const THEME_DARK = 'dark';
+			const THEME_KEY = 'theme-preference';
+			
+			const getThemePreference = () => {
+				if (typeof localStorage !== 'undefined' && localStorage.getItem(THEME_KEY)) {
+					return localStorage.getItem(THEME_KEY);
+				}
+				return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+			};
 
-            const applyTheme = (theme) => {
-                if (theme === THEME_LIGHT) {
-                    document.documentElement.classList.add('light-theme');
-                } else {
-                    document.documentElement.classList.remove('light-theme');
-                }
-            };
-            
-            const getInitialTheme = () => {
-                if (typeof localStorage !== 'undefined' && localStorage.getItem(THEME_KEY)) {
-                    return localStorage.getItem(THEME_KEY);
-                }
-                if (window.matchMedia('(prefers-color-scheme: light)').matches) {
-                    return THEME_LIGHT;
-                }
-                return THEME_DARK;
-            };
+			const isLight = getThemePreference() === 'light';
+			document.documentElement.classList[isLight ? 'add' : 'remove']('light-theme');
 
-            const setupThemeToggle = () => {
-                document.querySelectorAll('.theme-toggle-button').forEach(btn => {
-                    btn.addEventListener('click', () => {
-                        const currentClassList = document.documentElement.classList;
-                        currentClassList.toggle('light-theme');
-                        const newTheme = currentClassList.contains('light-theme') ? THEME_LIGHT : THEME_DARK;
-                        localStorage.setItem(THEME_KEY, newTheme);
-                        applyTheme(newTheme);
-                    });
-                });
-            };
+			const setupThemeToggle = () => {
+				const buttons = document.querySelectorAll('.theme-toggle-button');
+				buttons.forEach((btn) => {
+					btn.addEventListener('click', () => {
+						// Toggle the theme
+						let newTheme = document.documentElement.classList.contains('light-theme') ? 'dark' : 'light';
+						// Store the user's explicit choice
+						localStorage.setItem(THEME_KEY, newTheme);
+						// Apply the new theme
+						document.documentElement.classList.toggle('light-theme', newTheme === 'light');
+					});
+				});
+			};
 
-            // Apply theme immediately on page load to prevent flashing
-            applyTheme(getInitialTheme());
-
-            // Setup listeners on page load and on Astro's page swaps
-            document.addEventListener('astro:after-swap', setupThemeToggle);
-            setupThemeToggle();
+			// Run setup on initial page load after DOM is ready
+			document.addEventListener('DOMContentLoaded', setupThemeToggle);
+			// Run setup on subsequent page navigations in Astro
+			document.addEventListener('astro:after-swap', setupThemeToggle);
 		</script>
 		</head>
 	<body>
