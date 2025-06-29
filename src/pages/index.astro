@@ -3,14 +3,14 @@ import Layout from '../layouts/Layout.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import { getCollection } from 'astro:content';
 
-// --- DATA FETCHING FOR BOTH SECTIONS ---
-
-// 1. Fetch all projects
+// This part from your code is perfect. It fetches all necessary data.
 const allProjects = await getCollection('projects');
-const commercialProjects = allProjects.filter(p => p.data.category === 'Commercial');
-const academicProjects = allProjects.filter(p => p.data.category === 'Personal & Academic');
-
-// 2. Fetch and sort all blog posts
+const commercialProjects = allProjects.filter(
+    (project) => project.data.category === 'Commercial'
+);
+const academicProjects = allProjects.filter(
+    (project) => project.data.category === 'Personal & Academic'
+);
 const posts = (await getCollection('blog')).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 );
@@ -54,7 +54,7 @@ const posts = (await getCollection('blog')).sort(
 	<section class="blog-section">
 		<h2>Recent Posts</h2>
 		<ul class="post-list">
-			{posts.map((post) => (
+			{posts.slice(0, 3).map((post) => ( // We show the 3 latest posts
 				<li class="post-item">
 					<a href={`/blog/${post.slug}/`}>
 						<h3 class="post-title">{post.data.title}</h3>
@@ -77,88 +77,83 @@ const posts = (await getCollection('blog')).sort(
 </Layout>
 
 <style>
-.project-section, .blog-section {
-    margin-bottom: calc(var(--spacing-unit) * 8);
-}
-.project-section h2, .blog-section h2 {
-    font-size: 2rem;
-    font-weight: 700;
-    margin-bottom: calc(var(--spacing-unit) * 3);
-    padding-bottom: calc(var(--spacing-unit) * 1.5);
-    border-bottom: 1px solid var(--glass-border);
-    display: inline-block;
-}
+	.project-section, .blog-section {
+		margin-bottom: calc(var(--spacing-unit) * 8);
+	}
+	.project-section h2, .blog-section h2 {
+		font-size: 2rem;
+		font-weight: 700;
+		margin-bottom: calc(var(--spacing-unit) * 3);
+		padding-bottom: calc(var(--spacing-unit) * 1.5);
+		border-bottom: 1px solid var(--glass-border);
+		display: inline-block;
+	}
+	
+	.project-slider {
+		display: grid;
+		grid-auto-flow: column;
+		/* FIX #2: Replaced '1fr' with a specific size to prevent stretching */
+		grid-auto-columns: minmax(320px, 380px);
+		gap: calc(var(--spacing-unit) * 3);
+		overflow-x: auto;
+		margin: 0 calc(var(--spacing-unit) * -2);
+		padding: 4px calc(var(--spacing-unit) * 2);
+		padding-bottom: calc(var(--spacing-unit) * 3);
+		scroll-snap-type: x mandatory;
+		scrollbar-width: none;
+	}
+	.project-slider::-webkit-scrollbar {
+  		display: none;
+	}
+	.project-slider > .card-link {
+		scroll-snap-align: start;
+	}
+	.card-link {
+		text-decoration: none;
+		display: block;
+		height: 100%;
+	}
 
-.project-slider {
-    display: grid;
-    grid-auto-flow: column;
-    /* We define a specific, non-stretching size for the columns */
-    grid-auto-columns: minmax(320px, 380px); 
-    gap: calc(var(--spacing-unit) * 3);
-    overflow-x: auto;
-    /* Add some padding to the sides so cards don't touch the edges on mobile */
-    padding: 4px calc(var(--spacing-unit) * 2); 
-    padding-bottom: calc(var(--spacing-unit) * 3);
-    /* This makes the horizontal scroll feel more natural on mobile */
-    scroll-snap-type: x mandatory;
-    /* Hide the scrollbar */
-    scrollbar-width: none;
-    /* Adjust margin to align with the rest of the page content */
-    margin: 0 calc(var(--spacing-unit) * -2);
-}
-.project-slider::-webkit-scrollbar {
-    display: none;
-}
-/* This helps each card snap into place when scrolling */
-.project-slider > .card-link {
-    scroll-snap-align: start;
-}
-
-.card-link {
-    text-decoration: none;
-    display: block;
-    height: 100%;
-}
-.post-list {
-    list-style: none;
-    padding: 0;
-    display: grid;
-    gap: calc(var(--spacing-unit) * 2);
-}
-.post-item a {
-    background-color: var(--glass-background);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid var(--glass-border);
-    border-radius: var(--border-radius-large);
-    display: block;
-    padding: calc(var(--spacing-unit) * 3);
-    text-decoration: none;
-    color: var(--color-text);
-    height: 100%;
-    transition: transform 0.25s ease-out, box-shadow 0.25s ease-out;
-}
-.post-item a:hover {
-    transform: scale(1.02);
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-}
-.post-title {
-    font-size: 1.5rem;
-    font-weight: 600;
-    margin: 0 0 var(--spacing-unit) 0;
-    color: var(--color-text);
-    transition: color 0.2s ease;
-}
-.post-item a:hover .post-title {
-    color: var(--color-primary);
-}
-.post-description {
-    margin: 0 0 calc(var(--spacing-unit) * 2) 0;
-    color: var(--color-text-muted);
-    line-height: 1.6;
-}
-time {
-    font-size: 0.9rem;
-    color: var(--color-text-muted);
-}
+	.post-list {
+		list-style: none;
+		padding: 0;
+		display: grid;
+		gap: calc(var(--spacing-unit) * 2);
+	}
+	.post-item a {
+		background-color: var(--glass-background);
+		backdrop-filter: blur(20px);
+		-webkit-backdrop-filter: blur(20px);
+		border: 1px solid var(--glass-border);
+		border-radius: var(--border-radius-large);
+		display: block;
+		padding: calc(var(--spacing-unit) * 3);
+		text-decoration: none;
+		color: var(--color-text);
+		height: 100%;
+		transition: transform 0.25s ease-out, box-shadow 0.25s ease-out;
+	}
+	.post-item a:hover {
+		transform: scale(1.02);
+		box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+	}
+	.post-title {
+		font-size: 1.5rem;
+        font-weight: 600;
+		margin: 0 0 var(--spacing-unit) 0;
+		color: var(--color-text);
+		transition: color 0.2s ease;
+	}
+	.post-item a:hover .post-title {
+		color: var(--color-primary);
+	}
+	.post-description {
+		margin: 0 0 calc(var(--spacing-unit) * 2) 0;
+		color: var(--color-text-muted);
+		line-height: 1.6;
+	}
+	time {
+		font-size: 0.9rem;
+		color: var(--color-text-muted);
+	}
 </style>
