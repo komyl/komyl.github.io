@@ -1,7 +1,7 @@
 ---
-title: "My First Blog Post"
+title: My First Blog Post 1
 pubDate: 2024-07-26
-description: "This is the first post on my new Astro blog."
+description: This is the first post on my new Astro blog.
 ---
 
 Welcome to my new blog! This is a test post created to demonstrate how Astro's content collections work.
