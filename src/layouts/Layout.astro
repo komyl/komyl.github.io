@@ -63,12 +63,20 @@ const currentYear = new Date().getFullYear();
 
 	html.light-theme {
 		/* Light Theme */
-		--color-background: #f6f6f7; /* Calmer off-white */
-		--color-text: rgba(0, 0, 0, 0.85);
-		--color-text-muted: rgba(60, 60, 67, 0.65);
-		--glass-background: rgba(255, 255, 255, 0.75);
-		--glass-border: rgba(0, 0, 0, 0.1);
-	}
+    --color-background: #f2f2f7; 
+    
+    /* Main text color */
+    --color-text: rgba(0, 0, 0, 0.85); 
+    
+    /* Muted text for dates, etc. */
+    --color-text-muted: rgba(60, 60, 67, 0.65); 
+    
+    /* Cards will be pure white to stand out against the off-white background */
+    --glass-background: #ffffff; 
+    
+    /* Border for cards */
+    --glass-border: rgba(0, 0, 0, 0.1); 
+}
 
 	html {
 		font-family: var(--font-family-body);
