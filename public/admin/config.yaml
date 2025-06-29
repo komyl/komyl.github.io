@@ -1,0 +1,16 @@
+# Bare-bones config for final debugging.
+# We are still using the test backend that requires no login.
+backend:
+  name: test-repo
+
+# This is a required field.
+media_folder: "src/assets"
+
+# The simplest possible collection with only one simple field.
+collections:
+  - name: "test"
+    label: "Test Collection"
+    folder: "src/content/test"
+    create: true
+    fields:
+      - { label: "Title", name: "title", widget: "string" }

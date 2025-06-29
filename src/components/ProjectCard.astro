@@ -1,16 +1,29 @@
 ---
-// src/components/ProjectCard.astro
-
 import type { SimpleIcon } from 'simple-icons';
-// We are NOT importing siJava anymore
 import {
+    // original icons
     siReact,
     siVuedotjs,
     siDotnet,
     siPython,
     siAstro,
     siSvelte,
-    siGo
+    siGo,
+    siKotlin,
+    siRust,
+    siSwift,
+    siGnubash,    // For Bash
+    siC,
+    siCplusplus,
+    siFlutter,
+    siJavascript,
+    siTypescript,
+    siHtml5,
+    siCss,
+    siNodedotjs,  // For Node.js
+    siDjango,
+    siFlask,
+    siAssemblyscript // Closest available icon for Assembly
 } from 'simple-icons/icons';
 
 export interface Props {
@@ -29,15 +42,11 @@ const statusColors = {
     finished: 'red'
 };
 
-// This is the raw SVG path data for the Java logo.
 const javaSvgPath = 'M14.056.027c-2.008.036-3.87.823-5.32 2.01L1.88 7.336a.428.428 0 0 0-.012.58l3.41 4.34-3.13 3.13c-.23.23-.23.614 0 .845l1.91 1.912c.23.23.614.23.845 0l3.13-3.132 4.34 3.41a.428.428 0 0 0 .58-.012l5.297-6.855c1.19-1.45 1.977-3.313 2.01-5.322.03-1.87-.58-3.71-1.74-5.18-1.14-1.45-2.88-2.45-4.7-2.67-.4-.05-1.2-.05-1.6 0Z';
-// The full SVG for the Java logo is constructed below.
 const javaIconSvg = `<svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Java</title><path d="${javaSvgPath}"/></svg>`;
 
-// The iconMap now stores the FINAL SVG STRING for each icon.
 const iconMap: Record<string, string> = {
     react: siReact.svg,
-    // For Java, we use our own manually created SVG string.
     java: javaIconSvg,
     vue: siVuedotjs.svg,
     '.net': siDotnet.svg,
@@ -45,8 +54,22 @@ const iconMap: Record<string, string> = {
     astro: siAstro.svg,
     svelte: siSvelte.svg,
     go: siGo.svg,
+    'kotlin': siKotlin.svg,
+    'rust': siRust.svg,
+    'swift': siSwift.svg,
+    'bash': siGnubash.svg,
+    'c': siC.svg,
+    'c++': siCplusplus.svg,
+    'flutter': siFlutter.svg,
+    'javascript': siJavascript.svg,
+    'typescript': siTypescript.svg,
+    'html': siHtml5.svg,
+    'css': siCss.svg,
+    'node.js': siNodedotjs.svg,
+    'django': siDjango.svg,
+    'flask': siFlask.svg,
+    'assembly': siAssemblyscript.svg,
 };
-
 ---
 <a href={url} class="project-card" target="_blank" rel="noopener noreferrer">
     <div class="card-header">
