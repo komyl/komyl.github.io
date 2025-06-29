@@ -1,0 +1,86 @@
+---
+interface Props {
+    label: string;
+    value: string;
+}
+const { label, value } = Astro.props;
+---
+<div class="copy-field">
+    <div class="label">{label}</div>
+    <div class="value">{value}</div>
+    <button class="copy-button" data-copy-value={value} title="Copy to clipboard">
+        <svg class="icon-copy" width="20" height="20" viewBox="0 0 24 24"><path fill="currentColor" d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+        <svg class="icon-check" style="display:none;" width="20" height="20" viewBox="0 0 24 24"><path fill="currentColor" d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+    </button>
+</div>
+
+<script>
+document.querySelectorAll('.copy-button').forEach(buttonEl => {
+    // Cast the element to HTMLElement to access dataset
+    const button = buttonEl as HTMLElement;
+
+    button.addEventListener('click', () => {
+        // We get the value from the dataset
+        const valueToCopy = button.dataset.copyValue;
+        if (!valueToCopy) return;
+
+        navigator.clipboard.writeText(valueToCopy).then(() => {
+            // Find icons within this specific button instance
+            const copyIcon = button.querySelector('.icon-copy') as HTMLElement | null;
+            const checkIcon = button.querySelector('.icon-check') as HTMLElement | null;
+            
+            // Check if both icons were found before trying to change their style
+            if (copyIcon && checkIcon) {
+                copyIcon.style.display = 'none';
+                checkIcon.style.display = 'inline-block';
+                
+                setTimeout(() => {
+                    copyIcon.style.display = 'inline-block';
+                    checkIcon.style.display = 'none';
+                }, 2000);
+            }
+        }).catch(err => {
+            console.error('Failed to copy text: ', err);
+            alert('Failed to copy!');
+        });
+    });
+});
+</script>
+
+<style>
+.copy-field {
+    display: flex;
+    align-items: center;
+    background-color: var(--glass-border);
+    border-radius: var(--spacing-unit);
+    padding: var(--spacing-unit);
+    margin-bottom: var(--spacing-unit);
+    font-family: monospace; /* For better readability of codes */
+}
+.label {
+    font-weight: 600;
+    padding-right: var(--spacing-unit);
+    color: var(--color-text-muted);
+}
+.value {
+    flex-grow: 1;
+    overflow-x: auto;
+    white-space: nowrap;
+    scrollbar-width: none;
+}
+.value::-webkit-scrollbar { display: none; }
+.copy-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--color-text-muted);
+    padding: var(--spacing-unit);
+    border-radius: var(--spacing-unit);
+    transition: background-color 0.2s ease, color 0.2s ease;
+    margin-left: var(--spacing-unit);
+}
+.copy-button:hover {
+    background-color: var(--glass-background);
+    color: var(--color-text);
+}
+</style>

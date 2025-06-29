@@ -1,0 +1,150 @@
+---
+import Layout from '../layouts/Layout.astro';
+// We will create and import these components in the next steps
+import CopyableField from '../components/CopyableField.astro';
+import BankIcon from '../components/icons/BankIcon.astro';
+import CryptoIcon from '../components/icons/CryptoIcon.astro';
+
+const bankDetails = {
+    bankName: 'Ziraat Bank',
+    country: 'Turkey',
+    swift: 'TCZBTR2A',
+    holder: 'KOMEYL KALHORINIA',
+    ibans: [
+        { currency: 'USD', value: 'TR84 0001 0090 1018 5187 8050 02' },
+        { currency: 'EUR', value: 'TR57 0001 0090 1018 5187 8050 03' },
+        { currency: 'GBP', value: 'TR30 0001 0090 1018 5187 8050 04' },
+        { currency: 'CHF', value: 'TR03 0001 0090 1018 5187 8050 05' },
+        { currency: 'TRY', value: 'TR14 0001 0090 1018 5187 8050 01' },
+    ]
+};
+
+const cryptoDetails = [
+    { name: 'BTC', address: 'bc1qeq26j9hdxtsras9ascenjp4kx23yqmdxru8mle' },
+    { name: 'ETH', address: '0xC29E9eF7E9eEdFD2AdA25a342Cb421b5Baf7BAe5' },
+    { name: 'USDT (TRC20)', address: 'TPokJ9MFzJyXxUoTnJcJciHZZZZJ4Qraoq', warning: 'TRC20 Network' },
+    { name: 'USDT (ERC20)', address: '0xC29E9eF7E9eEdFD2AdA25a342Cb421b5Baf7BAe5', warning: 'ERC20 Network' },
+    { name: 'TON', address: 'UQDX6qPcmWE9Ko2HWqYtJCXiaIPel-WUJvIADY7OwjaunXWL' },
+    { name: 'TRON', address: 'TPokJ9MFzJyXxUoTnJcJciHZZZZJ4Qraoq' },
+    { name: 'BNB Smart Chain', address: '0xC29E9eF7E9eEdFD2AdA25a342Cb421b5Baf7BAe5' },
+];
+
+const patreonScript = `<a href="https://www.patreon.com/bePatron?u=132443438" data-patreon-widget-type="become-patron-button">Become a member!</a><script async src="https://c6.patreon.com/becomePatronButton.bundle.js"><\/script>`;
+const bmcScript = `<script type="text/javascript" src="https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js" data-name="bmc-button" data-slug="Komyl" data-color="#FFDD00" data-emoji="☕"  data-font="Cookie" data-text="Buy me a coffee" data-outline-color="#000000" data-font-color="#000000" data-coffee-color="#ffffff" ><\/script>`;
+---
+
+<Layout title="Support Me" description="Support my work through various channels.">
+    <div class="support-page">
+        <h1>Support My Work</h1>
+        <p class="subtitle">Your support helps me dedicate more time to open source projects and creating content. Thank you for considering.</p>
+
+        <section class="card">
+            <div class="card-header">
+                <BankIcon />
+                <h2>Bank Transfer</h2>
+            </div>
+            <div class="card-content">
+                {bankDetails.ibans.map(item => (
+                    <CopyableField label={item.currency} value={item.value} />
+                ))}
+                <div class="bank-info">
+                    <span><strong>Bank:</strong> {bankDetails.bankName}</span>
+                    <span><strong>SWIFT:</strong> {bankDetails.swift}</span>
+                    <span><strong>Holder:</strong> {bankDetails.holder}</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="card">
+            <div class="card-header">
+                <h2>Cryptocurrency</h2>
+            </div>
+            <div class="card-content">
+                 {cryptoDetails.map(item => (
+                    <div class="crypto-item">
+                        <CryptoIcon name={item.name.split(' ')[0]} />
+                        <CopyableField label={item.name} value={item.address} />
+                        {item.warning && <small class="warning">Network: {item.warning}</small>}
+                    </div>
+                ))}
+            </div>
+        </section>
+
+        <section class="card">
+            <div class="card-header">
+                <h2>Platforms</h2>
+            </div>
+            <div class="card-content platforms">
+                <div set:html={patreonScript} />
+                <div class="bmc-wrapper">
+                    <div set:html={bmcScript} />
+                </div>
+            </div>
+        </section>
+    </div>
+</Layout>
+
+<style>
+.support-page h1 {
+    font-size: 3rem;
+    margin-bottom: var(--spacing-unit);
+}
+.subtitle {
+    font-size: 1.2rem;
+    color: var(--color-text-muted);
+    max-width: 65ch;
+    margin-bottom: calc(var(--spacing-unit) * 6);
+}
+.card {
+    background-color: var(--glass-background);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--border-radius-large);
+    padding: calc(var(--spacing-unit) * 3);
+    margin-bottom: calc(var(--spacing-unit) * 4);
+}
+.card-header {
+    display: flex;
+    align-items: center;
+    gap: calc(var(--spacing-unit) * 2);
+    margin-bottom: calc(var(--spacing-unit) * 3);
+    color: var(--color-text);
+}
+.card-header h2 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin: 0;
+}
+.bank-info {
+    display: flex;
+    flex-wrap: wrap;
+    gap: calc(var(--spacing-unit) * 3);
+    margin-top: calc(var(--spacing-unit) * 3);
+    padding-top: calc(var(--spacing-unit) * 2);
+    border-top: 1px solid var(--glass-border);
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+}
+.crypto-item {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    gap: calc(var(--spacing-unit) * 2);
+}
+.crypto-item small.warning {
+    grid-column: 2;
+    font-size: 0.75rem;
+    color: #ffcc00; /* Apple Yellow */
+    margin-top: calc(var(--spacing-unit) * -1);
+    padding-bottom: var(--spacing-unit);
+}
+.platforms {
+    display: flex;
+    align-items: center;
+    gap: calc(var(--spacing-unit) * 3);
+}
+.bmc-wrapper {
+    transform: scale(1.2) translateY(-2px); /* Scale up the button slightly */
+}
+</style>
