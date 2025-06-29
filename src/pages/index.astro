@@ -77,7 +77,6 @@ const posts = (await getCollection('blog')).sort(
 </Layout>
 
 <style>
-/* All styles remain correct and unchanged */
 .project-section, .blog-section {
     margin-bottom: calc(var(--spacing-unit) * 8);
 }
@@ -89,24 +88,32 @@ const posts = (await getCollection('blog')).sort(
     border-bottom: 1px solid var(--glass-border);
     display: inline-block;
 }
+
 .project-slider {
     display: grid;
     grid-auto-flow: column;
-    grid-auto-columns: minmax(280px, 1fr);
-    gap: calc(var(--spacing-unit) * 2);
+    /* We define a specific, non-stretching size for the columns */
+    grid-auto-columns: minmax(320px, 380px); 
+    gap: calc(var(--spacing-unit) * 3);
     overflow-x: auto;
-    margin: 0;
-    padding: 4px;
-    padding-bottom: calc(var(--spacing-unit) * 2);
+    /* Add some padding to the sides so cards don't touch the edges on mobile */
+    padding: 4px calc(var(--spacing-unit) * 2); 
+    padding-bottom: calc(var(--spacing-unit) * 3);
+    /* This makes the horizontal scroll feel more natural on mobile */
     scroll-snap-type: x mandatory;
+    /* Hide the scrollbar */
     scrollbar-width: none;
+    /* Adjust margin to align with the rest of the page content */
+    margin: 0 calc(var(--spacing-unit) * -2);
 }
 .project-slider::-webkit-scrollbar {
     display: none;
 }
+/* This helps each card snap into place when scrolling */
 .project-slider > .card-link {
     scroll-snap-align: start;
 }
+
 .card-link {
     text-decoration: none;
     display: block;
