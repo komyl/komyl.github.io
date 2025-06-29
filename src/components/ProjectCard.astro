@@ -108,12 +108,14 @@ const iconMap: Record<string, string> = {
 		min-height: 150px;
         color: var(--color-text);
 		text-decoration: none;
-		transition: transform 0.3s ease, box-shadow 0.3s ease;
+        transform: scale(0.98);
+		transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), 
+                box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 	}
 
 	.project-card:hover {
-    transform: scale(1.03); /* A very slight scale up */
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25); /* A deeper, softer shadow */
+    transform: scale(1); /* A very slight scale up */
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2); /* A deeper, softer shadow */
 }
 
 	.card-header {
