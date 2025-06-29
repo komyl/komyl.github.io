@@ -15,8 +15,13 @@ const navItems = [
             <a href="/">Komeyl Kalhorinia</a>
         </div>
         <div class="nav-links-desktop">
-            </div>
-
+            {navItems.map(item => (
+                <a href={item.url} target={item.external ? "_blank" : "_self"} rel={item.external ? "noopener noreferrer" : ""}>
+                    {item.text}
+                </a>
+            ))}
+            <ThemeToggleButton />
+        </div>
         <div class="nav-controls-mobile">
             <ThemeToggleButton />
             <div class="hamburger-menu" id="hamburger-button">
@@ -29,7 +34,12 @@ const navItems = [
         </div>
     </nav>
     <div class="mobile-menu" id="mobile-menu-panel">
-        </div>
+        {navItems.map(item => (
+            <a href={item.url} target={item.external ? "_blank" : "_self"} rel={item.external ? "noopener noreferrer" : ""}>
+                {item.text}
+            </a>
+        ))}
+    </div>
 </header>
 
 <script is:inline>
