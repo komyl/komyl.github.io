@@ -1,10 +1,10 @@
 ---
-import Layout from '../layouts/Layout.astro';
+import Layout from '@/layouts/Layout.astro';
 import CopyableField from '../components/CopyableField.astro';
 import BankIcon from '../components/icons/BankIcon.astro';
 import CryptoIcon from '../components/icons/CryptoIcon.astro';
 
-// --- Data Section ---
+// --- Data Section (Re-structured for clarity and correctness) ---
 
 const bankDetails = {
     bankName: 'Ziraat Bank',
@@ -20,23 +20,23 @@ const bankDetails = {
     ]
 };
 
-// New data structure for correct ordering and layout
-const cryptoDetails = [
-    { name: 'Bitcoin', symbol: 'BTC', address: 'bc1qeq26j9hdxtsras9ascenjp4kx23yqmdxru8mle', isGroup: false },
-    { name: 'Ethereum', symbol: 'ETH', address: '0xC29E9eF7E9eEdFD2AdA25a342Cb421b5Baf7BAe5', isGroup: false },
-    { 
-      name: 'Tether', 
-      symbol: 'USDT', 
-      isGroup: true, // This flag helps us render it differently
-      networks: [
+const cryptoList = [
+    { name: 'Bitcoin', symbol: 'BTC', address: 'bc1qeq26j9hdxtsras9ascenjp4kx23yqmdxru8mle' },
+    { name: 'Ethereum', symbol: 'ETH', address: '0xC29E9eF7E9eEdFD2AdA25a342Cb421b5Baf7BAe5' },
+    // USDT is handled separately below
+    { name: 'TON', symbol: 'TON', address: 'UQDX6qPcmWE9Ko2HWqYtJCXiaIPel-WUJvIADY7OwjaunXWL' },
+    { name: 'TRON', symbol: 'TRON', address: 'TPokJ9MFzJyXxUoTnJcJciHZZZZJ4Qraoq' },
+    { name: 'BNB Smart Chain', symbol: 'BNB', address: '0xC29E9eF7E9eEdFD2AdA25a342Cb421b5Baf7BAe5' },
+];
+
+const usdtDetails = { 
+    name: 'Tether', 
+    symbol: 'USDT', 
+    networks: [
         { network: 'TRC20', address: 'TPokJ9MFzJyXxUoTnJcJciHZZZZJ4Qraoq' },
         { network: 'ERC20', address: '0xC29E9eF7E9eEdFD2AdA25a342Cb421b5Baf7BAe5' }
-      ]
-    },
-    { name: 'TON', symbol: 'TON', address: 'UQDX6qPcmWE9Ko2HWqYtJCXiaIPel-WUJvIADY7OwjaunXWL', isGroup: false },
-    { name: 'TRON', symbol: 'TRON', address: 'TPokJ9MFzJyXxUoTnJcJciHZZZZJ4Qraoq', isGroup: false },
-    { name: 'BNB Smart Chain', symbol: 'BNB', address: '0xC29E9eF7E9eEdFD2AdA25a342Cb421b5Baf7BAe5', isGroup: false },
-];
+    ]
+};
 
 const patreonLink = "https://www.patreon.com/bePatron?u=132443438";
 const bmcScript = `<script type="text/javascript" src="https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js" data-name="bmc-button" data-slug="Komyl" data-color="#FFDD00" data-emoji="☕"  data-font="Cookie" data-text="Buy me a coffee" data-outline-color="#000000" data-font-color="#000000" data-coffee-color="#ffffff" ><\/script>`;
@@ -44,107 +44,137 @@ const bmcScript = `<script type="text/javascript" src="https://cdnjs.buymeacoffe
 
 <Layout title="Support Me" description="Support my work through various channels.">
     <div class="support-page">
+        <h1>Support My Work</h1>
+        <p class="subtitle">Your support helps me dedicate more time to open source projects and creating content. Thank you for considering.</p>
+
+        <section class="card">
+            <div class="card-header">
+                <BankIcon />
+                <h2>Bank Transfer</h2>
+            </div>
+            <div class="card-content">
+                {bankDetails.ibans.map(item => (
+                    <CopyableField label={item.currency} value={item.value} />
+                ))}
+                <div class="bank-info">
+                    <span><strong>Bank:</strong> {bankDetails.bankName}</span>
+                    <span><strong>SWIFT:</strong> {bankDetails.swift}</span>
+                    <span><strong>Holder:</strong> {bankDetails.holder}</span>
+                </div>
+            </div>
+        </section>
+
         <section class="card">
             <div class="card-header">
                 <h2>Cryptocurrency</h2>
             </div>
             <div class="card-content">
-                 {cryptoDetails.map(item => (
-                    item.isGroup ? (
-                        <div class="usdt-section">
-                            <div class="crypto-item-header">
-                                <CryptoIcon name={item.symbol} />
-                                <span class="crypto-name">{item.name}</span>
-                            </div>
-                            <div class="usdt-networks">
-                                {/* THE FIX IS HERE: Check if item.networks exists before mapping */}
-                                {item.networks && item.networks.map(net => (
-                                    <CopyableField label={net.network} value={net.address} />
-                                ))}
-                            </div>
-                        </div>
-                    ) : (
-                        <div class="crypto-item">
-                            <CryptoIcon name={item.symbol} />
-                            <CopyableField label={item.name} value={item.address} />
-                        </div>
-                    )
+                {cryptoList.map(item => (
+                    <div class="crypto-item">
+                        <CryptoIcon name={item.symbol} />
+                        <CopyableField label={item.name} value={item.address} />
+                    </div>
                 ))}
+                
+                <div class="usdt-section">
+                    <div class="crypto-item-header">
+                        <CryptoIcon name={usdtDetails.symbol} />
+                        <span class="crypto-name">{usdtDetails.name}</span>
+                    </div>
+                    <div class="usdt-networks">
+                        {usdtDetails.networks.map(net => (
+                            <CopyableField label={net.network} value={net.address} />
+                        ))}
+                    </div>
+                </div>
             </div>
         </section>
 
-        </div>
+        <section class="card">
+            <div class="card-header">
+                <h2>Platforms</h2>
+            </div>
+            <div class="card-content platforms">
+                <a href={patreonLink} target="_blank" rel="noopener noreferrer" class="platform-button patreon">
+                    Become a Member on Patreon
+                </a>
+                <div class="bmc-wrapper" set:html={bmcScript}></div>
+            </div>
+        </section>
+    </div>
 </Layout>
 
 <style>
-    .support-page h1 { font-size: 3rem; margin-bottom: var(--spacing-unit); }
-    .subtitle { font-size: 1.2rem; color: var(--color-text-muted); max-width: 65ch; margin-bottom: calc(var(--spacing-unit) * 6); }
-    .card {
-        background-color: var(--glass-background);
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
-        border: 1px solid var(--glass-border);
-        border-radius: var(--border-radius-large);
-        padding: calc(var(--spacing-unit) * 4);
-        margin-bottom: calc(var(--spacing-unit) * 4);
-    }
-    .card-header {
-        display: flex;
-        align-items: center;
-        gap: calc(var(--spacing-unit) * 2);
-        margin-bottom: calc(var(--spacing-unit) * 3);
-        color: var(--color-text);
-    }
-    .card-header h2 { font-size: 1.8rem; font-weight: 600; margin: 0; }
-    .bank-info {
-        display: flex; flex-wrap: wrap;
-        gap: calc(var(--spacing-unit) * 3);
-        margin-top: calc(var(--spacing-unit) * 3);
-        padding-top: calc(var(--spacing-unit) * 2);
-        border-top: 1px solid var(--glass-border);
-        font-size: 0.9rem; color: var(--color-text-muted);
-    }
-    .crypto-item, .crypto-item-header {
-        display: grid;
-        grid-template-columns: 24px 1fr;
-        align-items: center;
-        gap: calc(var(--spacing-unit) * 2);
-        margin-bottom: var(--spacing-unit);
-    }
-    .crypto-item-header .crypto-name {
-        font-weight: 600;
-        font-size: 1rem;
-    }
-    .usdt-section {
-        margin-top: calc(var(--spacing-unit) * 3);
-        padding-top: calc(var(--spacing-unit) * 3);
-        border-top: 1px solid var(--glass-border);
-    }
-    .usdt-networks {
-        padding-left: calc(24px + var(--spacing-unit) * 2); /* Indent under the main USDT icon */
-        margin-top: var(--spacing-unit);
-    }
-    .platforms {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-wrap: wrap;
-        gap: calc(var(--spacing-unit) * 3);
-        padding: var(--spacing-unit) 0;
-    }
-    .platform-button {
-        display: inline-block;
-        padding: 12px 24px;
-        border-radius: 8px;
-        text-decoration: none;
-        font-weight: 600;
-        transition: transform 0.2s ease;
-    }
-    .platform-button:hover {
-        transform: scale(1.05);
-    }
-    .patreon {
-        background-color: #ff424d;
-        color: white;
-    }
+.support-page h1 { font-size: 3rem; margin-bottom: var(--spacing-unit); }
+.subtitle { font-size: 1.2rem; color: var(--color-text-muted); max-width: 65ch; margin-bottom: calc(var(--spacing-unit) * 6); }
+.card {
+    background-color: var(--glass-background);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--border-radius-large);
+    padding: calc(var(--spacing-unit) * 4);
+    margin-bottom: calc(var(--spacing-unit) * 4);
+}
+.card-header {
+    display: flex;
+    align-items: center;
+    gap: calc(var(--spacing-unit) * 2);
+    margin-bottom: calc(var(--spacing-unit) * 3);
+    color: var(--color-text);
+}
+.card-header h2 { font-size: 1.8rem; font-weight: 600; margin: 0; }
+.bank-info {
+    display: flex; flex-wrap: wrap;
+    gap: calc(var(--spacing-unit) * 3);
+    margin-top: calc(var(--spacing-unit) * 3);
+    padding-top: calc(var(--spacing-unit) * 2);
+    border-top: 1px solid var(--glass-border);
+    font-size: 0.9rem; color: var(--color-text-muted);
+}
+.crypto-item, .crypto-item-header {
+    display: grid;
+    grid-template-columns: 24px 1fr;
+    align-items: center;
+    gap: calc(var(--spacing-unit) * 2);
+}
+.crypto-item {
+    margin-bottom: var(--spacing-unit);
+}
+.crypto-item-header .crypto-name {
+    font-weight: 600;
+    font-size: 1rem;
+}
+.usdt-section {
+    margin-top: calc(var(--spacing-unit) * 2);
+    padding-top: calc(var(--spacing-unit) * 2);
+    border-top: 1px solid var(--glass-border);
+}
+.usdt-networks {
+    padding-left: calc(24px + var(--spacing-unit) * 2);
+    margin-top: var(--spacing-unit);
+}
+.platforms {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: calc(var(--spacing-unit) * 3);
+    padding: var(--spacing-unit) 0;
+}
+.platform-button {
+    display: inline-block;
+    padding: 12px 24px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: transform 0.2s ease;
+}
+.platform-button:hover {
+    transform: scale(1.05);
+}
+.patreon {
+    background-color: #ff424d;
+    color: white;
+}
 </style>
