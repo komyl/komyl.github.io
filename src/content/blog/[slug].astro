@@ -1,19 +1,18 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import { getCollection, getEntry } from 'astro:content';
+import { getCollection, type CollectionEntry } from 'astro:content';
 
 // This function tells Astro to create a page for every blog post
 export async function getStaticPaths() {
   const posts = await getCollection('blog');
   return posts.map(post => ({
-    params: { slug: post.slug },
+    params: { slug: post.slug }, // The 'slug' from the collection entry
     props: { post },
   }));
 }
 
-// Get the specific post for this page
-const { post } = Astro.props;
-// Render the markdown content to HTML
+// Get the specific post for this page from Astro.props
+const { post } = Astro.props as { post: CollectionEntry<'blog'> };
 const { Content } = await post.render();
 ---
 <Layout title={post.data.title} description={post.data.description}>
@@ -31,7 +30,7 @@ const { Content } = await post.render();
 </Layout>
 
 <style>
-/* Styles remain the same as the last version you had */
+/* The styles remain the same and are correct */
 .page-header {
     margin-bottom: calc(var(--spacing-unit) * 4);
 }
