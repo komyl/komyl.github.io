@@ -22,37 +22,32 @@ const posts = (await getCollection('blog')).sort(
 <Layout title="Komeyl Kalhorinia | Home" description="KomeylBlog - Portfolio and blog.">
 	
 	<section class="project-section">
-		<h2>Commercial Projects</h2>
-		<div class="project-slider">
-			{commercialProjects.map(project => (
-				<ProjectCard 
-					name={project.data.name}
-					status={project.data.status}
-					technologies={project.data.technologies}
-					duration={project.data.duration}
-					url={project.data.url}
-				/>
-			))}
-		</div>
-	</section>
-
+		</section>
 	<section class="project-section">
-		<h2>Personal & Academic Projects</h2>
-		<div class="project-slider">
-			{academicProjects.map(project => (
-				<ProjectCard 
-					name={project.data.name}
-					status={project.data.status}
-					technologies={project.data.technologies}
-					duration={project.data.duration}
-					url={project.data.url}
-				/>
-			))}
-		</div>
-	</section>
+		</section>
 
 	<section class="blog-section">
-		</section>
+		<h2>Recent Posts</h2>
+		<ul class="post-list">
+			{posts.map((post) => (
+				<li class="post-item">
+					<a href={`/blog/${post.slug}/`}>
+						<h3 class="post-title">{post.data.title}</h3>
+						{post.data.description && (
+							<p class="post-description">{post.data.description}</p>
+						)}
+						<time datetime={post.data.pubDate.toISOString()}>
+							{new Date(post.data.pubDate).toLocaleDateString('en-us', {
+								year: 'numeric',
+								month: 'short',
+								day: 'numeric',
+							})}
+						</time>
+					</a>
+				</li>
+			))}
+		</ul>
+	</section>
 
 </Layout>
 

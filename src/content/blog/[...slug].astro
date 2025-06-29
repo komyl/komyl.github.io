@@ -1,50 +1,85 @@
 ---
-import { getCollection } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
 
-// This function is required for Astro to know which pages to generate at build time.
+// This function tells Astro to create a page for every blog post
 export async function getStaticPaths() {
-  const posts = await getCollection('blog');
-  return posts.map(post => ({
-    params: { slug: post.slug },
-    props: post,
+  const blogEntries = await getCollection('blog');
+  return blogEntries.map(entry => ({
+    params: { slug: entry.slug }, 
+    props: { entry },
   }));
 }
 
-const post = Astro.props;
-const { Content } = await post.render();
+const { entry } = Astro.props;
+const { Content } = await entry.render();
 ---
-<Layout title={post.data.title} description={post.data.description}>
-  <article class="prose">
-	<h1>{post.data.title}</h1>
-    <p class="publish-date">Published on: {new Date(post.data.pubDate).toLocaleDateString('en-us', { year: 'numeric', month: 'short', day: 'numeric' })}</p>
-	<hr/>
-    <Content />
-  </article>
+<Layout title={entry.data.title} description={entry.data.description}>
+	<div class="page-header">
+		<a href="/" class="back-button">&larr; Back to Home</a>
+	</div>
+	<article class="prose">
+		<h1>{entry.data.title}</h1>
+		<p class="publish-date">
+			Published on: {new Date(entry.data.pubDate).toLocaleDateString('en-us', { year: 'numeric', month: 'short', day: 'numeric' })}
+		</p>
+		<hr>
+		<Content />
+	</article>
 </Layout>
+
 <style>
-	.prose {
-		max-width: 75ch;
-		margin: 0 auto;
-	}
-	.prose h1 {
-		font-size: 2.5rem;
-		margin-bottom: 1rem;
-        color: var(--color-text); /* Use variable */
-	}
-    .publish-date {
-        color: #a0a0a0;
-        margin-bottom: 2rem;
-    }
-	.prose hr {
-		border-top: 1px solid var(--color-border); /* Use variable */
-	}
-	.prose :global(p), .prose :global(li) {
-		line-height: 1.7;
-		font-size: 1.1rem;
-        color: var(--color-text); /* Use variable */
-	}
-	.prose :global(a) {
-		color: var(--color-secondary);
-	}
+.page-header {
+    margin-bottom: calc(var(--spacing-unit) * 4);
+}
+.back-button {
+    color: var(--color-text-muted);
+    text-decoration: none;
+    padding: var(--spacing-unit) calc(var(--spacing-unit) * 2);
+    border-radius: var(--spacing-unit);
+    transition: background-color 0.2s ease;
+}
+.back-button:hover {
+    background-color: var(--glass-border);
+    color: var(--color-text);
+}
+.prose {
+    max-width: 75ch; /* Optimal line length for reading */
+    margin: 0 auto;
+}
+.prose h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: var(--spacing-unit);
+    line-height: 1.2;
+}
+.publish-date {
+    color: var(--color-text-muted);
+    margin-bottom: calc(var(--spacing-unit) * 3);
+}
+.prose hr {
+    border: none;
+    border-top: 1px solid var(--glass-border);
+    margin: calc(var(--spacing-unit) * 4) 0;
+}
+.prose :global(p), .prose :global(li) {
+    line-height: 1.7;
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+}
+.prose :global(a) {
+    color: var(--color-secondary);
+}
+.prose :global(h2) {
+    font-size: 1.8rem;
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--glass-border);
+}
+.prose :global(h3) {
+    font-size: 1.5rem;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+}
 </style>
