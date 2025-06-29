@@ -16,14 +16,57 @@ const currentYear = new Date().getFullYear();
 		<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
-        <link rel="manifest" href="/manifest.json">
-        <meta name="theme-color" content="#1a1a1a">
+		<link rel="manifest" href="/manifest.json">
+		<meta name="theme-color" content="#1a1a1a">
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
-		<script is:inline src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-	</head>
+		<script defer src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+
+		<script is:inline>
+            const THEME_KEY = 'theme';
+            const THEME_LIGHT = 'light';
+            const THEME_DARK = 'dark';
+
+            const applyTheme = (theme) => {
+                if (theme === THEME_LIGHT) {
+                    document.documentElement.classList.add('light-theme');
+                } else {
+                    document.documentElement.classList.remove('light-theme');
+                }
+            };
+            
+            const getInitialTheme = () => {
+                if (typeof localStorage !== 'undefined' && localStorage.getItem(THEME_KEY)) {
+                    return localStorage.getItem(THEME_KEY);
+                }
+                if (window.matchMedia('(prefers-color-scheme: light)').matches) {
+                    return THEME_LIGHT;
+                }
+                return THEME_DARK;
+            };
+
+            const setupThemeToggle = () => {
+                document.querySelectorAll('.theme-toggle-button').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const currentClassList = document.documentElement.classList;
+                        currentClassList.toggle('light-theme');
+                        const newTheme = currentClassList.contains('light-theme') ? THEME_LIGHT : THEME_DARK;
+                        localStorage.setItem(THEME_KEY, newTheme);
+                        applyTheme(newTheme);
+                    });
+                });
+            };
+
+            // Apply theme immediately on page load to prevent flashing
+            applyTheme(getInitialTheme());
+
+            // Setup listeners on page load and on Astro's page swaps
+            document.addEventListener('astro:after-swap', setupThemeToggle);
+            setupThemeToggle();
+		</script>
+		</head>
 	<body>
 		<Header />
 		<main>
@@ -63,20 +106,12 @@ const currentYear = new Date().getFullYear();
 
 	html.light-theme {
 		/* Light Theme */
-    --color-background: #f2f2f7; 
-    
-    /* Main text color */
-    --color-text: rgba(0, 0, 0, 0.85); 
-    
-    /* Muted text for dates, etc. */
-    --color-text-muted: rgba(60, 60, 67, 0.65); 
-    
-    /* Cards will be pure white to stand out against the off-white background */
-    --glass-background: #ffffff; 
-    
-    /* Border for cards */
-    --glass-border: rgba(0, 0, 0, 0.1); 
-}
+		--color-background: #f2f2f7; 
+		--color-text: rgba(0, 0, 0, 0.85); 
+		--color-text-muted: rgba(60, 60, 67, 0.65); 
+		--glass-background: #ffffff; 
+		--glass-border: rgba(0, 0, 0, 0.1); 
+	}
 
 	html {
 		font-family: var(--font-family-body);
