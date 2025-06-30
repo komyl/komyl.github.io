@@ -28,37 +28,10 @@ import Layout from '../layouts/Layout.astro';
 
 <style>
     .about-container {
-        padding: calc(var(--spacing-unit) * 4) 0;
-    }
-    .hero-orb {
+        padding: calc(var(--spacing-unit) * 6) 0; /* Adjusted padding */
         display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 250px;
-        margin-bottom: calc(var(--spacing-unit) * 6);
-        perspective: 1000px;
-    }
-    .orb {
-        width: 150px;
-        height: 150px;
-        border-radius: 50%;
-        background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.4), rgba(255,255,255,0.1)),
-                    conic-gradient(from 90deg at 50% 50%, #5B21B6, #D946EF, #A3E635, #22D3EE, #60A5FA, #A78BFA, #5B21B6);
-        position: relative;
-        animation: rotate-hue 10s linear infinite, float 6s ease-in-out infinite;
-        transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    }
-    .hero-orb:hover .orb {
-        transform: scale(1.1) rotateY(20deg) rotateX(10deg);
-        animation-play-state: paused;
-    }
-
-    @keyframes rotate-hue {
-        to { filter: hue-rotate(360deg); }
-    }
-    @keyframes float {
-        0%, 100% { transform: translateY(0px); }
-        50% { transform: translateY(-20px); }
+        flex-direction: column;
+        gap: calc(var(--spacing-unit) * 4);
     }
 
     .content-card {
@@ -69,31 +42,35 @@ import Layout from '../layouts/Layout.astro';
         border-radius: var(--border-radius-large);
         padding: calc(var(--spacing-unit) * 5);
     }
+    
     h1 {
         font-size: 2.5rem;
         font-weight: 700;
         margin-bottom: calc(var(--spacing-unit) * 3);
         color: var(--color-text);
     }
+
     .content-card p {
         font-size: 1.1rem;
         line-height: 1.8;
         color: var(--color-text-muted);
         margin-bottom: 1.5em;
     }
+
     .cta-buttons {
-        margin-top: calc(var(--spacing-unit) * 5);
         display: flex;
         flex-wrap: wrap;
+        justify-content: center; /* Center the buttons */
         gap: calc(var(--spacing-unit) * 2);
     }
+
     .button {
         display: inline-block;
-        padding: 12px 24px;
+        padding: 14px 28px;
         border-radius: 12px;
         text-decoration: none;
         font-weight: 600;
-        transition: transform 0.2s ease;
+        transition: transform 0.2s ease, background-color 0.2s ease;
     }
     .button:hover {
         transform: scale(1.05);
@@ -105,5 +82,30 @@ import Layout from '../layouts/Layout.astro';
     .button.secondary {
         background-color: var(--glass-border);
         color: var(--color-text);
+    }
+     .button.secondary:hover {
+        background-color: var(--color-text-muted);
+        color: var(--color-background);
+    }
+
+    @keyframes fadeIn-up {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .animated-card {
+        /* Apply the animation */
+        animation: fadeIn-up 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+    }
+
+    /* Stagger the animation for the second card (buttons) */
+    .animated-card:nth-of-type(2) {
+        animation-delay: 0.2s;
     }
 </style>
