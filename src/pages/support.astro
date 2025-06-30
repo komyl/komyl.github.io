@@ -37,8 +37,7 @@ const usdtDetails = {
 };
 
 const patreonLink = "https://www.patreon.com/bePatron?u=132443438";
-// The Buy Me a Coffee script embed code
-const bmcScript = `<script type="text/javascript" src="https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js" data-name="bmc-button" data-slug="Komyl" data-color="#FFDD00" data-emoji="☕"  data-font="Cookie" data-text="Buy me a coffee" data-outline-color="#000000" data-font-color="#000000" data-coffee-color="#ffffff" ><\/script>`;
+const bmcLink = "https://www.buymeacoffee.com/Komyl";
 ---
 
 <Layout title="Support Me" description="Support my work through various channels.">
@@ -106,7 +105,9 @@ const bmcScript = `<script type="text/javascript" src="https://cdnjs.buymeacoffe
                 <a href={patreonLink} target="_blank" rel="noopener noreferrer" class="platform-button patreon">
                     Become a Member on Patreon
                 </a>
-                <div class="bmc-wrapper" set:html={bmcScript}></div>
+                <a href={bmcLink} target="_blank" rel="noopener noreferrer" class="platform-button bmc">
+                    Buy Me a Coffee ☕
+                </a>
             </div>
         </section>
     </div>
@@ -189,26 +190,24 @@ const bmcScript = `<script type="text/javascript" src="https://cdnjs.buymeacoffe
         flex-wrap: wrap;
         gap: calc(var(--spacing-unit) * 3);
         padding: var(--spacing-unit) 0;
-        min-height: 70px; /* Give space for buttons to render */
     }
     .platform-button {
         display: inline-block;
-        padding: 12px 24px;
-        border-radius: 8px;
+        padding: 14px 28px;
+        border-radius: 12px;
         text-decoration: none;
         font-weight: 600;
-        transition: transform 0.2s ease;
+        font-size: 1rem;
+        transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     }
-    .platform-button:hover { transform: scale(1.05); }
+    .platform-button:hover { 
+        transform: scale(1.05); 
+    }
     .patreon { background-color: #edea16; color: rgb(0, 0, 0); }
-.bmc-wrapper {
-    min-height: 70px; /* Give it space */
-}
-.bmc-wrapper :global(a[href*="buymeacoffee"]) {
-    display: inline-block !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-}
+.bmc {
+        background-color: #FFDD00;
+        color: #000000;
+    }
 
     @media (max-width: 768px) {
     .address-warning {
