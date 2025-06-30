@@ -57,9 +57,6 @@ const bmcScript = `<script type="text/javascript" src="https://cdnjs.buymeacoffe
                         <CopyableField label={item.currency} value={item.value} />
                     ))}
                 </div>
-                <div class="warning-container">
-                    <p class="address-warning">For the full address, please use the copy button.</p>
-                </div>
                 <div class="bank-info">
                     <span><strong>Bank:</strong> {bankDetails.bankName}</span>
                     <span><strong>SWIFT:</strong> {bankDetails.swift}</span>
@@ -80,6 +77,9 @@ const bmcScript = `<script type="text/javascript" src="https://cdnjs.buymeacoffe
                             <CopyableField label={item.name} value={item.address} />
                         </div>
                     ))}
+                    <div class="warning-container">
+                    <p class="address-warning">For the full address, please use the copy button.</p>
+                </div>
                     <div class="usdt-section">
                         <div class="crypto-item-header">
                             <CryptoIcon name={usdtDetails.symbol} />

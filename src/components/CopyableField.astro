@@ -72,9 +72,15 @@ const { label, value } = Astro.props;
 .value {
     flex-grow: 1;
     color: var(--color-text);
+    /* By default, wrapping is allowed and overflow is visible */
+    overflow-x: auto;
+    white-space: normal;
+    word-break: break-all; /* Allow breaking long strings */
+}
+.value.truncate {
     white-space: nowrap;
     overflow: hidden;
-    text-overflow: ellipsis; /* This adds the "..." */
+    text-overflow: ellipsis;
 }
 .copy-button {
     background: none;
