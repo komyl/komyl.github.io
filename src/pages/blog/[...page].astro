@@ -1,0 +1,114 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection, type CollectionEntry } from 'astro:content';
+import type { Page, PaginateFunction } from 'astro';
+
+const allPosts = await getCollection('blog');
+const sortedPosts = allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+export async function getStaticPaths({ paginate }: { paginate: PaginateFunction }) {
+  return paginate(sortedPosts, { pageSize: 6 });
+}
+
+const { page } = Astro.props;
+---
+
+<Layout title={`Blog Archive - Page ${page.currentPage}`} description="An archive of all blog posts.">
+    <div class="archive-header">
+        <h1>Blog Archive</h1>
+        <p>All posts, sorted by most recent.</p>
+    </div>
+
+    <div class="post-list">
+        {page.data.map((post) => (
+            <a href={`/blog/${post.slug}/`} class="post-card">
+                <h3>{post.data.title}</h3>
+                {post.data.description && <p>{post.data.description}</p>}
+                <time datetime={post.data.pubDate.toISOString()}>
+                    {new Date(post.data.pubDate).toLocaleDateString('en-us', {
+                        year: 'numeric', month: 'short', day: 'numeric'
+                    })}
+                </time>
+            </a>
+        ))}
+    </div>
+
+    <div class="pagination">
+        {page.url.prev && <a href={page.url.prev} class="button">&larr; Newer Posts</a>}
+    
+        {page.lastPage > 1 && <span>Page {page.currentPage} of {page.lastPage}</span>}
+        
+        {page.url.next && <a href={page.url.next} class="button">Older Posts &rarr;</a>}
+    </div>
+</Layout>
+
+<style>
+    .archive-header {
+        text-align: center;
+        margin-bottom: calc(var(--spacing-unit) * 6);
+    }
+    .archive-header h1 {
+        font-size: 3rem;
+        margin-bottom: var(--spacing-unit);
+    }
+    .archive-header p {
+        color: var(--color-text-muted);
+        font-size: 1.2rem;
+    }
+    .post-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: calc(var(--spacing-unit) * 3);
+    }
+    .post-card {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: calc(var(--spacing-unit) * 3);
+        background-color: var(--glass-background);
+        border: 1px solid var(--glass-border);
+        border-radius: var(--border-radius-large);
+        text-decoration: none;
+        color: var(--color-text);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        min-height: 180px;
+    }
+    .post-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+    .post-card h3 {
+        font-size: 1.5rem;
+        margin-bottom: var(--spacing-unit);
+        color: var(--color-primary);
+    }
+    .post-card p {
+        color: var(--color-text-muted);
+        flex-grow: 1;
+        margin-bottom: calc(var(--spacing-unit) * 2);
+    }
+    .post-card time {
+        font-size: 0.9rem;
+        color: var(--color-text-muted);
+    }
+    .pagination {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: calc(var(--spacing-unit) * 6);
+    }
+    .pagination .button {
+        display: inline-block;
+        padding: 10px 20px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 600;
+        background-color: var(--glass-border);
+        color: var(--color-text);
+        transition: background-color 0.2s ease, color 0.2s ease;
+    }
+    .pagination .button:hover {
+        background-color: var(--color-primary);
+        color: white;
+    }
+</style>

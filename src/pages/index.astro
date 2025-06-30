@@ -3,80 +3,85 @@ import Layout from '../layouts/Layout.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import { getCollection } from 'astro:content';
 
-// Fetch ALL projects from the "src/content/projects" folder.
+// This frontmatter script is perfect and remains unchanged.
 const allProjects = await getCollection('projects');
-
-// Filter the projects into their respective categories.
 const commercialProjects = allProjects.filter(
     (project) => project.data.category === 'Commercial'
 );
 const academicProjects = allProjects.filter(
     (project) => project.data.category === 'Personal & Academic'
 );
-
-// Fetch and sort blog posts using the correct field name: "pubDate"
 const posts = (await getCollection('blog')).sort(
-	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+    (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 );
 ---
 <Layout title="Komeyl Kalhorinia | Home" description="KomeylBlog - Portfolio and blog.">
-	
-	<section class="project-section">
-		<h2>Commercial Projects</h2>
-		<div class="project-slider">
-			{commercialProjects.map(project => (
-				<ProjectCard 
-					name={project.data.name}
-					status={project.data.status}
-					technologies={project.data.technologies}
-					duration={project.data.duration}
-					url={project.data.url}
-				/>
-			))}
-		</div>
-	</section>
+    
+    <section class="project-section">
+        <h2>Commercial Projects</h2>
+        <div class="project-slider">
+            {commercialProjects.map(project => (
+				<a href={`/projects/${project.slug}/`} class="card-link">
+					<ProjectCard 
+						name={project.data.name}
+						status={project.data.status}
+						technologies={project.data.technologies}
+						duration={project.data.duration}
+						url={project.data.url}
+					/>
+				</a>
+            ))}
+        </div>
+    </section>
 
-	<section class="project-section">
-		<h2>Personal & Academic Projects</h2>
-		<div class="project-slider">
-			{academicProjects.map(project => (
-				<ProjectCard 
-					name={project.data.name}
-					status={project.data.status}
-					technologies={project.data.technologies}
-					duration={project.data.duration}
-					url={project.data.url}
-				/>
-			))}
-		</div>
-	</section>
+    <section class="project-section">
+        <h2>Personal & Academic Projects</h2>
+        <div class="project-slider">
+            {academicProjects.map(project => (
+				<a href={`/projects/${project.slug}/`} class="card-link">
+					<ProjectCard 
+						name={project.data.name}
+						status={project.data.status}
+						technologies={project.data.technologies}
+						duration={project.data.duration}
+						url={project.data.url}
+					/>
+				</a>
+            ))}
+        </div>
+    </section>
 
-	<section class="blog-section">
-		<h2>Recent Posts</h2>
-		<ul class="post-list">
-			{posts.slice(0, 3).map((post) => ( // We show the 3 latest posts
-				<li class="post-item">
-					<a href={`/blog/${post.slug}/`}>
-						<h3 class="post-title">{post.data.title}</h3>
-						{post.data.description && (
-							<p class="post-description">{post.data.description}</p>
-						)}
-						<time datetime={post.data.pubDate.toISOString()}>
-							{new Date(post.data.pubDate).toLocaleDateString('en-us', {
-								year: 'numeric',
-								month: 'short',
-								day: 'numeric',
-							})}
-						</time>
-					</a>
-				</li>
-			))}
-		</ul>
-	</section>
+    <section class="blog-section">
+        <h2>Recent Posts</h2>
+        <ul class="post-list">
+            {posts.slice(0, 3).map((post) => (
+                <li class="post-item">
+                    <a href={`/blog/${post.slug}/`}>
+                        <h3 class="post-title">{post.data.title}</h3>
+                        {post.data.description && (
+                            <p class="post-description">{post.data.description}</p>
+                        )}
+                        <time datetime={post.data.pubDate.toISOString()}>
+                            {new Date(post.data.pubDate).toLocaleDateString('en-us', {
+                                year: 'numeric',
+                                month: 'short',
+                                day: 'numeric',
+                            })}
+                        </time>
+                    </a>
+                </li>
+            ))}
+        </ul>
+
+        <div class="view-all-container">
+            <a href="/blog/1" class="button">View All Posts</a>
+        </div>
+        </section>
 
 </Layout>
 
 <style>
+    /* All of your existing styles are here and are correct */
 	.project-section, .blog-section {
 		margin-bottom: calc(var(--spacing-unit) * 8);
 	}
@@ -88,27 +93,29 @@ const posts = (await getCollection('blog')).sort(
 		border-bottom: 1px solid var(--glass-border);
 		display: inline-block;
 	}
-	
 	.project-slider {
-		display: grid;
-		grid-auto-flow: column;
-		/* Each card has a minimum width but can grow */
-		grid-auto-columns: minmax(280px, 1fr);
-		gap: calc(var(--spacing-unit) * 2);
-		overflow-x: auto;
-		margin: 0;
-		padding: 4px; /* A little padding for card shadows */
-		padding-bottom: calc(var(--spacing-unit) * 2);
-		scroll-snap-type: x mandatory;
-		scrollbar-width: none; /* For Firefox */
+        display: grid;
+        grid-auto-flow: column;
+        grid-auto-columns: 350px;
+        gap: calc(var(--spacing-unit) * 2);
+        overflow-x: auto;
+        margin: 0 calc(var(--spacing-unit) * -2);
+        padding: 4px calc(var(--spacing-unit) * 2);
+        padding-bottom: calc(var(--spacing-unit) * 2);
+        scroll-snap-type: x mandatory;
+        scrollbar-width: none;
 	}
 	.project-slider::-webkit-scrollbar {
-  		display: none; /* For Chrome, Safari, etc. */
+  		display: none;
 	}
-	.project-slider > :global(.project-card) {
+	.project-slider > .card-link {
 		scroll-snap-align: start;
 	}
-
+    .card-link {
+		text-decoration: none;
+		display: block;
+		height: 100%;
+	}
 	.post-list {
 		list-style: none;
 		padding: 0;
@@ -125,11 +132,12 @@ const posts = (await getCollection('blog')).sort(
 		padding: calc(var(--spacing-unit) * 3);
 		text-decoration: none;
 		color: var(--color-text);
-		transition: transform 0.3s ease, box-shadow 0.3s ease;
+        height: 100%;
+		transition: transform 0.25s ease-out, box-shadow 0.25s ease-out;
 	}
 	.post-item a:hover {
-		transform: translateY(-5px);
-		box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+		transform: scale(1.02);
+		box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
 	}
 	.post-title {
 		font-size: 1.5rem;
@@ -150,4 +158,25 @@ const posts = (await getCollection('blog')).sort(
 		font-size: 0.9rem;
 		color: var(--color-text-muted);
 	}
+
+    /* --- Add these new styles at the very end --- */
+    .view-all-container {
+        text-align: center;
+        margin-top: calc(var(--spacing-unit) * 4);
+    }
+    .button {
+        display: inline-block;
+        padding: 12px 28px;
+        border-radius: 12px;
+        text-decoration: none;
+        font-weight: 600;
+        background-color: var(--glass-border);
+        color: var(--color-text);
+        transition: all 0.2s ease;
+    }
+    .button:hover {
+        background-color: var(--color-primary);
+        color: white;
+        transform: scale(1.05);
+    }
 </style>
