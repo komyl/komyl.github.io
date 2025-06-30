@@ -1,0 +1,126 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const myEmail = "komylfa@gmail.com";
+const linktreeUrl = "https://linktr.ee/komylf";
+---
+<Layout title="Contact Me" description="The best way to get in touch.">
+    <div class="contact-container">
+        
+        <div class="card">
+            <div class="content">
+                <h1>Get in Touch</h1>
+                <p class="subtitle">
+                    The best and most reliable way to reach me is through email. I check my inbox regularly and will get back to you as soon as possible.
+                </p>
+
+                <a href={`mailto:${myEmail}`} class="email-box">
+                    <div class="email-box-inner">
+                        {myEmail}
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="content">
+                <h2>Other Platforms</h2>
+                 <p class="subtitle-small">For all other social media links and platforms, please visit my Linktree page.</p>
+                <a href={linktreeUrl} target="_blank" rel="noopener noreferrer" class="linktree-button">
+                    View My Linktree Profile
+                </a>
+            </div>
+        </div>
+
+    </div>
+</Layout>
+
+<style>
+    .contact-container {
+        display: flex;
+        flex-direction: column;
+        gap: calc(var(--spacing-unit) * 4);
+        padding-top: calc(var(--spacing-unit) * 5);
+        padding-bottom: calc(var(--spacing-unit) * 5);
+    }
+    .card {
+        background-color: var(--glass-background);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid var(--glass-border);
+        border-radius: var(--border-radius-large);
+        padding: calc(var(--spacing-unit) * 5);
+    }
+    .content {
+        max-width: 600px;
+        margin: 0 auto;
+        text-align: center;
+    }
+    h1 {
+        font-size: 3rem;
+        font-weight: 700;
+        margin-bottom: var(--spacing-unit);
+        color: var(--color-text);
+    }
+    h2 {
+        font-size: 1.8rem;
+        font-weight: 600;
+        margin-bottom: var(--spacing-unit);
+        color: var(--color-text);
+    }
+    .subtitle {
+        font-size: 1.2rem;
+        color: var(--color-text-muted);
+        line-height: 1.6;
+        margin-bottom: calc(var(--spacing-unit) * 5);
+    }
+    .subtitle-small {
+        font-size: 1rem;
+        color: var(--color-text-muted);
+        line-height: 1.6;
+        margin-bottom: calc(var(--spacing-unit) * 3);
+    }
+
+    /* --- RGB Animated Border Box --- */
+    @keyframes rotate-hue {
+        to { filter: hue-rotate(360deg); }
+    }
+    .email-box {
+        display: inline-block;
+        text-decoration: none;
+        padding: 4px; /* The thickness of the border */
+        border-radius: 14px; /* Slightly smaller than the inner box */
+        background: conic-gradient(from 90deg at 50% 50%, #5B21B6, #9D27B0, #D946EF, #F472B6, #F9A8D4, #FDE047, #A3E635, #4ADE80, #34D399, #2DD4BF, #22D3EE, #38BDF8, #60A5FA, #818CF8, #A78BFA, #C084FC, #E879F9, #F472B6, #FB7185, #FCA5A5, #FDBA74, #FDE047, #BEF264, #86EFAC, #6EE7B7, #5EEAD4, #67E8F9, #7DD3FC, #93C5FD, #A5B4FC, #B18CF8, #C4B5FD, #D8B4FE, #F0ABFC, #F599D1, #FDA4AF, #FDBA74, #FCD34D);
+        animation: rotate-hue 5s linear infinite;
+    }
+    .email-box-inner {
+        background-color: var(--color-background);
+        color: var(--color-text);
+        font-weight: 600;
+        padding: calc(var(--spacing-unit) * 2) calc(var(--spacing-unit) * 4);
+        border-radius: 12px;
+        transition: background-color 0.2s;
+    }
+    .email-box:hover .email-box-inner {
+        background-color: transparent;
+        color: black;
+    }
+
+    /* --- Linktree Button --- */
+    .linktree-button {
+        display: inline-block;
+        padding: 12px 24px;
+        border-radius: 12px;
+        text-decoration: none;
+        font-weight: 600;
+        color: var(--color-text);
+        border: 1px solid var(--glass-border);
+        background-color: var(--glass-background);
+        transition: all 0.2s ease;
+    }
+    .linktree-button:hover {
+        transform: scale(1.05);
+        border-color: var(--color-primary);
+        color: var(--color-primary);
+    }
+</style>
