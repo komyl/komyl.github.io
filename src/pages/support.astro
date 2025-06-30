@@ -130,7 +130,8 @@ const bmcScript = `<script type="text/javascript" src="https://cdnjs.buymeacoffe
     margin-top: calc(var(--spacing-unit) * 3);
     padding-top: calc(var(--spacing-unit) * 2);
     border-top: 1px solid var(--glass-border);
-    font-size: 0.9rem; color: var(--color-text-muted);
+    font-size: 0.9rem; color: inherit !important;
+    text-decoration: none !important;
 }
 .crypto-item, .crypto-item-header {
     display: grid;
@@ -174,7 +175,17 @@ const bmcScript = `<script type="text/javascript" src="https://cdnjs.buymeacoffe
     transform: scale(1.05);
 }
 .patreon {
-    background-color: #ff424d;
+    background-color: #f6dc32;
     color: white;
 }
+
+.card-content :global(.copy-field .value) {
+    color: var(--color-text);
+}
+
+.card-content :global(.copy-field .value a) {
+    color: inherit !important;
+    text-decoration: none !important;
+}
+
 </style>

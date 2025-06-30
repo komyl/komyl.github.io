@@ -44,7 +44,6 @@ document.querySelectorAll('.copy-button').forEach(buttonEl => {
 </script>
 
 <style>
-/* Styles remain the same */
 .copy-field {
     display: flex;
     align-items: center;
@@ -53,19 +52,25 @@ document.querySelectorAll('.copy-button').forEach(buttonEl => {
     padding: var(--spacing-unit);
     margin-bottom: var(--spacing-unit);
     font-family: monospace;
+    /* Add this to handle potential overflow of the container itself */
+    overflow: hidden;
 }
 .label {
     font-weight: 600;
     padding-right: var(--spacing-unit);
     color: var(--color-text-muted);
+    white-space: nowrap; /* Prevent label from wrapping */
 }
 .value {
     flex-grow: 1;
-    overflow-x: auto;
-    white-space: nowrap;
-    scrollbar-width: none;
+    color: var(--color-text); /* Ensure default text color */
+    overflow-x: auto; /* Enable horizontal scrolling for long addresses */
+    white-space: nowrap; /* Prevent wrapping by default */
+    scrollbar-width: none; /* Hide scrollbar on Firefox */
 }
-.value::-webkit-scrollbar { display: none; }
+.value::-webkit-scrollbar { 
+    display: none; /* Hide scrollbar on Chrome/Safari */
+}
 .copy-button {
     background: none;
     border: none;
