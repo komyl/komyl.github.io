@@ -1,0 +1,108 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+<Layout title="About Me" description="A little bit about me, my interests, and my journey.">
+    <div class="about-container">
+
+        <div class="hero-orb">
+            <div class="orb"></div>
+        </div>
+
+        <div class="content-card">
+            <h1>About Me</h1>
+            
+            <p>Hey, I'm Komyl. My journey took a bit of a scenic route—I started out in medicine before making a sharp turn into the world of computing. I guess I've always been drawn to complex systems, whether it's the human body or a cryptographic algorithm.</p>
+            <p>I'm fascinated by cryptography and the art of breaking things to find their weaknesses. It’s a passion that extends from software bugs to tinkering with hardware. Outside of the digital world, I enjoy the strategic depth of chess, the logic of mathematics, and getting lost in research on whatever has captured my curiosity this week.</p>
+            <p>Travel is a big part of my life; there's a unique thrill in exploring new places. I also have a deep appreciation for art and music. While I don't like putting myself in a box, I suppose "geek" comes pretty close.</p>
+            <p>At my core, I'm driven by a strong belief in freedom in all its forms—from free speech and open-source software to a decentralized, open internet. Computers and networks have been my playground since I was a kid, especially the intricate dance of the internet and its security.</p>
+            <p>I often write scripts for fun or for work, build software when inspiration strikes, and contribute to open-source projects that I find cool. This blog is one of my homes on the web, but you can find me in other places too.</p>
+
+            <div class="cta-buttons">
+                <a href="/contact" class="button primary">Get in Touch</a>
+                <a href="https://linktr.ee/komylf" target="_blank" rel="noopener noreferrer" class="button secondary">Find Me Elsewhere</a>
+            </div>
+        </div>
+    </div>
+</Layout>
+
+<style>
+    .about-container {
+        padding: calc(var(--spacing-unit) * 4) 0;
+    }
+    .hero-orb {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 250px;
+        margin-bottom: calc(var(--spacing-unit) * 6);
+        perspective: 1000px;
+    }
+    .orb {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.4), rgba(255,255,255,0.1)),
+                    conic-gradient(from 90deg at 50% 50%, #5B21B6, #D946EF, #A3E635, #22D3EE, #60A5FA, #A78BFA, #5B21B6);
+        position: relative;
+        animation: rotate-hue 10s linear infinite, float 6s ease-in-out infinite;
+        transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .hero-orb:hover .orb {
+        transform: scale(1.1) rotateY(20deg) rotateX(10deg);
+        animation-play-state: paused;
+    }
+
+    @keyframes rotate-hue {
+        to { filter: hue-rotate(360deg); }
+    }
+    @keyframes float {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-20px); }
+    }
+
+    .content-card {
+        background-color: var(--glass-background);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid var(--glass-border);
+        border-radius: var(--border-radius-large);
+        padding: calc(var(--spacing-unit) * 5);
+    }
+    h1 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: calc(var(--spacing-unit) * 3);
+        color: var(--color-text);
+    }
+    .content-card p {
+        font-size: 1.1rem;
+        line-height: 1.8;
+        color: var(--color-text-muted);
+        margin-bottom: 1.5em;
+    }
+    .cta-buttons {
+        margin-top: calc(var(--spacing-unit) * 5);
+        display: flex;
+        flex-wrap: wrap;
+        gap: calc(var(--spacing-unit) * 2);
+    }
+    .button {
+        display: inline-block;
+        padding: 12px 24px;
+        border-radius: 12px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: transform 0.2s ease;
+    }
+    .button:hover {
+        transform: scale(1.05);
+    }
+    .button.primary {
+        background-color: var(--color-primary);
+        color: white;
+    }
+    .button.secondary {
+        background-color: var(--glass-border);
+        color: var(--color-text);
+    }
+</style>
