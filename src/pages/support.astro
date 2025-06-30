@@ -75,7 +75,12 @@ const bmcScript = `<script type="text/javascript" src="https://cdnjs.buymeacoffe
                         <CopyableField label={item.name} value={item.address} />
                     </div>
                 ))}
-                <p class="address-warning">For the full address, please use the copy button.</p>
+                <div class="warning-container">
+    <p class="address-warning">For the full address, please use the copy button.</p>
+</div>
+<div class="warning-container">
+    <p class="address-warning">For the full address, please use the copy button.</p>
+</div>
                 
                 <div class="usdt-section">
                     <div class="crypto-item-header">
@@ -86,7 +91,12 @@ const bmcScript = `<script type="text/javascript" src="https://cdnjs.buymeacoffe
                         {usdtDetails.networks.map(net => (
                             <CopyableField label={net.network} value={net.address} />
                         ))}
-                         <p class="address-warning">For the full address, please use the copy button.</p>
+                         <div class="warning-container">
+    <p class="address-warning">For the full address, please use the copy button.</p>
+</div>
+<div class="warning-container">
+    <p class="address-warning">For the full address, please use the copy button.</p>
+</div>
                     </div>
                 </div>
             </div>
@@ -181,6 +191,14 @@ const bmcScript = `<script type="text/javascript" src="https://cdnjs.buymeacoffe
     color: rgb(0, 0, 0);
 }
 
+.bmc-wrapper {
+    display: block !important;
+    min-height: 60px; /* Give it space to render */
+}
+.bmc-wrapper :global(#bmc-wbtn) {
+    display: block !important;
+}
+
 .card-content :global(.copy-field .value) {
     color: var(--color-text);
 }
@@ -190,12 +208,38 @@ const bmcScript = `<script type="text/javascript" src="https://cdnjs.buymeacoffe
     text-decoration: none !important;
 }
 
-.address-warning {
-    font-size: 0.8rem;
-    color: var(--color-text-muted);
-    text-align: center;
-    padding-top: var(--spacing-unit);
-    margin: 0;
-}
+ .address-warning {
+        font-size: 0.8rem;
+        color: var(--color-warning-text);
+        background-color: var(--color-warning-bg);
+        padding: var(--spacing-unit) calc(var(--spacing-unit) * 1.5);
+        border-radius: var(--spacing-unit);
+        text-align: center;
+        margin: 0;
+        margin-top: calc(var(--spacing-unit) * 2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: var(--spacing-unit);
+    }
+
+ .address-warning::before {
+        content: '';
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        background-color: var(--color-warning-text);
+        -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='currentColor'%3E%3Cpath d='M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z'/%3E%3C/svg%3E") no-repeat center;
+        mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='currentColor'%3E%3Cpath d='M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z'/%3E%3C/svg%3E") no-repeat center;
+        flex-shrink: 0;
+    }
+
+    .warning-container {
+        display: none;
+    }
+
+    .fields-container:has(.is-overflowing) + .warning-container {
+        display: block;
+    }
 
 </style>

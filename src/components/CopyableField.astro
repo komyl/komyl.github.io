@@ -1,13 +1,13 @@
 ---
 interface Props {
     label: string;
-    value?: string; 
+    value?: string;
 }
 const { label, value } = Astro.props;
 ---
 <div class="copy-field">
     <div class="label">{label}</div>
-    {value && <div class="value">{value}</div>}
+    {value && <div class="value" data-value-holder>{value}</div>}
     
     {value && (
         <button class="copy-button" data-copy-value={value} title="Copy to clipboard">
@@ -18,28 +18,37 @@ const { label, value } = Astro.props;
 </div>
 
 <script>
-document.querySelectorAll('.copy-button').forEach(buttonEl => {
-    const button = buttonEl as HTMLElement;
-    button.addEventListener('click', () => {
-        const valueToCopy = button.dataset.copyValue;
-        if (!valueToCopy) return;
-        navigator.clipboard.writeText(valueToCopy).then(() => {
-            const copyIcon = button.querySelector('.icon-copy') as HTMLElement | null;
-            const checkIcon = button.querySelector('.icon-check') as HTMLElement | null;
-            if (copyIcon && checkIcon) {
-                copyIcon.style.display = 'none';
-                checkIcon.style.display = 'inline-block';
-                setTimeout(() => {
-                    copyIcon.style.display = 'inline-block';
-                    checkIcon.style.display = 'none';
-                }, 2000);
-            }
-        }).catch(err => {
-            console.error('Failed to copy text: ', err);
-            alert('Failed to copy!');
+    function checkOverflows() {
+        const valueElements = document.querySelectorAll('[data-value-holder]');
+        valueElements.forEach(el => {
+            const element = el as HTMLElement;
+            const isOverflowing = element.scrollWidth > element.clientWidth;
+            element.parentElement?.classList.toggle('is-overflowing', isOverflowing);
+        });
+    }
+
+    // Run check on initial page load, on page transitions, and on window resize
+    document.addEventListener('astro:load', checkOverflows);
+    window.addEventListener('resize', checkOverflows);
+    document.querySelectorAll('.copy-button').forEach(buttonEl => {
+        const button = buttonEl as HTMLElement;
+        button.addEventListener('click', () => {
+            const valueToCopy = button.dataset.copyValue;
+            if (!valueToCopy) return;
+            navigator.clipboard.writeText(valueToCopy).then(() => {
+                const copyIcon = button.querySelector('.icon-copy') as HTMLElement | null;
+                const checkIcon = button.querySelector('.icon-check') as HTMLElement | null;
+                if (copyIcon && checkIcon) {
+                    copyIcon.style.display = 'none';
+                    checkIcon.style.display = 'inline-block';
+                    setTimeout(() => {
+                        copyIcon.style.display = 'inline-block';
+                        checkIcon.style.display = 'none';
+                    }, 2000);
+                }
+            });
         });
     });
-});
 </script>
 
 <style>
@@ -51,7 +60,7 @@ document.querySelectorAll('.copy-button').forEach(buttonEl => {
     padding: var(--spacing-unit);
     margin-bottom: var(--spacing-unit);
     font-family: monospace;
-    overflow: hidden; /* Prevent content from spilling out of rounded corners */
+    overflow: hidden;
     width: 100%;
 }
 .label {
@@ -61,11 +70,11 @@ document.querySelectorAll('.copy-button').forEach(buttonEl => {
     white-space: nowrap;
 }
 .value {
-    flex-grow: 1; /* Allow this element to grow */
+    flex-grow: 1;
     color: var(--color-text);
-    white-space: nowrap; /* Keep the address on a single line */
-    overflow: hidden; /* Hide the part of the text that overflows */
-    text-overflow: ellipsis; /* Add "..." at the end of the clipped text */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; /* This adds the "..." */
 }
 .copy-button {
     background: none;
@@ -76,7 +85,7 @@ document.querySelectorAll('.copy-button').forEach(buttonEl => {
     border-radius: var(--spacing-unit);
     transition: background-color 0.2s ease, color 0.2s ease;
     margin-left: var(--spacing-unit);
-    flex-shrink: 0; 
+    flex-shrink: 0;
 }
 .copy-button:hover {
     background-color: var(--glass-background);
