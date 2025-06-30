@@ -157,20 +157,21 @@ const bmcScript = `<script type="text/javascript" src="https://cdnjs.buymeacoffe
         padding-left: calc(24px + var(--spacing-unit) * 2);
         margin-top: var(--spacing-unit);
     }
-    .address-warning {
-        font-size: 0.8rem;
-        color: var(--color-warning-text);
-        background-color: var(--color-warning-bg);
-        padding: var(--spacing-unit) calc(var(--spacing-unit) * 1.5);
-        border-radius: var(--spacing-unit);
-        text-align: center;
-        margin: 0;
-        margin-top: calc(var(--spacing-unit) * 2);
-        display: none;
-        align-items: center;
-        justify-content: center;
-        gap: var(--spacing-unit);
-    }
+   .address-warning {
+    display: none; /* Hide by default on desktop */
+    font-size: 0.8rem;
+    color: var(--color-warning-text);
+    background-color: var(--color-warning-bg);
+    padding: var(--spacing-unit) calc(var(--spacing-unit) * 1.5);
+    border-radius: var(--spacing-unit);
+    text-align: center;
+    margin: 0;
+    margin-top: calc(var(--spacing-unit) * 2);
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-unit);
+}
+
     .address-warning::before {
         content: '';
         display: inline-block;
@@ -180,10 +181,6 @@ const bmcScript = `<script type="text/javascript" src="https://cdnjs.buymeacoffe
         -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='currentColor'%3E%3Cpath d='M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z'/%3E%3C/svg%3E") no-repeat center;
         mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='currentColor'%3E%3Cpath d='M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z'/%3E%3C/svg%3E") no-repeat center;
         flex-shrink: 0;
-    }
-    .warning-container { display: none; }
-    .fields-container:has(.is-overflowing) + .warning-container {
-        display: block;
     }
     .platforms {
         display: flex;
@@ -203,8 +200,19 @@ const bmcScript = `<script type="text/javascript" src="https://cdnjs.buymeacoffe
         transition: transform 0.2s ease;
     }
     .platform-button:hover { transform: scale(1.05); }
-    .patreon { background-color: #ff424d; color: white; }
-    .bmc-wrapper :global(#bmc-wbtn) { /* Force BMC button to be visible */
-        display: block !important;
+    .patreon { background-color: #edea16; color: rgb(0, 0, 0); }
+.bmc-wrapper {
+    min-height: 70px; /* Give it space */
+}
+.bmc-wrapper :global(a[href*="buymeacoffee"]) {
+    display: inline-block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+    @media (max-width: 768px) {
+    .address-warning {
+        display: flex; 
     }
+}
 </style>
