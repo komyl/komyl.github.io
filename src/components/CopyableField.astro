@@ -1,7 +1,7 @@
 ---
 interface Props {
     label: string;
-    value?: string; // THE FIX: Add '?' to make the value prop optional
+    value?: string; 
 }
 const { label, value } = Astro.props;
 ---
@@ -18,7 +18,6 @@ const { label, value } = Astro.props;
 </div>
 
 <script>
-// The script remains the same, it will only run on buttons that are rendered.
 document.querySelectorAll('.copy-button').forEach(buttonEl => {
     const button = buttonEl as HTMLElement;
     button.addEventListener('click', () => {
@@ -52,24 +51,21 @@ document.querySelectorAll('.copy-button').forEach(buttonEl => {
     padding: var(--spacing-unit);
     margin-bottom: var(--spacing-unit);
     font-family: monospace;
-    /* Add this to handle potential overflow of the container itself */
-    overflow: hidden;
+    overflow: hidden; /* Prevent content from spilling out of rounded corners */
+    width: 100%;
 }
 .label {
     font-weight: 600;
-    padding-right: var(--spacing-unit);
+    padding-right: calc(var(--spacing-unit) * 1.5);
     color: var(--color-text-muted);
-    white-space: nowrap; /* Prevent label from wrapping */
+    white-space: nowrap;
 }
 .value {
-    flex-grow: 1;
-    color: var(--color-text); /* Ensure default text color */
-    overflow-x: auto; /* Enable horizontal scrolling for long addresses */
-    white-space: nowrap; /* Prevent wrapping by default */
-    scrollbar-width: none; /* Hide scrollbar on Firefox */
-}
-.value::-webkit-scrollbar { 
-    display: none; /* Hide scrollbar on Chrome/Safari */
+    flex-grow: 1; /* Allow this element to grow */
+    color: var(--color-text);
+    white-space: nowrap; /* Keep the address on a single line */
+    overflow: hidden; /* Hide the part of the text that overflows */
+    text-overflow: ellipsis; /* Add "..." at the end of the clipped text */
 }
 .copy-button {
     background: none;
@@ -80,6 +76,7 @@ document.querySelectorAll('.copy-button').forEach(buttonEl => {
     border-radius: var(--spacing-unit);
     transition: background-color 0.2s ease, color 0.2s ease;
     margin-left: var(--spacing-unit);
+    flex-shrink: 0; 
 }
 .copy-button:hover {
     background-color: var(--glass-background);
