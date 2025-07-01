@@ -54,7 +54,7 @@ const posts = (await getCollection('blog')).sort(
 	<section class="blog-section">
 		<h2>Recent Posts</h2>
 		<ul class="post-list">
-			{posts.slice(0, 3).map((post) => ( // We show the 3 latest posts
+			{posts.slice(0, 300).map((post) => ( // We show the 3 latest posts
 				<li class="post-item">
 					<a href={`/blog/${post.slug}/`}>
 						<h3 class="post-title">{post.data.title}</h3>
