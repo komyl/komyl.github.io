@@ -1,10 +1,10 @@
 ---
-name: test 1
+name: Check Stat Bot
 category: Commercial
-status: active
+status: finished
 technologies:
-  - rust
-duration: 6m
-url: https://github.com/rust-lang/rust
+  - python
+url: https://github.com/komyl/CheckStatBot
+duration: 1 Month(s)
 ---
 h﻿ello
