@@ -1,5 +1,5 @@
 ---
-title: "Building a Modern Personal Website with Astro: A Deep Dive"
+title: "Building a Modern Personal Website with Astro : A Deep Dive"
 slug: building-a-modern-website-with-astro
 pubDate: 2025-07-01T16:35:59.769Z
 description: A comprehensive, step-by-step guide on creating a modern, fast, and
