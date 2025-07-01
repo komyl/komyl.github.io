@@ -57,6 +57,7 @@ Start the local development server. This will make the site available at http://
 npm run dev
 ```
 The site will automatically reload as you make changes to the files.
+
 ---
 
 ### 📝 How Content is Managed
@@ -66,6 +67,7 @@ This project uses Astro's native Content Collections for all content. This provi
 To add a new blog post: Create a new .md or .mdx file inside the src/content/blog/ directory.
 To add a new project: Create a new .md or .mdx file inside the src/content/projects/ directory.
 The required structure and fields for the frontmatter of these files are strictly defined in the src/content/config.ts file. Any deviation from this schema will result in a build-time error, ensuring data consistency.
+
 ---
 
 ### 🌐 Deployment
