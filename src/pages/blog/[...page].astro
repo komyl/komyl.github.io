@@ -3,21 +3,22 @@ import Layout from '../../layouts/Layout.astro';
 import { getCollection, type CollectionEntry } from 'astro:content';
 import type { Page, PaginateFunction } from 'astro';
 
-const allPosts = await getCollection('blog');
-const sortedPosts = allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
-
-// This function now safely handles an empty blog collection
 export async function getStaticPaths({ paginate }: { paginate: PaginateFunction }) {
-  // If there are no posts, return an empty array to prevent build errors.
+  // --- THE FIX IS HERE ---
+  // We move the data fetching and sorting logic INSIDE this function
+  // to ensure it's always in scope during the build process.
+  const allPosts = await getCollection('blog');
+  const sortedPosts = allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
   if (sortedPosts.length === 0) {
     return [];
   }
-  
   return paginate(sortedPosts, { pageSize: 6 });
 }
 
 const { page } = Astro.props;
 ---
+
 <Layout title={`Blog Archive - Page ${page.currentPage}`} description="An archive of all blog posts.">
     <div class="archive-header">
         <h1>Blog Archive</h1>
@@ -52,6 +53,7 @@ const { page } = Astro.props;
 </Layout>
 
 <style>
+    /* All styles remain the same and are correct */
     .archive-header {
         text-align: center;
         margin-bottom: calc(var(--spacing-unit) * 6);
