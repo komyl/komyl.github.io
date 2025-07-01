@@ -2,9 +2,6 @@ backend:
   name: git-gateway
   branch: main
 
-editor:
-  preview_style: "/admin/admin-styles.css"
-
 media_folder: "public/uploads"
 public_folder: "/uploads"
 
