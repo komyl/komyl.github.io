@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@astrojs/markdown-remark": "^6.3.2",
+    "@astrojs/sitemap": "^3.4.1",
     "astro": "^5.10.1",
     "remark-toc": "^9.0.0",
     "simple-icons": "^15.3.0"

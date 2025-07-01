@@ -1,9 +1,19 @@
 import { defineConfig } from 'astro/config';
+import sitemap from '@astrojs/sitemap'; 
 
 export default defineConfig({
-  // No integrations
+
+  site: 'https://www.komyl.com',
+
+
+  integrations: [
+    sitemap()
+  ],
+
+
   markdown: {
     remarkPlugins: [
-      'remark-toc' ]
-    }
+      'remark-toc'
+    ]
+  }
 });
