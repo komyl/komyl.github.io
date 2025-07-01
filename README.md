@@ -60,7 +60,7 @@ The site will automatically reload as you make changes to the files.
 
 ---
 
-### 📝 How Content is Managed
+## 📝 How Content is Managed
 
 This project uses Astro's native Content Collections for all content. This provides full type-safety and a great developer experience.
 
@@ -70,7 +70,7 @@ The required structure and fields for the frontmatter of these files are strictl
 
 ---
 
-### 🌐 Deployment
+## 🌐 Deployment
 
 This site is configured for continuous deployment on Netlify. Every git push to the main branch will automatically trigger a new build and deploy the changes to the live production site. There are no manual deployment steps required.
 
