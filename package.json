@@ -9,7 +9,9 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@astrojs/markdown-remark": "^6.3.2",
     "astro": "^5.10.1",
+    "remark-toc": "^9.0.0",
     "simple-icons": "^15.3.0"
   },
   "devDependencies": {

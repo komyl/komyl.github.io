@@ -2,6 +2,7 @@ backend:
   name: git-gateway
   branch: main
 
+
 media_folder: "public/uploads"
 public_folder: "/uploads"
 
@@ -10,11 +11,29 @@ collections:
     label: "Blog Posts"
     folder: "src/content/blog"
     create: true
+    slug: "{{slug}}"
     fields:
-      - { label: "Title", name: "title", widget: "string" }
-      - { label: "Publish Date", name: "pubDate", widget: "datetime" }
-      - { label: "Description", name: "description", widget: "text", required: false }
-      - { label: "Body", name: "body", widget: "markdown" }
+    - { label: "Title", name: "title", widget: "string" }
+    # This field lets you edit the URL (slug)
+    - { label: "URL Slug", name: "slug", widget: "string", required: true, hint: "The part of the URL after /blog/. Example: 'my-first-post'" }
+    - { label: "Publish Date", name: "pubDate", widget: "datetime" }
+    # New Meta Description field
+    - { label: "Meta Description", name: "description", widget: "text", required: true, hint: "A short summary for search engines (120-155 characters)." }
+    # New Tags field
+    - { label: "Tags", name: "tags", widget: "list", required: false, hint: "Press Enter after each tag." }
+    - { label: "Body", name: "body", widget: "markdown" }
+    # New SEO Checklist
+    - label: "SEO Checklist"
+      name: "seo_checklist"
+      widget: "object"
+      collapsed: true # This keeps the checklist tidy by default
+      fields:
+        - { label: "Focus keyword is in the title", name: "keyword_in_title", widget: "boolean", default: false }
+        - { label: "Focus keyword is in the meta description", name: "keyword_in_meta", widget: "boolean", default: false }
+        - { label: "Focus keyword is in the URL slug", name: "keyword_in_slug", widget: "boolean", default: false }
+        - { label: "Meta description is between 120-155 characters", name: "meta_length", widget: "boolean", default: false }
+        - { label: "Post is over 300 words", name: "word_count", widget: "boolean", default: false }
+        - { label: "Post uses subheadings (H2, H3)", name: "subheadings_used", widget: "boolean", default: false }
 
   - name: "projects"
     label: "Projects"

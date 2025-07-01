@@ -24,6 +24,11 @@ const { Content } = await post.render();
 		<p class="publish-date">
 			Published on: {new Date(post.data.pubDate).toLocaleDateString('en-us', { year: 'numeric', month: 'short', day: 'numeric' })}
 		</p>
+        {post.data.tags && post.data.tags.length > 0 && (
+    <div class="tags-container">
+        {post.data.tags.map(tag => <span class="tag">{tag}</span>)}
+    </div>
+)}
 		<hr>
 		<Content />
 	</article>
@@ -84,4 +89,36 @@ const { Content } = await post.render();
     margin-top: 2rem;
     margin-bottom: 1rem;
 }
+  .post-meta {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: calc(var(--spacing-unit) * 2);
+        color: var(--color-text-muted);
+        margin-bottom: calc(var(--spacing-unit) * 3);
+    }
+    .tags-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--spacing-unit);
+        margin-top: calc(var(--spacing-unit) * 2);
+    }
+    .tag {
+        background-color: var(--glass-border);
+        color: var(--color-text-muted);
+        padding: 4px 10px;
+        border-radius: 6px;
+        font-size: 0.85rem;
+        font-weight: 500;
+    }
+    /* Style for the auto-generated Table of Contents */
+    .prose :global(.toc) { 
+        margin-bottom: calc(var(--spacing-unit) * 4);
+        padding: calc(var(--spacing-unit) * 2);
+        background-color: var(--glass-border);
+        border-radius: var(--border-radius-large);
+    }
+    .prose :global(.toc ul) {
+        padding-left: calc(var(--spacing-unit) * 2);
+    }
 </style>
