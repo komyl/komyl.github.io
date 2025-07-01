@@ -1,10 +1,12 @@
 ---
-name: test 3
+name: Gazkoob.com
 category: Commercial
-status: active
+status: finished
 technologies:
-  - python
-duration: 6m
-url: https://github.com/rust-lang/rust
+  - php
+  - javascript
+  - ""
+url: https://github.com/komyl/Gazkoob.com
+duration: 2 Week(s)
 ---
-h﻿ello im komeyl
+C﻿ommercial
