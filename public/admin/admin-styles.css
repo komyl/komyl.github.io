@@ -1,0 +1,46 @@
+/* Import the Inter font to match the main site */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+/* Apply custom branding and fonts */
+body, button, input, textarea, select {
+  font-family: 'Inter', -apple-system, sans-serif !important;
+}
+
+/* Change the main button colors to match your site's primary purple */
+[class*="StyledButton-primary-fs"],
+[class*="Styled-button-primary-"] {
+  background-color: #aE50f5 !important;
+}
+
+/* Style for dark mode based on user's OS preference */
+@media (prefers-color-scheme: dark) {
+  /* Main background and text colors */
+  [data-testid="styled-app-root"] {
+    background-color: #101010 !important;
+    color: rgba(255, 255, 255, 0.9) !important;
+  }
+
+  /* Header background */
+  [class*="AppHeader-app-header-"] {
+    background-color: #1c1c1e !important;
+    border-bottom-color: rgba(255, 255, 255, 0.1) !important;
+  }
+  
+  /* Input fields and other surfaces */
+  [class*="StyledTextField-field-"],
+  [class*="StyledSelect-select-"],
+  [class*="ObjectWidgetTopBar-object-widget-top-bar-"] {
+    background-color: rgba(40, 40, 40, 0.5) !important;
+    color: rgba(255, 255, 255, 0.9) !important;
+    border-color: rgba(255, 255, 255, 0.15) !important;
+  }
+
+  /* Change text color for various elements */
+  h1, h2, h3, h4, label, [class*="CollectionTop-collection-top-"], [class*="ListItem-card-"] {
+    color: rgba(255, 255, 255, 0.9) !important;
+  }
+  
+  [class*="Sidebar-sidebar-"] {
+      background-color: #151515 !important;
+  }
+}

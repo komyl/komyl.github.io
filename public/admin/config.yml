@@ -2,6 +2,10 @@ backend:
   name: git-gateway
   branch: main
 
+# This line tells the CMS to load our custom style file
+editor:
+  preview_style: "/admin/admin-styles.css"
+
 media_folder: "public/uploads"
 public_folder: "/uploads"
 
@@ -24,7 +28,19 @@ collections:
       - { label: "Project Name", name: "name", widget: "string" }
       - { label: "Category", name: "category", widget: "select", options: ["Commercial", "Personal & Academic"] }
       - { label: "Status", name: "status", widget: "select", options: ["active", "suspended", "finished"] }
-      - { label: "Technologies (manual entry)", name: "technologies", widget: "list" }
-      - { label: "Duration", name: "duration", widget: "string", required: false }
+      - { label: "Technologies", name: "technologies", widget: "list", required: false }
       - { label: "GitHub Repository URL", name: "url", widget: "string", required: false }
+      
+      - label: "Duration"
+        name: "duration"
+        widget: "object"
+        required: false
+        fields:
+          - { label: "Value", name: "value", widget: "number", default: 1 }
+          - label: "Unit"
+            name: "unit"
+            widget: "select"
+            options: ["Day", "Week", "Month", "Year"]
+            default: "Month"
+      
       - { label: "README Content", name: "body", widget: "markdown" }
