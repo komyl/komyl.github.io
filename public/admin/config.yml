@@ -46,10 +46,19 @@ collections:
       - { label: "Status", name: "status", widget: "select", options: ["active", "suspended", "finished"] }
       - { label: "Technologies", name: "technologies", widget: "list", required: false }
       - { label: "GitHub Repository URL", name: "url", widget: "string", required: false }
-      - { label: "Duration", name: "duration", widget: "object", required: false,
-          fields: [
-            { label: "Value", name: "value", widget: "number", default: 1 },
-            { label: "Unit", name: "unit", widget: "select", options: ["Day(s)", "Week(s)", "Month(s)", "Year(s)"], default: "Month(s)"}
-          ]
-        }
+      
+      # --- THE FIX IS HERE ---
+      # The structure for the 'object' widget has been corrected.
+      - label: "Duration"
+        name: "duration"
+        widget: "object"
+        required: false
+        fields:
+          - { label: "Value", name: "value", widget: "number", default: 1, value_type: "int" }
+          - label: "Unit"
+            name: "unit"
+            widget: "select"
+            options: ["Day(s)", "Week(s)", "Month(s)", "Year(s)"]
+            default: "Month(s)"
+      
       - { label: "README Content", name: "body", widget: "markdown" }
