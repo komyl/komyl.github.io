@@ -2,8 +2,6 @@ backend:
   name: git-gateway
   branch: main
 
-
-# We are providing simpler, more direct paths for the media library.
 media_folder: "public/uploads"
 public_folder: "/uploads"
 
@@ -14,7 +12,7 @@ collections:
     create: true
     fields:
       - { label: "Title", name: "title", widget: "string" }
-      - { label: "Publish Date", name: "pubDate", widget: "datetime" } # Corrected from 'date'
+      - { label: "Publish Date", name: "pubDate", widget: "datetime" }
       - { label: "Body", name: "body", widget: "markdown" }
 
   - name: "projects"
@@ -26,7 +24,7 @@ collections:
       - { label: "Project Name", name: "name", widget: "string" }
       - { label: "Category", name: "category", widget: "select", options: ["Commercial", "Personal & Academic"] }
       - { label: "Status", name: "status", widget: "select", options: ["active", "suspended", "finished"] }
-      - { label: "Technologies", name: "technologies", widget: "list", required: false }
-      - { label: "GitHub Repository URL", name: "url", widget: "string", required: false }
+      - { label: "Technologies (manual entry)", name: "technologies", widget: "list" }
       - { label: "Duration", name: "duration", widget: "string", required: false }
+      - { label: "GitHub Repository URL", name: "url", widget: "string", required: false }
       - { label: "README Content", name: "body", widget: "markdown" }
