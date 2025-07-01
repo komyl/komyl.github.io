@@ -2,7 +2,6 @@ backend:
   name: git-gateway
   branch: main
 
-# This line is crucial: it tells the CMS to load our custom style file
 editor:
   preview_style: "/admin/admin-styles.css"
 
@@ -12,7 +11,14 @@ public_folder: "/uploads"
 collections:
   - name: "blog"
     label: "Blog Posts"
-    
+    folder: "src/content/blog"
+    create: true
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Publish Date", name: "pubDate", widget: "datetime" }
+      - { label: "Description", name: "description", widget: "text", required: false }
+      - { label: "Body", name: "body", widget: "markdown" }
+
   - name: "projects"
     label: "Projects"
     folder: "src/content/projects"
@@ -24,18 +30,10 @@ collections:
       - { label: "Status", name: "status", widget: "select", options: ["active", "suspended", "finished"] }
       - { label: "Technologies", name: "technologies", widget: "list", required: false }
       - { label: "GitHub Repository URL", name: "url", widget: "string", required: false }
-      
-      # This is the new, structured duration field
-      - label: "Duration"
-        name: "duration"
-        widget: "object"
-        required: false
-        fields:
-          - { label: "Value", name: "value", widget: "number", default: 1 }
-          - label: "Unit"
-            name: "unit"
-            widget: "select"
-            options: ["Day(s)", "Week(s)", "Month(s)", "Year(s)"]
-            default: "Month(s)"
-      
+      - { label: "Duration", name: "duration", widget: "object", required: false,
+          fields: [
+            { label: "Value", name: "value", widget: "number", default: 1 },
+            { label: "Unit", name: "unit", widget: "select", options: ["Day(s)", "Week(s)", "Month(s)", "Year(s)"], default: "Month(s)"}
+          ]
+        }
       - { label: "README Content", name: "body", widget: "markdown" }
