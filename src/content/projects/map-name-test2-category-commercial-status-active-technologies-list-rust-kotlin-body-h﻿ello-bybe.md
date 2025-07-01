@@ -1,10 +1,14 @@
 ---
-name: test2
+name: komyl.com
 category: Personal & Academic
 status: active
 technologies:
-  - python
-duration: 6m
-url: https://github.com/komyl/markovian-sierpinski
+  - astro
+  - typescript
+  - javascript
+  - html
+  - css
+url: https://github.com/komyl/komyl.github.io
+duration: 1 Week(s)
 ---
-h﻿ello bybee
+h﻿ello
