@@ -1,7 +1,7 @@
 ---
 name: ECG Analyzer
 category: Commercial
-status: active
+status: finished
 technologies:
   - python
 url: https://github.com/komyl/Ecg-Analyzer
